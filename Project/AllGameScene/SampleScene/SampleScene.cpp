@@ -35,7 +35,7 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	soundData_ = audio_->LoadWave("Resources/Audio/Sample/Hit.wav");
 
 
-	audio_->PlayWave(soundData_ ,true);
+	//audio_->PlayWave(soundData_ ,true);
 	
 
 	
