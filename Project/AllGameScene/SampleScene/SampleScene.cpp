@@ -30,8 +30,8 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	sprite_->SetAllPosition(spriteAllPosition_);
 
 	plane_ = new Model();
-	plane_->CreateObject("Resources/05_02","/axis.obj");
-	plane_->LoadTexture("Resources/05_02/uvChecker.png");
+	plane_->CreateObject("Resources/Sample","enemy.obj");
+	//plane_->LoadTexture("Resources/Sample/enemy.png");
 	transformModel_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 

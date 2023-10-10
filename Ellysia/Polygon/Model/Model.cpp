@@ -429,6 +429,13 @@ void Model::CreateObject(const std::string& directoryPath,const std::string& fil
 	//LoadDirectX(directXSetup_);
 	this->directXSetup_ = DirectXSetup::GetInstance();
 
+	//PSOの設定
+	//全部のブレンドモードに対応させたい
+	//switch文でやるのが良いかなと思った切り替えが楽だから
+
+
+
+
 	////マテリアル用のリソースを作る。今回はcolor1つ分のサイズを用意する
 	materialResource_=CreateBufferResource(sizeof(Material));
 
