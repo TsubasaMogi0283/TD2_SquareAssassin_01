@@ -147,6 +147,7 @@ void Sprite::LoadTexture(const std::string& filePath) {
 	intermediateResource_= UploadTextureData(textureResource_, mipImages);
 	
 
+
 	//ShaderResourceView
 	//metadataを基にSRVの設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
