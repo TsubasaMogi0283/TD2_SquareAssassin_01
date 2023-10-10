@@ -95,7 +95,6 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Ellysia\Common\Windows\WinApp.cpp" />
     <ClCompile Include="Ellysia\ConvertFunction\ConvertColor\ColorConvert.cpp" />
     <ClCompile Include="Ellysia\ConvertFunction\ConvertLog\LogConvert.cpp" />
-    <ClCompile Include="Ellysia\Ellysia.cpp" />
     <ClCompile Include="Ellysia\externals\imGui\imgui.cpp" />
     <ClCompile Include="Ellysia\externals\imGui\imgui_demo.cpp" />
     <ClCompile Include="Ellysia\externals\imGui\imgui_draw.cpp" />

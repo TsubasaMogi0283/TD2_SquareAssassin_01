@@ -162,9 +162,6 @@
     <ClCompile Include="Ellysia\TextureManager\TextureManager.cpp">
       <Filter>ソース ファイル\TextureManager</Filter>
     </ClCompile>
-    <ClCompile Include="Ellysia\Ellysia.cpp">
-      <Filter>ソース ファイル\Polygone</Filter>
-    </ClCompile>
     <ClCompile Include="Ellysia\Input\Input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
