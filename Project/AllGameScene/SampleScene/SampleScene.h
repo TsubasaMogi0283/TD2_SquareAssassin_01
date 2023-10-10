@@ -38,10 +38,15 @@ private:
 
 	SoundData soundData_ = {};
 
-	Transform transformSprite_;
-	SpritePosition spriteAllPosition_;
+	Transform transformSprite_ = {};
+	SpritePosition spriteAllPosition_ = {};
 
 	int sampleTimer_ = 0;
+
+
+	Model* plane_ = nullptr;
+	Transform transformModel_ = {};
+
 
 };
 

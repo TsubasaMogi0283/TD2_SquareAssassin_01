@@ -29,6 +29,12 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
 	sprite_->SetAllPosition(spriteAllPosition_);
 
+	plane_ = new Model();
+	plane_->CreateObject("Resources/05_02","/axis.obj");
+	plane_->LoadTexture("Resources/05_02/uvChecker.png");
+	transformModel_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+
+
 
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
@@ -66,4 +72,6 @@ void SampleScene::Update(GameManager* gameManager) {
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
 	sprite_->DrawRect(transformSprite_);
+	plane_->Draw(transformModel_);
+
 }

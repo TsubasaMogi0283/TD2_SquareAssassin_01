@@ -52,7 +52,7 @@ public:
 
 
 	//描画
-	void Draw(Transform transform, Matrix4x4 viewMatrix, Matrix4x4 projectionMatrix);
+	void Draw(Transform transform);
 
 	//解放
 	void Release();
