@@ -60,13 +60,6 @@ void GameManager::Draw() {
 	imGuiManager_->PreDraw();	
 	imGuiManager_->Draw();
 	
-	//viewMatrixとprojectionを消したい
-	//plane2_->Draw(transformModel2,viewMatrix,projectionMatrix);
-	//plane_->Draw(transformModel,viewMatrix,projectionMatrix);
-	//
-	//sprite_->DrawRect(transformSprite_);
-	//sprite2_->DrawRect(transformSprite2_);
-
 	currentGamaScene_->Draw(this);
 
 }
