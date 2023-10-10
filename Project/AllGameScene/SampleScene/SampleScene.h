@@ -32,7 +32,10 @@ private:
 	Input* input_ = nullptr;
 	
 
-	
+	Model* plane_ = nullptr;
+	Transform transformModel_ = {};
+	Matrix4x4 cameraMatrix_ = {};
+	Matrix4x4 viewMatrix_ = {};
 
 	Sprite* sprite_ = nullptr;
 
@@ -42,6 +45,9 @@ private:
 	SpritePosition spriteAllPosition_;
 
 	int sampleTimer_ = 0;
+
+	Transform cameraTransform_ = {};
+	Matrix4x4 projectionMatrix_ = {};
 
 };
 
