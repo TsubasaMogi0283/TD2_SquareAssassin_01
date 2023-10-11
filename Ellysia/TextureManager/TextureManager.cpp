@@ -36,9 +36,9 @@ void TextureManager::Initilalize() {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	descriptorSizeSRV_ = directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	descriptorSizeRTV_=directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	descriptorSizeDSV_=directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-
+	descriptorSizeRTV_ = directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	descriptorSizeDSV_ = directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	textureIndex = 0;
 }
 
 //Resource作成の関数化
@@ -94,9 +94,11 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUDescriptorHandle(ID3D12Descrip
 	return handleGPU;
 }
 
+
 //統合させた関数
 uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 	//読み込むたびにインデックスが増やし重複を防ごう
+	//同じ画像しか貼れなかったのはこれが原因
 	textureIndex += 1;
 
 
@@ -104,9 +106,8 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 	mipImages_ = LoadTextureData(filePath);
 	const DirectX::TexMetadata& metadata = mipImages_.GetMetadata();
 	TextureManager::GetInstance()->textureResource_[textureIndex] = CreateTextureResource(metadata);
+	UploadTextureData(textureResource_[textureIndex], mipImages_);
 
-
-	//intermediateResource_[textureIndex] = UploadTextureData(textureResource_[textureIndex], mipImages_);
 	
 
 	//ShaderResourceView
@@ -141,6 +142,7 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 	//SRVの生成
 	directXSetup_->GetDevice()->CreateShaderResourceView(TextureManager::GetInstance()->textureResource_[textureIndex], &srvDesc, TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex]);
 	
+
 	return textureIndex;
 }
 	
@@ -180,6 +182,8 @@ DirectX::ScratchImage TextureManager::LoadTextureData(const std::string& filePat
 
 //2.DirectX12のTextureResourceを作る
 ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata& metadata) {
+	ID3D12Resource* resource = nullptr;
+	
 	//1.metadataを基にResourceの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
 	//Textureの幅
@@ -218,10 +222,10 @@ ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata
 		&resourceDesc,						//Resourceの設定
 		D3D12_RESOURCE_STATE_COPY_DEST,	//初回のResourceState。データの転送を受け入れられるようにする
 		nullptr,							//Clear最適値。使わないのでnullptr
-		IID_PPV_ARGS(&resource_));			//作成するResourceポインタへのポインタ
+		IID_PPV_ARGS(&resource));			//作成するResourceポインタへのポインタ
 	assert(SUCCEEDED(hr));
 
-	return resource_;
+	return resource;
 
 
 }
@@ -254,6 +258,30 @@ void TextureManager::UploadTextureData(
 
 }
 
+//[[nodiscard]]
+//ID3D12Resource* TextureManager::UploadTextureData(
+//	ID3D12Resource* texture, 
+//	const DirectX::ScratchImage& mipImages) {
+//
+//	std::vector<D3D12_SUBRESOURCE_DATA>subresource;
+//	DirectX::PrepareUpload(directXSetup_->GetDevice(), mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subresource);
+//	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subresource.size()));
+//	ID3D12Resource* intermediateResource = CreateBufferResource(intermediateSize);
+//	UpdateSubresources(directXSetup_->GetCommandList(), texture, intermediateResource, 0, 0, UINT(subresource.size()), subresource.data());
+//	
+//	//Textureへの転送後は利用出来るようD3D12_RESOURCE_STATE_COPY_DESTからD3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更
+//	D3D12_RESOURCE_BARRIER barrier{};
+//	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+//	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+//	barrier.Transition.pResource = texture ;
+//	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+//	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+//	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
+//	directXSetup_->GetCommandList()->ResourceBarrier(1, &barrier);
+//	return intermediateResource;
+//
+//
+//}
 
 #pragma endregion
 
@@ -261,6 +289,11 @@ void TextureManager::UploadTextureData(
 
 #pragma endregion
 
+
+void TextureManager::TexCommand(uint32_t texHandle) {
+	directXSetup_->GetCommandList()->SetGraphicsRootDescriptorTable(
+		2, TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex]);
+}
 
 void TextureManager::Release() {
 	//ゲーム終了時にはCOMの終了処理を行っておく

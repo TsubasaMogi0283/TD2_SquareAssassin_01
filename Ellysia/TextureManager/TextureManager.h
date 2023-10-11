@@ -41,11 +41,11 @@ public:
 	//uintにしたほうが良いよね
 	uint32_t LoadTexture(const std::string& filePath);
 
+	void TexCommand(uint32_t texHandle);
+
+
 	//解放
 	void Release();
-
-
-	
 
 
 
@@ -93,7 +93,7 @@ private:
 	static const int TEXTURE_MAX_AMOUNT_ = 128;
 
 	ID3D12Resource* textureResource_[TEXTURE_MAX_AMOUNT_] = {nullptr};
-	ID3D12Resource* resource_ = nullptr;
+	
 
 	//画像読み込み
 	DirectX::ScratchImage mipImages_;
@@ -101,6 +101,7 @@ private:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[TEXTURE_MAX_AMOUNT_] = {} ;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[TEXTURE_MAX_AMOUNT_] = {};
+
 
 	
 };

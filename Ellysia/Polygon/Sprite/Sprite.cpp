@@ -6,6 +6,7 @@
 #include "externals/DirectXTex/d3dx12.h"
 //動的配列
 #include <vector>
+#include <TextureManager/TextureManager.h>
 
 
 
@@ -122,7 +123,10 @@ void Sprite::Initialize() {
 	GenerateVertexBufferView();
 
 }
-
+void Sprite::Create(uint32_t textureHandle, Vector2 position) {
+	textureHandle_ = textureHandle;
+	resourceDesc_=TextureManager::GetInstance()->
+}
 
 //Textureデータを読む
 ////1.TextureデータそのものをCPUで読み込む

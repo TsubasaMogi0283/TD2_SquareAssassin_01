@@ -22,7 +22,7 @@ public:
 	//コンストラクタ
 	Sprite();
 
-	
+	void Create(uint32_t textureHandle, Vector2 position);
 
 	//まとめた方がよさそう
 	void LoadTexture(const std::string& filePath);
@@ -59,6 +59,9 @@ private:
 	//初期化
 	void Initialize();
 	
+	
+
+
 	//Resource作成の関数化
 	ID3D12Resource* CreateBufferResource(size_t sizeInBytes);
 
@@ -115,7 +118,7 @@ private:
 	//頂点バッファビューを作成する
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferViewSprite_;
 
-
+	
 
 
 	//index用
@@ -158,4 +161,9 @@ private:
 	Vector4 color_ = {};
 
 
+
+	//Create用
+	uint32_t textureHandle_ = 0u;
+	//リソース設定
+	D3D12_RESOURCE_DESC resourceDesc_{};
 };
