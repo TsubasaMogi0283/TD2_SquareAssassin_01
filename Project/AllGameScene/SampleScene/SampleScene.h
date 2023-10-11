@@ -1,6 +1,7 @@
 #pragma once
 #include <Input/Input.h>
 #include <Audio/Audio.h>
+#include "TextureManager/TextureManager.h"
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 
@@ -30,7 +31,7 @@ private:
 	Audio* audio_ = nullptr;
 	//Input
 	Input* input_ = nullptr;
-	
+	TextureManager* textureManager_ = nullptr;
 
 	
 
@@ -47,7 +48,7 @@ private:
 	Model* plane_ = nullptr;
 	Transform transformModel_ = {};
 
-
+	uint32_t textureHandle_ = 0u;
 };
 
 

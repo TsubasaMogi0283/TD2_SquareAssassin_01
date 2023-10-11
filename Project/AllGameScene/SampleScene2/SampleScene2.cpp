@@ -23,7 +23,7 @@ SampleScene2::~SampleScene2() {
 /// </summary>
 void SampleScene2::Initialize(GameManager* gameManager) {
 	sprite_ = new Sprite();
-	sprite_->LoadTexture("Resources/uvChecker.png");
+	//sprite_->LoadTexture("Resources/uvChecker.png");
 
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{512.0f,0.0f,0.0f} };
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };

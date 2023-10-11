@@ -41,8 +41,7 @@ public:
 	//uintにしたほうが良いよね
 	uint32_t LoadTexture(const std::string& filePath);
 
-	void TexCommand(uint32_t texHandle);
-
+	static void TexCommand(uint32_t texHandle);
 
 	//解放
 	void Release();
@@ -81,7 +80,7 @@ private:
 private:
 	//シングルインスタンス
 	static TextureManager* instance_ ;
-
+	static uint32_t textureIndex;
 
 	//DirectX読み込み
 	DirectXSetup* directXSetup_ = nullptr;

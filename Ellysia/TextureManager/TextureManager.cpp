@@ -7,7 +7,7 @@ static uint32_t descriptorSizeSRV_ = 0u;
 static uint32_t descriptorSizeRTV_ = 0u;
 static uint32_t descriptorSizeDSV_ = 0u;
 
-static uint32_t textureIndex;
+ uint32_t TextureManager::textureIndex;
 
 //コンストラクタ
 TextureManager::TextureManager() {
@@ -291,8 +291,7 @@ void TextureManager::UploadTextureData(
 
 
 void TextureManager::TexCommand(uint32_t texHandle) {
-	directXSetup_->GetCommandList()->SetGraphicsRootDescriptorTable(
-		2, TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex]);
+	DirectXSetup::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex]);
 }
 
 void TextureManager::Release() {

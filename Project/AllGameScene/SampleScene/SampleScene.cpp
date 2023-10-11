@@ -23,16 +23,20 @@ SampleScene::~SampleScene() {
 void SampleScene::Initialize(GameManager* gameManager) {
 	sprite_ = new Sprite();
 	//sprite_->Initialize();
-	sprite_->LoadTexture("Resources/uvChecker.png");
+
+	textureManager_ = TextureManager::GetInstance();
+	textureManager_->Initilalize();
+	textureHandle_ = textureManager_->LoadTexture("Resources/uvChecker.png");
+	//sprite_->LoadTexture("Resources/uvChecker.png");
 
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
 	sprite_->SetAllPosition(spriteAllPosition_);
 
-	plane_ = new Model();
-	plane_->CreateObject("Resources/Sample","enemy.obj");
-	//plane_->LoadTexture("Resources/Sample/enemy.png");
-	transformModel_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	//plane_ = new Model();
+	//plane_->CreateObject("Resources/Sample","enemy.obj");
+	////plane_->LoadTexture("Resources/Sample/enemy.png");
+	//transformModel_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 
 
