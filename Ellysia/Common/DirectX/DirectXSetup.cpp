@@ -8,7 +8,8 @@ DirectXSetup::DirectXSetup() {
 
 //インスタンス
 DirectXSetup* DirectXSetup::GetInstance() {
-	//これだと無限に生成される
+	//これだと無限に生成されるので
+	//ない時に生成する
 	if (instance_ == nullptr) {
 		instance_ = new DirectXSetup();
 

@@ -1,14 +1,32 @@
 #include "TextureManager.h"
 
 
+TextureManager* TextureManager::instance_ = nullptr;
+
+static uint32_t descriptorSizeSRV_ = 0u;
+static uint32_t descriptorSizeRTV_ = 0u;
+static uint32_t descriptorSizeDSV_ = 0u;
+
+static uint32_t textureIndex;
+
 //コンストラクタ
 TextureManager::TextureManager() {
 
 }
 
+TextureManager* TextureManager::GetInstance() {
+	//これだと無限に生成される
+	if (instance_ == nullptr) {
+		instance_ = new TextureManager();
+
+	}
+	
+	return instance_;
+}
+
 //初期化
-void TextureManager::Initilalize(DirectXSetup* directXSetup) {
-	this->directXSetup_ = directXSetup;
+void TextureManager::Initilalize() {
+	this->directXSetup_ = DirectXSetup::GetInstance();
 	//COMの初期化
 	//COM...ComponentObjectModel、Microsoftの提唱する設計技術の１つ
 	//		DirectX12も簡略化されたCOM(Nano-COM)という設計で作られている
@@ -16,6 +34,11 @@ void TextureManager::Initilalize(DirectXSetup* directXSetup) {
 	//COMを使用して開発されたソフトウェア部品をCOMコンポーネントと呼ぶ
 	//Textureを読むにあたって、COMコンポーネントの１つを利用する
 	CoInitializeEx(0, COINIT_MULTITHREADED);
+
+	descriptorSizeSRV_ = directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	descriptorSizeRTV_=directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	descriptorSizeDSV_=directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+
 }
 
 //Resource作成の関数化
@@ -71,6 +94,57 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUDescriptorHandle(ID3D12Descrip
 	return handleGPU;
 }
 
+//統合させた関数
+uint32_t TextureManager::LoadTexture(const std::string& filePath) {
+	//読み込むたびにインデックスが増やし重複を防ごう
+	textureIndex += 1;
+
+
+	//Textureを読んで転送する
+	mipImages_ = LoadTextureData(filePath);
+	const DirectX::TexMetadata& metadata = mipImages_.GetMetadata();
+	TextureManager::GetInstance()->textureResource_[textureIndex] = CreateTextureResource(metadata);
+
+
+	//intermediateResource_[textureIndex] = UploadTextureData(textureResource_[textureIndex], mipImages_);
+	
+
+	//ShaderResourceView
+	//metadataを基にSRVの設定
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = metadata.format;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	//2Dテクスチャ
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
+	
+	//今のDescriptorHeapには
+	//0...ImGui
+	//1...uvChecker
+	//2...monsterBall
+	//3...NULL
+	//.
+	//.
+	//このような感じで入っている
+	//後ろのindexに対応させる
+
+
+	//SRVを作成するDescriptorHeapの場所を決める
+	//後ろが1固定だったのでindex
+	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex] = TextureManager::GetInstance()->GetCPUDescriptorHandle(directXSetup_->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
+	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex] = TextureManager::GetInstance()->GetGPUDescriptorHandle(directXSetup_->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
+
+	//先頭はImGuiが使っているのでその次を使う
+	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex].ptr += directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex].ptr += directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	
+	//SRVの生成
+	directXSetup_->GetDevice()->CreateShaderResourceView(TextureManager::GetInstance()->textureResource_[textureIndex], &srvDesc, TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex]);
+	
+	return textureIndex;
+}
+	
+
 
 #pragma region テクスチャの読み込み
 //1.TextureデータそのものをCPUで読み込む
@@ -105,7 +179,7 @@ DirectX::ScratchImage TextureManager::LoadTextureData(const std::string& filePat
 }
 
 //2.DirectX12のTextureResourceを作る
-ID3D12Resource* TextureManager::CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata) {
+ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata& metadata) {
 	//1.metadataを基にResourceの設定
 	D3D12_RESOURCE_DESC resourceDesc{};
 	//Textureの幅
@@ -154,27 +228,28 @@ ID3D12Resource* TextureManager::CreateTextureResource(ID3D12Device* device, cons
 
 //3.TextureResourceに1で読んだデータを転送する
 //書き換え
-[[nodiscard]]
-ID3D12Resource* TextureManager::UploadTextureData(
+void TextureManager::UploadTextureData(
 	ID3D12Resource* texture, 
 	const DirectX::ScratchImage& mipImages) {
 
-	std::vector<D3D12_SUBRESOURCE_DATA>subresource;
-	DirectX::PrepareUpload(directXSetup_->GetDevice(), mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subresource);
-	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subresource.size()));
-	ID3D12Resource* intermediateResource = CreateBufferResource(intermediateSize);
-	UpdateSubresources(directXSetup_->GetCommandList(), texture, intermediateResource, 0, 0, UINT(subresource.size()), subresource.data());
-	
-	//Textureへの転送後は利用出来るようD3D12_RESOURCE_STATE_COPY_DESTからD3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更
-	D3D12_RESOURCE_BARRIER barrier{};
-	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-	barrier.Transition.pResource = texture ;
-	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
-	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
-	directXSetup_->GetCommandList()->ResourceBarrier(1, &barrier);
-	return intermediateResource;
+	//Meta情報を取得
+	const DirectX::TexMetadata& metadata = mipImages.GetMetadata();
+	//全MipMapについて
+	for (size_t mipLevel = 0; mipLevel < metadata.mipLevels; ++mipLevel) {
+		//MipMapLevelを指定して各Imageを取得
+		const DirectX::Image* img = mipImages.GetImage(mipLevel, 0, 0);
+		//Textureに転送
+		HRESULT hr = texture->WriteToSubresource(
+			UINT(mipLevel),
+			nullptr,				//全領域へコピー
+			img->pixels,			//元データアドレス
+			UINT(img->rowPitch),	//1ラインサイズ
+			UINT(img->slicePitch)	//1枚サイズ
+		);
+
+		assert(SUCCEEDED(hr));
+	}
+
 
 
 }
@@ -186,70 +261,15 @@ ID3D12Resource* TextureManager::UploadTextureData(
 
 #pragma endregion
 
-//統合させた関数
-int TextureManager::LoadTexture(const std::string& filePath) {
-	int spriteIndex = MAX_TEXTURE_+1;
-	for (int i = 0; i < MAX_TEXTURE_; i++) {
-		if (isUsedTextureIndex[i] == false) {
-			spriteIndex = i;
-			isUsedTextureIndex[i] = true;
-			break;
-		}
-	}
-	if (spriteIndex < 0) {
-		//0より少ない
-		assert(false);
-	}
-	if (spriteIndex > MAX_TEXTURE_) {
-		//MAX_TEXTUREより多い
-		assert(false);
-	}
 
-
-	//Textureを読んで転送する
-	mipImages_ = LoadTextureData(filePath);
-	const DirectX::TexMetadata& metadata = mipImages_.GetMetadata();
-	textureResource_[spriteIndex] = CreateTextureResource(directXSetup_->GetDevice(), metadata);
-	intermediateResource_[spriteIndex] = UploadTextureData(textureResource_[spriteIndex], mipImages_);
-	
-
-	//ShaderResourceView
-	//metadataを基にSRVの設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = metadata.format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	//2Dテクスチャ
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
-	
-	//今のDescriptorHeapには
-	//0...ImGui
-	//1...uvChecker
-	//2...monsterBall
-	//3...NULL
-	//.
-	//.
-	//このような感じで入っている
-	//後ろのindexに対応させる
-
-
-	//SRVを作成するDescriptorHeapの場所を決める
-	textureSrvHandleCPU_[spriteIndex] = GetCPUDescriptorHandle(directXSetup_->GetSrvDescriptorHeap(), descriptorSizeSRV_, 1);
-	textureSrvHandleGPU_[spriteIndex] = GetGPUDescriptorHandle(directXSetup_->GetSrvDescriptorHeap(), descriptorSizeSRV_, 1);
-
-	//先頭はImGuiが使っているのでその次を使う
-	textureSrvHandleCPU_[spriteIndex].ptr += directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	textureSrvHandleGPU_[spriteIndex].ptr += directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	
-	//SRVの生成
-	directXSetup_->GetDevice()->CreateShaderResourceView(textureResource_[spriteIndex], &srvDesc, textureSrvHandleCPU_[spriteIndex]);
-	
-	return spriteIndex;
-}
-	
 void TextureManager::Release() {
 	//ゲーム終了時にはCOMの終了処理を行っておく
 	CoUninitialize();
+}
+
+//デリート代わりの関数
+void TextureManager::DeleteInstance() {
+
 }
 
 //コンストラクタ
