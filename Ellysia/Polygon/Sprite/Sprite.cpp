@@ -2,8 +2,6 @@
 
 
 
-//補助ライブラリ
-#include "externals/DirectXTex/d3dx12.h"
 //動的配列
 #include <vector>
 
@@ -79,6 +77,8 @@ void Sprite::CreateIndexBufferView() {
 }
 
 
+
+
 //初期化
 void Sprite::Initialize() {
 	directXSetup_ = DirectXSetup::GetInstance();
@@ -89,7 +89,7 @@ void Sprite::Initialize() {
 	//ここでBufferResourceを作る
 	//Sprite用の頂点リソースを作る
 	//以前三角形二枚にしてたけど結合して四角一枚で良くなったので4で良いよね
-	vertexResource_ = CreateBufferResource(sizeof(VertexData) * 4);
+	vertexResource_ = CreateBufferResource(sizeof(VertexData) * 6);
 	//index用のリソースを作る
 	indexResource_ = CreateBufferResource(sizeof(uint32_t) * 6);
 	////マテリアル用のリソースを作る。今回はcolor1つ分のサイズを用意する
@@ -116,7 +116,11 @@ void Sprite::Initialize() {
 	
 }
 
+void Sprite::LoadTextureHandle(uint32_t textureHandle) {
+	this->texturehandle_ = textureHandle;
+	Initialize();
 
+}
 
 //描画
 void Sprite::DrawRect(Transform transform) {
@@ -223,30 +227,30 @@ void Sprite::DrawRect(Transform transform) {
 
 
 	//コマンドを積む
+	//パイプラインはここに引っ越したい
+
 
 	//RootSignatureを設定。PSOに設定しているけど別途設定が必要
 	directXSetup_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);
-	//形状を設定。PSOに設定しているものとはまた別。同じものを設定すると考えよう
-	directXSetup_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	//IBVを設定
 	directXSetup_->GetCommandList()->IASetIndexBuffer(&indexBufferView_);
-
-
-	directXSetup_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResource_->GetGPUVirtualAddress());
+	
+	//形状を設定。PSOに設定しているものとはまた別。同じものを設定すると考えよう
+	directXSetup_->GetCommandList()->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
 	//CBVを設定する
 	directXSetup_->GetCommandList()->SetGraphicsRootConstantBufferView(0, materialResource_->GetGPUVirtualAddress());
+	directXSetup_->GetCommandList()->SetGraphicsRootConstantBufferView(1, transformationMatrixResource_->GetGPUVirtualAddress());
+	
 	//SRVのDescriptorTableの先頭を設定。2はrootParameter[2]である
 	//directXSetup_->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetTextureIndex());
 	
-	//何も入っていない時は
-	if (texturehandle_ != 0u) {
+	
+	if (!texturehandle_ == 0) {
 		TextureManager::TexCommand(texturehandle_);
-		
 
 	}
 	
-
-
 	//今度はこっちでドローコールをするよ
 	//描画(DrawCall)6個のインデックスを使用し1つのインスタンスを描画。
 	directXSetup_->GetCommandList()->DrawIndexedInstanced(6, 1, 0, 0, 0);

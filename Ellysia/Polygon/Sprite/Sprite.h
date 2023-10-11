@@ -26,9 +26,7 @@ public:
 	Sprite();
 
 	
-	uint32_t LoadTexture(uint32_t textureHandle) {
-		this->texturehandle_ = textureHandle;
-	}
+	void LoadTextureHandle(uint32_t textureHandle);
 
 
 	//描画

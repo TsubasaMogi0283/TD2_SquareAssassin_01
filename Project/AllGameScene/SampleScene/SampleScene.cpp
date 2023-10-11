@@ -21,23 +21,28 @@ SampleScene::~SampleScene() {
 /// 初期化
 /// </summary>
 void SampleScene::Initialize(GameManager* gameManager) {
-	sprite_ = new Sprite();
-	//sprite_->Initialize();
+	
 
 	textureManager_ = TextureManager::GetInstance();
-	textureManager_->Initilalize();
+	
+	//TextureHandleはそれぞれ違う値になっているのに何故
 	textureHandle_ = textureManager_->LoadTexture("Resources/uvChecker.png");
-	//sprite_->LoadTexture("Resources/uvChecker.png");
-
+	textureHandle2_=textureManager_->LoadTexture("Resources/monsterBall.png");
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	
+	sprite_ = new Sprite();
+	sprite_->LoadTextureHandle(textureHandle_);
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
 	sprite_->SetAllPosition(spriteAllPosition_);
 
-	//plane_ = new Model();
-	//plane_->CreateObject("Resources/Sample","enemy.obj");
-	////plane_->LoadTexture("Resources/Sample/enemy.png");
-	//transformModel_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f,0.0f,0.0f} };
+	
+	sprite2_ = new Sprite();
+	sprite2_->LoadTextureHandle(textureHandle2_);
+	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	sprite2_->SetAllPosition(spriteAllPosition_);
 
+	
 
 
 	audio_ = Audio::GetInstance();
@@ -76,6 +81,5 @@ void SampleScene::Update(GameManager* gameManager) {
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
 	sprite_->DrawRect(transformSprite_);
-	plane_->Draw(transformModel_);
-
+	sprite2_->DrawRect(transformSprite2_);
 }

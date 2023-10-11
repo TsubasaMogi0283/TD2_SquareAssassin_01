@@ -10,7 +10,7 @@ GameManager::GameManager() {
 	
 	//COMを使用して開発されたソフトウェア部品をCOMコンポーネントと呼ぶ
 	//Textureを読むにあたって、COMコンポーネントの１つを利用する
-	CoInitializeEx(0, COINIT_MULTITHREADED);
+	//CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	
 	
@@ -22,6 +22,7 @@ GameManager::GameManager() {
 	imGuiManager_ = ImGuiManager::GetInstance();
 	input_ = Input::GetInstance();
 	camera_ = Camera::GetInstance();
+	textureManager_ = TextureManager::GetInstance();
 }
 	
 void GameManager::Initialize() {
@@ -33,7 +34,7 @@ void GameManager::Initialize() {
 	directXSetup_->Initialize();
 	imGuiManager_->Initialize();
 	input_->Initialize();
-	
+	textureManager_->Initilalize();
 
 	//シーンごとに動作確認したいときはここを変えてね
 	currentGamaScene_ = new SampleScene();
@@ -73,6 +74,8 @@ void GameManager::EndFrame() {
 
 void GameManager::Release() {
 	camera_->DeleteInstance();
+	textureManager_->Release();
+	textureManager_->DeleteInstance();
 	imGuiManager_->Release();
 	directXSetup_->Release();
 	directXSetup_->DeleteInstance();

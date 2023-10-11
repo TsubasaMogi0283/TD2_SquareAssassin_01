@@ -96,7 +96,7 @@ private:
 
 	//画像読み込み
 	DirectX::ScratchImage mipImages_;
-	ID3D12Resource* intermediateResource_ = { nullptr };
+	ID3D12Resource* intermediateResource_[TEXTURE_MAX_AMOUNT_] = { nullptr };
 
 	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[TEXTURE_MAX_AMOUNT_] = {} ;
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[TEXTURE_MAX_AMOUNT_] = {};

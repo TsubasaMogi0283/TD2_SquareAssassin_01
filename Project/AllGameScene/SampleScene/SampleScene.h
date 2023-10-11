@@ -32,23 +32,27 @@ private:
 	//Input
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
-
 	
 
 	Sprite* sprite_ = nullptr;
+	Sprite* sprite2_ = nullptr;
 
 	SoundData soundData_ = {};
 
 	Transform transformSprite_ = {};
+	Transform transformSprite2_ = {};
 	SpritePosition spriteAllPosition_ = {};
+	SpritePosition spriteAllPosition2_ = {};
 
 	int sampleTimer_ = 0;
 
 
-	Model* plane_ = nullptr;
+	//Model* plane_ = nullptr;
 	Transform transformModel_ = {};
 
 	uint32_t textureHandle_ = 0u;
+	uint32_t textureHandle2_ = 0u;
+
 };
 
 

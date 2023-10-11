@@ -97,9 +97,10 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUDescriptorHandle(ID3D12Descrip
 
 //統合させた関数
 uint32_t TextureManager::LoadTexture(const std::string& filePath) {
+
 	//読み込むたびにインデックスが増やし重複を防ごう
 	//同じ画像しか貼れなかったのはこれが原因
-	textureIndex += 1;
+	textureIndex ++;
 
 
 	//Textureを読んで転送する
@@ -108,7 +109,6 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 	TextureManager::GetInstance()->textureResource_[textureIndex] = CreateTextureResource(metadata);
 	UploadTextureData(textureResource_[textureIndex], mipImages_);
 
-	
 
 	//ShaderResourceView
 	//metadataを基にSRVの設定
@@ -220,7 +220,7 @@ ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata
 		&heapProperties,					//Heapの設定
 		D3D12_HEAP_FLAG_NONE,				//Heapの特殊な設定
 		&resourceDesc,						//Resourceの設定
-		D3D12_RESOURCE_STATE_COPY_DEST,	//初回のResourceState。データの転送を受け入れられるようにする
+		D3D12_RESOURCE_STATE_GENERIC_READ,	//初回のResourceState。データの転送を受け入れられるようにする
 		nullptr,							//Clear最適値。使わないのでnullptr
 		IID_PPV_ARGS(&resource));			//作成するResourceポインタへのポインタ
 	assert(SUCCEEDED(hr));
@@ -291,7 +291,8 @@ void TextureManager::UploadTextureData(
 
 
 void TextureManager::TexCommand(uint32_t texHandle) {
-	DirectXSetup::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex]);
+	DirectXSetup::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(
+		2, TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex]);
 }
 
 void TextureManager::Release() {
