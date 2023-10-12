@@ -49,8 +49,7 @@ private:
 	Transform cameraTransform_ = {};
 	Matrix4x4 projectionMatrix_ = {};
 
-	Transform cameraTransform_ = {};
-	Matrix4x4 projectionMatrix_ = {};
+	
 
 };
 

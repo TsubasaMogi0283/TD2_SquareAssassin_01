@@ -88,44 +88,15 @@ void SampleScene::Initialize(GameManager* gameManager) {
 /// </summary>
 void SampleScene::Update(GameManager* gameManager) {
 
-	//sampleTimer_ += 1;
-	//if (sampleTimer_ >30) {
-	//	//audio_->StopWave(soundData_);
-	//}
-	//if (sampleTimer_ > 120) {
-	//	gameManager->ChangeScene(new SampleScene2());
-	//}
-	//
-	//ImGui::Begin("SampleScene1");
-	//ImGui::Text("Time",sampleTimer_);
-	//ImGui::End();
-
-
-	//ImGui::Begin("Sprite");
-	//ImGui::InputFloat3("scale", &transformSprite_.scale.x);
-	//ImGui::SliderFloat3("scale", &transformSprite_.scale.x,0.0f,10.0f);
-	//ImGui::End();
-
-	//ImGui::Begin("Model");
-	//ImGui::InputFloat3("translate", &transformModel_.translate.x);
-	//ImGui::SliderFloat3("translate", &transformModel_.translate.x,-10.0f,10.0f);
-	//ImGui::End();
-
-
-	cameraMatrix_ = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
-	viewMatrix_ = Inverse(cameraMatrix_);
-
-	//遠視投影行列
-	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(DirectXSetup::GetInstance()->GetClientWidth()) / float(DirectXSetup::GetInstance()->GetClientHeight()), 0.1f, 100.0f);
-
-
+	
+	
 }
 
 /// <summary>
 /// 描画
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
-	//plane_->Draw(transformModel_);
+	plane_->Draw(transformModel_);
 	//sprite_->DrawRect(transformSprite_);
 	////sprite2_->DrawRect(transformSprite2_);
 	//sprite3_->DrawRect(transformSprite3_);
