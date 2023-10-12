@@ -110,6 +110,15 @@ void SampleScene::Update(GameManager* gameManager) {
 	//ImGui::InputFloat3("translate", &transformModel_.translate.x);
 	//ImGui::SliderFloat3("translate", &transformModel_.translate.x,-10.0f,10.0f);
 	//ImGui::End();
+
+
+	cameraMatrix_ = MakeAffineMatrix(cameraTransform_.scale, cameraTransform_.rotate, cameraTransform_.translate);
+	viewMatrix_ = Inverse(cameraMatrix_);
+
+	//遠視投影行列
+	projectionMatrix_ = MakePerspectiveFovMatrix(0.45f, float(DirectXSetup::GetInstance()->GetClientWidth()) / float(DirectXSetup::GetInstance()->GetClientHeight()), 0.1f, 100.0f);
+
+
 }
 
 /// <summary>
