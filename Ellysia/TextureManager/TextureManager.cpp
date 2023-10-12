@@ -282,7 +282,7 @@ void TextureManager::UploadTextureData(
 
 void TextureManager::TexCommand(uint32_t texHandle) {
 	DirectXSetup::GetInstance()->GetCommandList()->SetGraphicsRootDescriptorTable(
-		2, TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex]);
+		2, TextureManager::GetInstance()->textureSrvHandleGPU_[texHandle]);
 }
 
 void TextureManager::Release() {

@@ -25,10 +25,14 @@ void SampleScene::Initialize(GameManager* gameManager) {
 
 	textureManager_ = TextureManager::GetInstance();
 	
+	 
+	 
+	 
+
 	//TextureHandleはそれぞれ違う値になっているのに何故
-	textureHandle_ = TextureManager::LoadTexture("Resources/uvChecker.png");
-	textureHandle2_= TextureManager::LoadTexture("Resources/monsterBall.png");
-	textureHandle3_= TextureManager::LoadTexture("Resources/uvChecker.png");
+	uint32_t textureHandle_ = TextureManager::LoadTexture("Resources/uvChecker.png");
+	uint32_t textureHandle2_= TextureManager::LoadTexture("Resources/monsterBall.png");
+	uint32_t textureHandle3_= TextureManager::LoadTexture("Resources/bullet.png");
 
 
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -51,7 +55,7 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	
 	sprite3_ = new Sprite();
 	sprite3_->LoadTextureHandle(textureHandle3_);
-	spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,16.0f},{16.0f,0.0f},{16.0f,16.0f} };
 	sprite3_->SetAllPosition(spriteAllPosition3_);
 
 	

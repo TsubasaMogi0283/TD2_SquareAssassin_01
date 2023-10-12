@@ -76,7 +76,7 @@ private:
 	
 
 public:
-		static const int TEXTURE_MAX_AMOUNT_ = 128;
+		static const int TEXTURE_MAX_AMOUNT_ = 256;
 private:
 	//シングルインスタンス
 	//static TextureManager* instance_ ;
