@@ -1,6 +1,5 @@
 #include "Object3d.hlsli"
 
-
 //座標返還を行うVS
 struct TransformationMatrix {
 	//32bitのfloatが4x4個

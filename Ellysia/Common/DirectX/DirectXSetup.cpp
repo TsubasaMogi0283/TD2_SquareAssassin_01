@@ -8,7 +8,8 @@ DirectXSetup::DirectXSetup() {
 
 //インスタンス
 DirectXSetup* DirectXSetup::GetInstance() {
-	//これだと無限に生成される
+	//これだと無限に生成されるので
+	//ない時に生成する
 	if (instance_ == nullptr) {
 		instance_ = new DirectXSetup();
 
@@ -628,12 +629,12 @@ void DirectXSetup::MakePSO() {
 
 
 	//ShaderをCompileする
-	vertexShaderBlob_ = CompileShader(L"Object3d.VS.hlsl", L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
+	vertexShaderBlob_ = CompileShader(L"Resources/Shader/Object3d.VS.hlsl", L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(vertexShaderBlob_ != nullptr);
 
 
 
-	pixelShaderBlob_ = CompileShader(L"Object3d.PS.hlsl", L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
+	pixelShaderBlob_ = CompileShader(L"Resources/Shader/Object3d.PS.hlsl", L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
 	assert(pixelShaderBlob_ != nullptr);
 
 
@@ -869,6 +870,8 @@ void DirectXSetup::BeginFrame() {
 
 	commandList_->RSSetViewports(1, &viewport_);
 	commandList_->RSSetScissorRects(1, &scissorRect_);
+
+
 	commandList_->SetGraphicsRootSignature(rootSignature_);
 	commandList_->SetPipelineState(graphicsPipelineState_);
 	
@@ -901,20 +904,6 @@ void DirectXSetup::EndFrame() {
 	commandQueue_->ExecuteCommandLists(1, commandLists);
 	//GPUとOSに画面の交換を行うよう通知する
 
-
-
-
-
-
-	//D3D12 ERROR: GPU-BASED VALIDATION: Draw, Root descriptor access out of bounds (results undefined): Resource: 0x0000024B1827FF60:
-	// 'Unnamed ID3D12Resource Object', Root Descriptor Type: CBV, Highest byte offset from view start accessed: [75], 
-	// Bytes available from view start based on remaining resource size: 64. Shader Stage: VERTEX, Root Parameter Index: [1],
-	//  Draw Index: [0], Shader Code: Object3d.VS.hlsl(30,82-82), Asm Instruction Range: [0x3-0xffffffff], Asm Operand Index: [0], 
-	// Command List: 0x0000024B18710A30:'Unnamed ID3D12GraphicsCommandList Object', 
-	// SRV/UAV/CBV Descriptor Heap: 0x0000024B1884A1A0:'Unnamed ID3D12DescriptorHeap Object', 
-	// Sampler Descriptor Heap: <not set>, Pipeline State: 0x0000024B0ED44280:'Unnamed ID3D12PipelineState Object',  
-	// [ EXECUTION ERROR #961: GPU_BASED_VALIDATION_ROOT_DESCRIPTOR_ACCESS_OUT_OF_BOUNDS]
-	//D3D12: **BREAK** enabled for the previous message, which was: [ ERROR EXECUTION #961: GPU_BASED_VALIDATION_ROOT_DESCRIPTOR_ACCESS_OUT_OF_BOUNDS 
 
 
  	swapChain_->Present(1, 0);

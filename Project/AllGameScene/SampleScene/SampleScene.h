@@ -1,6 +1,7 @@
 #pragma once
 #include <Input/Input.h>
 #include <Audio/Audio.h>
+#include "TextureManager/TextureManager.h"
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 
@@ -30,22 +31,32 @@ private:
 	Audio* audio_ = nullptr;
 	//Input
 	Input* input_ = nullptr;
-	
-
+	TextureManager* textureManager_ = nullptr;
 	
 
 	Sprite* sprite_ = nullptr;
+	Sprite* sprite2_ = nullptr;
+	Sprite* sprite3_ = nullptr;
+
 
 	SoundData soundData_ = {};
 
 	Transform transformSprite_ = {};
+	Transform transformSprite2_ = {};
+	Transform transformSprite3_ = {};
+
 	SpritePosition spriteAllPosition_ = {};
+	SpritePosition spriteAllPosition2_ = {};
+	SpritePosition spriteAllPosition3_ = {};
 
 	int sampleTimer_ = 0;
 
 
 	Model* plane_ = nullptr;
 	Transform transformModel_ = {};
+
+	Model* plane2_ = nullptr;
+	Transform transformModel2_ = {};
 
 
 };
