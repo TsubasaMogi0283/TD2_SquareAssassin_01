@@ -10,7 +10,7 @@ GameManager::GameManager() {
 	
 	//COMを使用して開発されたソフトウェア部品をCOMコンポーネントと呼ぶ
 	//Textureを読むにあたって、COMコンポーネントの１つを利用する
-	CoInitializeEx(0, COINIT_MULTITHREADED);
+	//CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	
 	
@@ -21,7 +21,8 @@ GameManager::GameManager() {
 	directXSetup_ = DirectXSetup::GetInstance();
 	imGuiManager_ = ImGuiManager::GetInstance();
 	input_ = Input::GetInstance();
-	
+	camera_ = Camera::GetInstance();
+	textureManager_ = TextureManager::GetInstance();
 }
 	
 void GameManager::Initialize() {
@@ -33,7 +34,7 @@ void GameManager::Initialize() {
 	directXSetup_->Initialize();
 	imGuiManager_->Initialize();
 	input_->Initialize();
-	
+	TextureManager::Initilalize();
 
 	//シーンごとに動作確認したいときはここを変えてね
 	currentGamaScene_ = new SampleScene();
@@ -60,13 +61,6 @@ void GameManager::Draw() {
 	imGuiManager_->PreDraw();	
 	imGuiManager_->Draw();
 	
-	//viewMatrixとprojectionを消したい
-	//plane2_->Draw(transformModel2,viewMatrix,projectionMatrix);
-	//plane_->Draw(transformModel,viewMatrix,projectionMatrix);
-	//
-	//sprite_->DrawRect(transformSprite_);
-	//sprite2_->DrawRect(transformSprite2_);
-
 	currentGamaScene_->Draw(this);
 
 }
@@ -79,6 +73,9 @@ void GameManager::EndFrame() {
 }
 
 void GameManager::Release() {
+	camera_->DeleteInstance();
+	textureManager_->Release();
+	textureManager_->DeleteInstance();
 	imGuiManager_->Release();
 	directXSetup_->Release();
 	directXSetup_->DeleteInstance();
@@ -121,26 +118,13 @@ void GameManager::Operate() {
 			//フレームの開始
 			BeginFrame();
 
-			#pragma region 更新処理
 
 			
-
+			//更新処理
 			Update();
 
 
-			////カメラ行列
-			//cameraMatrix_ = MakeAffineMatrix(cameraTransform.scale, cameraTransform.rotate, cameraTransform.translate);
-			//viewMatrix = Inverse(cameraMatrix_);
-			//
-			////遠視投影行列
-			//projectionMatrix = MakePerspectiveFovMatrix(0.45f, float(WINDOW_SIZE_WIDTH_) / float(WINDOW_SIZE_HEIGHT_), 0.1f, 100.0f);
-			
-
-#pragma region Modelの位置情報
-
-			
-#pragma endregion
-			#pragma endregion
+			//描画
 			Draw();
 			
 			
@@ -153,19 +137,6 @@ void GameManager::Operate() {
 		}
 		
 	}
-
-
-	//解放処理
-	//plane_->Release();
-	//plane2_->Release();
-	//sprite_->Release();
-
-	
-
-	//delete plane_;
-	//delete plane2_;
-	//delete sprite_;
-	//delete sprite2_;
 
 	Release();
 

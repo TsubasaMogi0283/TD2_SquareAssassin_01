@@ -16,6 +16,8 @@
 #include "Audio/Audio.h"
 #include <Input/Input.h>
 #include "IGameScene.h"
+#include "Camera/Camera.h"
+#include "TextureManager/TextureManager.h"
 
 //main.cppにあるものを全部こっちに引っ越しする
 class GameManager {
@@ -64,36 +66,12 @@ private:
 
 	ImGuiManager* imGuiManager_ = nullptr;
 	Input* input_ = nullptr;
-
-
+	Camera* camera_ = nullptr;
+	TextureManager* textureManager_ = nullptr;
 
 #pragma region サンプル
-	/*Model* plane_ = nullptr;
-	Model* plane2_ = nullptr;*/
+	
 
-
-
-
-	Transform transformModel = {};
-	Transform transformModel2 = {};
-	Matrix4x4 cameraMatrix_ = {};
-	Matrix4x4 viewMatrix = {};
-
-	//遠視投影行列
-	Matrix4x4 projectionMatrix = {};
-
-
-	Sprite* sprite_ = nullptr;
-
-	Transform transformSprite_ = {};
-	SpritePosition spriteAllPosition_ = {};
-
-	//Sprite* sprite2_ = nullptr;
-	Transform transformSprite2_ = {};
-	SpritePosition spriteAllPosition2_ = {};
-
-	Audio* audio_ = nullptr;
-	SoundData soundData_ = {};
 
 #pragma endregion
 

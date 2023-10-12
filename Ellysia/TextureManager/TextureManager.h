@@ -11,23 +11,40 @@
 
 //テクスチャに関するクラス
 class TextureManager {
-public:
+private:
 	//コンストラクタ
 	TextureManager();
-
-	//初期化
-	void Initilalize(DirectXSetup* directXSetup);
-
-	//統合させた関数
-	int LoadTexture(const std::string& filePath);
-
-	//解放
-	void Release();
-
 
 	//コンストラクタ
 	~TextureManager();
 
+public:
+	static TextureManager* GetInstance();
+
+	//デリート代わりの関数
+	void DeleteInstance();
+
+	//コピーコンストラクタ禁止
+	TextureManager(const TextureManager& textureManager) = delete;
+
+	//代入演算子を無効にする
+	TextureManager& operator=(const TextureManager& textureManager) = delete;
+
+
+public:
+	
+	//初期化
+	static void Initilalize();
+
+	//統合させた関数
+	//インデックスを返すからマイナスはありえない。
+	//uintにしたほうが良いよね
+	static uint32_t LoadTexture(const std::string& filePath);
+
+	static void TexCommand(uint32_t texHandle);
+
+	//解放
+	void Release();
 
 
 
@@ -45,42 +62,32 @@ private:
 #pragma region テクスチャの読み込み
 	//Textureデータを読む
 	//1.TextureデータそのものをCPUで読み込む
-	DirectX::ScratchImage LoadTextureData(const std::string& filePath);
+	static DirectX::ScratchImage LoadTextureData(const std::string& filePath);
 
 	//2.DirectX12のTextureResourceを作る
-	ID3D12Resource* CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata);
+	static ID3D12Resource* CreateTextureResource(const DirectX::TexMetadata& metadata);
 
 	//3.TextureResourceに1で読んだデータを転送する
 	//void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages,ID3D12Device* device,ID3D12GraphicsCommandList* commandList);
-	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
+	static void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
 
 
 #pragma endregion
 	
 
-
-
+public:
+		static const int TEXTURE_MAX_AMOUNT_ = 256;
 private:
-	//DirectX読み込み
-	DirectXSetup* directXSetup_ = nullptr;
 
-	//関数用
-	D3D12_HEAP_PROPERTIES uploadHeapProperties_{};
-	D3D12_RESOURCE_DESC vertexResourceDesc_{};
+	
 
-
-	static const int MAX_TEXTURE_ = 3;
-	bool isUsedTextureIndex[MAX_TEXTURE_];
-
-	ID3D12Resource* textureResource_[MAX_TEXTURE_] = {nullptr};
-	ID3D12Resource* resource_ = nullptr;
+	ID3D12Resource* textureResource_[TEXTURE_MAX_AMOUNT_] = {nullptr};
 
 	//画像読み込み
-	DirectX::ScratchImage mipImages_;
-	ID3D12Resource* intermediateResource_[MAX_TEXTURE_] = { nullptr };
+	
+	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[TEXTURE_MAX_AMOUNT_] = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[TEXTURE_MAX_AMOUNT_] = {};
 
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[MAX_TEXTURE_] = {} ;
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[MAX_TEXTURE_] = {};
 
-	uint32_t descriptorSizeSRV_ = 0u;
+
 };
