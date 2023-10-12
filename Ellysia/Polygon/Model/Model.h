@@ -38,7 +38,7 @@ public:
 	//Initializeも兼ねているよ
 	void CreateObject(const std::string& directoryPath,const std::string& fileName);
 
-
+private:
 #pragma region モデルの読み込み関係の関数
 	//モデルデータの読み込み
 	ModelData LoadObjectFile(const std::string& directoryPath, const std::string& fileName);
@@ -46,11 +46,9 @@ public:
 	//mtlファイルの読み込み
 	MaterialData LoadMaterialTemplateFile(const std::string& directoryPath, const std::string& fileName);
 
-	//テクスチャの読み込み
-	int LoadTexture(const std::string& filePath);
 #pragma endregion
 
-
+public:
 	//描画
 	void Draw(Transform transform);
 
@@ -87,22 +85,6 @@ private:
 
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
 	D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
-
-
-#pragma region テクスチャの読み込み
-	//Textureデータを読む
-	//1.TextureデータそのものをCPUで読み込む
-	DirectX::ScratchImage LoadTextureData(const std::string& filePath);
-
-	//2.DirectX12のTextureResourceを作る
-	ID3D12Resource* CreateTextureResource(ID3D12Device* device, const DirectX::TexMetadata& metadata);
-
-	//3.TextureResourceに1で読んだデータを転送する
-	//void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages,ID3D12Device* device,ID3D12GraphicsCommandList* commandList);
-	ID3D12Resource* UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImages);
-
-
-#pragma endregion
 
 
 
@@ -146,19 +128,11 @@ private:
 
 	uint32_t descriptorSizeSRV_ = 0u;
 
-	static const int MAX_TEXTURE_ = 20;
-	bool isUsedTextureIndex[MAX_TEXTURE_];
-
-	ID3D12Resource* textureResource_[MAX_TEXTURE_] = {nullptr};
 	ID3D12Resource* resource_ = nullptr;
 
-	//画像読み込み
-	DirectX::ScratchImage mipImages_;
-	ID3D12Resource* intermediateResource_[MAX_TEXTURE_] = { nullptr };
 
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_[MAX_TEXTURE_] = {} ;
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[MAX_TEXTURE_] = {};
-
+	//構築するModelData
+	ModelData modelData;
 
 
 	//色関係のメンバ変数

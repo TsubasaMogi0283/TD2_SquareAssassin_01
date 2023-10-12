@@ -55,7 +55,9 @@ private:
 	Model* plane_ = nullptr;
 	Transform transformModel_ = {};
 
-	
+	Model* plane2_ = nullptr;
+	Transform transformModel2_ = {};
+
 
 };
 

@@ -58,8 +58,17 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,16.0f},{16.0f,0.0f},{16.0f,16.0f} };
 	sprite3_->SetAllPosition(spriteAllPosition3_);
 
-	
 
+
+
+	transformModel_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+	plane_ = new Model();
+	plane_->CreateObject("Resources/Sample", "enemy.obj");
+	
+	transformModel2_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{2.0f,0.0f,0.0f}};
+	plane2_ = new Model();
+	plane2_->CreateObject("Resources/Sample/cube", "cube.obj");
+	
 
 	audio_ = Audio::GetInstance();
 	audio_->Initialize();
@@ -79,7 +88,7 @@ void SampleScene::Update(GameManager* gameManager) {
 
 	sampleTimer_ += 1;
 	if (sampleTimer_ > 60) {
-		gameManager->ChangeScene(new SampleScene2());
+		//gameManager->ChangeScene(new SampleScene2());
 	}
 	
 	ImGui::Begin("SampleScene1");
@@ -92,15 +101,20 @@ void SampleScene::Update(GameManager* gameManager) {
 	ImGui::SliderFloat3("scale", &transformSprite_.scale.x,0.0f,10.0f);
 	ImGui::End();
 
+	ImGui::Begin("Model");
+	ImGui::InputFloat3("translate", &transformModel_.translate.x);
+	ImGui::SliderFloat3("translate", &transformModel_.translate.x,-10.0f,10.0f);
+	ImGui::End();
 }
 
 /// <summary>
 /// 描画
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
+	plane_->Draw(transformModel_);
 	sprite_->DrawRect(transformSprite_);
-	sprite2_->DrawRect(transformSprite2_);
+	//sprite2_->DrawRect(transformSprite2_);
 	sprite3_->DrawRect(transformSprite3_);
 
-
+	plane2_->Draw(transformModel2_);
 }
