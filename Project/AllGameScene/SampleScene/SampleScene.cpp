@@ -23,57 +23,63 @@ SampleScene::~SampleScene() {
 void SampleScene::Initialize(GameManager* gameManager) {
 	
 
-	textureManager_ = TextureManager::GetInstance();
-	
-	 
-	 
-	 
+	//textureManager_ = TextureManager::GetInstance();
+	//
+	// 
+	// 
+	// 
 
-	//TextureHandleはそれぞれ違う値になっているのに何故
-	uint32_t textureHandle_ = TextureManager::LoadTexture("Resources/uvChecker.png");
-	uint32_t textureHandle2_= TextureManager::LoadTexture("Resources/monsterBall.png");
-	uint32_t textureHandle3_= TextureManager::LoadTexture("Resources/bullet.png");
-
-
-	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	
-	sprite_ = new Sprite();
-	sprite_->LoadTextureHandle(textureHandle_);
-	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
-	sprite_->SetAllPosition(spriteAllPosition_);
-
-	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f,0.0f,0.0f} };
-	
-	sprite2_ = new Sprite();
-	sprite2_->LoadTextureHandle(textureHandle2_);
-	spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
-	sprite2_->SetAllPosition(spriteAllPosition2_);
-
-	
-
-	transformSprite3_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1000.0f,0.0f,0.0f} };
-	
-	sprite3_ = new Sprite();
-	sprite3_->LoadTextureHandle(textureHandle3_);
-	spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,16.0f},{16.0f,0.0f},{16.0f,16.0f} };
-	sprite3_->SetAllPosition(spriteAllPosition3_);
+	////TextureHandleはそれぞれ違う値になっているのに何故
+	//uint32_t textureHandle_ = TextureManager::LoadTexture("Resources/uvChecker.png");
+	//uint32_t textureHandle2_= TextureManager::LoadTexture("Resources/monsterBall.png");
+	//uint32_t textureHandle3_= TextureManager::LoadTexture("Resources/bullet.png");
 
 
+	//transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	//
+	//sprite_ = new Sprite();
+	//sprite_->LoadTextureHandle(textureHandle_);
+	//spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	//sprite_->SetAllPosition(spriteAllPosition_);
+
+	//transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f,0.0f,0.0f} };
+	//
+	//sprite2_ = new Sprite();
+	//sprite2_->LoadTextureHandle(textureHandle2_);
+	//spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	//sprite2_->SetAllPosition(spriteAllPosition2_);
+
+	//
+
+	//transformSprite3_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1000.0f,0.0f,0.0f} };
+	//
+	//sprite3_ = new Sprite();
+	//sprite3_->LoadTextureHandle(textureHandle3_);
+	//spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,16.0f},{16.0f,0.0f},{16.0f,16.0f} };
+	//sprite3_->SetAllPosition(spriteAllPosition3_);
 
 
-	transformModel_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+
+
+	//transformModel_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+	//plane_ = new Model();
+	//plane_->CreateObject("Resources/Sample", "enemy.obj");
+	//
+	//
+
+	//audio_ = Audio::GetInstance();
+	//audio_->Initialize();
+	//soundData_ = audio_->LoadWave("Resources/Audio/Sample/Hit.wav");
+
+
+	//audio_->PlayWave(soundData_ ,true);
+
 	plane_ = new Model();
-	plane_->CreateObject("Resources/Sample", "enemy.obj");
-	
-	
+	plane_->CreateObject("Resources/05_02", "enemy.obj");
+	plane_->LoadTexture("Resources/05_02/enemy.png");
+	transformModel_ = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{0.0f,0.0f,0.0f} };
+	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-9.8f} };
 
-	audio_ = Audio::GetInstance();
-	audio_->Initialize();
-	soundData_ = audio_->LoadWave("Resources/Audio/Sample/Hit.wav");
-
-
-	audio_->PlayWave(soundData_ ,true);
-	
 
 	
 }
