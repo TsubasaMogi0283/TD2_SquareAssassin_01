@@ -246,7 +246,7 @@ void Sprite::DrawRect(Transform transform) {
 	//directXSetup_->GetCommandList()->SetGraphicsRootDescriptorTable(2, TextureManager::GetInstance()->GetTextureIndex());
 	
 	
-	if (!texturehandle_ == 0) {
+	if (texturehandle_ != 0) {
 		TextureManager::TexCommand(texturehandle_);
 
 	}

@@ -36,13 +36,18 @@ private:
 
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
+	Sprite* sprite3_ = nullptr;
+
 
 	SoundData soundData_ = {};
 
 	Transform transformSprite_ = {};
 	Transform transformSprite2_ = {};
+	Transform transformSprite3_ = {};
+
 	SpritePosition spriteAllPosition_ = {};
 	SpritePosition spriteAllPosition2_ = {};
+	SpritePosition spriteAllPosition3_ = {};
 
 	int sampleTimer_ = 0;
 
@@ -52,6 +57,7 @@ private:
 
 	uint32_t textureHandle_ = 0u;
 	uint32_t textureHandle2_ = 0u;
+	uint32_t textureHandle3_ = 0u;
 
 };
 

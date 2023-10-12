@@ -34,7 +34,7 @@ void GameManager::Initialize() {
 	directXSetup_->Initialize();
 	imGuiManager_->Initialize();
 	input_->Initialize();
-	textureManager_->Initilalize();
+	TextureManager::Initilalize();
 
 	//シーンごとに動作確認したいときはここを変えてね
 	currentGamaScene_ = new SampleScene();

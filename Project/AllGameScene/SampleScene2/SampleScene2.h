@@ -32,7 +32,7 @@ private:
 	//Input
 	Input* input_ = nullptr;
 	
-
+	TextureManager* textureManager_ = nullptr;
 	
 
 	Sprite* sprite_ = nullptr;
@@ -41,5 +41,5 @@ private:
 
 	Transform transformSprite_;
 	SpritePosition spriteAllPosition_;
-
+	uint32_t textureHandle_ = 0u;
 };

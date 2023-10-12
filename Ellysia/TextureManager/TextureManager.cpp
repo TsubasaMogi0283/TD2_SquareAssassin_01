@@ -1,13 +1,12 @@
 #include "TextureManager.h"
 
 
-TextureManager* TextureManager::instance_ = nullptr;
+//TextureManager* TextureManager::instance_ = nullptr;
 
 static uint32_t descriptorSizeSRV_ = 0u;
 static uint32_t descriptorSizeRTV_ = 0u;
 static uint32_t descriptorSizeDSV_ = 0u;
-
- uint32_t TextureManager::textureIndex;
+static uint32_t textureIndex;
 
 //コンストラクタ
 TextureManager::TextureManager() {
@@ -16,17 +15,21 @@ TextureManager::TextureManager() {
 
 TextureManager* TextureManager::GetInstance() {
 	//これだと無限に生成される
+	
+	static TextureManager instance;
+	return &instance;
+	/*
 	if (instance_ == nullptr) {
 		instance_ = new TextureManager();
 
 	}
-	
-	return instance_;
+	*/
+	//return instance_;
 }
 
 //初期化
 void TextureManager::Initilalize() {
-	this->directXSetup_ = DirectXSetup::GetInstance();
+	//this->directXSetup_ = DirectXSetup::GetInstance();
 	//COMの初期化
 	//COM...ComponentObjectModel、Microsoftの提唱する設計技術の１つ
 	//		DirectX12も簡略化されたCOM(Nano-COM)という設計で作られている
@@ -35,9 +38,9 @@ void TextureManager::Initilalize() {
 	//Textureを読むにあたって、COMコンポーネントの１つを利用する
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
-	descriptorSizeSRV_ = directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	descriptorSizeRTV_ = directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	descriptorSizeDSV_ = directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	descriptorSizeSRV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	descriptorSizeRTV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	descriptorSizeDSV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
 	textureIndex = 0;
 }
 
@@ -49,7 +52,11 @@ ID3D12Resource* TextureManager::CreateBufferResource(size_t sizeInBytes) {
 	////VertexResourceを生成
 	//頂点リソース用のヒープを設定
 	
-	uploadHeapProperties_.Type = D3D12_HEAP_TYPE_UPLOAD;
+	D3D12_HEAP_PROPERTIES uploadHeapProperties_{};
+	D3D12_RESOURCE_DESC vertexResourceDesc_{};
+	uploadHeapProperties_.Type = D3D12_HEAP_TYPE_CUSTOM;
+	uploadHeapProperties_.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_WRITE_BACK;
+	uploadHeapProperties_.MemoryPoolPreference = D3D12_MEMORY_POOL_L0;
 
 	//頂点リソースの設定
 	
@@ -71,7 +78,7 @@ ID3D12Resource* TextureManager::CreateBufferResource(size_t sizeInBytes) {
 	//次はここで問題
 	//hrは調査用
 	HRESULT hr;
-	hr = directXSetup_->GetDevice()->CreateCommittedResource(
+	hr =  DirectXSetup::GetInstance()->GetDevice()->CreateCommittedResource(
 		&uploadHeapProperties_,
 		D3D12_HEAP_FLAG_NONE,
 		&vertexResourceDesc_,
@@ -100,24 +107,24 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 
 	//読み込むたびにインデックスが増やし重複を防ごう
 	//同じ画像しか貼れなかったのはこれが原因
-	textureIndex ++;
-
+	++textureIndex;
 
 	//Textureを読んで転送する
-	mipImages_ = LoadTextureData(filePath);
-	const DirectX::TexMetadata& metadata = mipImages_.GetMetadata();
+	mipImages_[textureIndex] = LoadTextureData(filePath);
+
+	const DirectX::TexMetadata& metadata = mipImages_[textureIndex].GetMetadata();
 	TextureManager::GetInstance()->textureResource_[textureIndex] = CreateTextureResource(metadata);
-	UploadTextureData(textureResource_[textureIndex], mipImages_);
+	UploadTextureData(TextureManager::GetInstance()->textureResource_[textureIndex], mipImages_[textureIndex]);
 
 
 	//ShaderResourceView
 	//metadataを基にSRVの設定
-	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = metadata.format;
-	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	
+	srvDesc[textureIndex].Format = metadata.format;
+	srvDesc[textureIndex].Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	//2Dテクスチャ
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
+	srvDesc[textureIndex].ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc[textureIndex].Texture2D.MipLevels = UINT(metadata.mipLevels);
 	
 	//今のDescriptorHeapには
 	//0...ImGui
@@ -132,15 +139,15 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 
 	//SRVを作成するDescriptorHeapの場所を決める
 	//後ろが1固定だったのでindex
-	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex] = TextureManager::GetInstance()->GetCPUDescriptorHandle(directXSetup_->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
-	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex] = TextureManager::GetInstance()->GetGPUDescriptorHandle(directXSetup_->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
+	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex] = TextureManager::GetInstance()->GetCPUDescriptorHandle(DirectXSetup::GetInstance()->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
+	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex] = TextureManager::GetInstance()->GetGPUDescriptorHandle(DirectXSetup::GetInstance()->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
 
 	//先頭はImGuiが使っているのでその次を使う
-	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex].ptr += directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex].ptr += directXSetup_->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	
 	//SRVの生成
-	directXSetup_->GetDevice()->CreateShaderResourceView(TextureManager::GetInstance()->textureResource_[textureIndex], &srvDesc, TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex]);
+	DirectXSetup::GetInstance()->GetDevice()->CreateShaderResourceView(TextureManager::GetInstance()->textureResource_[textureIndex], &srvDesc[textureIndex], TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex]);
 	
 
 	return textureIndex;
@@ -216,7 +223,7 @@ ID3D12Resource* TextureManager::CreateTextureResource(const DirectX::TexMetadata
 
 	//3.Resourceを生成する
 	
-	HRESULT hr = directXSetup_->GetDevice()->CreateCommittedResource(
+	HRESULT hr =  DirectXSetup::GetInstance()->GetDevice()->CreateCommittedResource(
 		&heapProperties,					//Heapの設定
 		D3D12_HEAP_FLAG_NONE,				//Heapの特殊な設定
 		&resourceDesc,						//Resourceの設定
@@ -258,30 +265,7 @@ void TextureManager::UploadTextureData(
 
 }
 
-//[[nodiscard]]
-//ID3D12Resource* TextureManager::UploadTextureData(
-//	ID3D12Resource* texture, 
-//	const DirectX::ScratchImage& mipImages) {
-//
-//	std::vector<D3D12_SUBRESOURCE_DATA>subresource;
-//	DirectX::PrepareUpload(directXSetup_->GetDevice(), mipImages.GetImages(), mipImages.GetImageCount(), mipImages.GetMetadata(), subresource);
-//	uint64_t intermediateSize = GetRequiredIntermediateSize(texture, 0, UINT(subresource.size()));
-//	ID3D12Resource* intermediateResource = CreateBufferResource(intermediateSize);
-//	UpdateSubresources(directXSetup_->GetCommandList(), texture, intermediateResource, 0, 0, UINT(subresource.size()), subresource.data());
-//	
-//	//Textureへの転送後は利用出来るようD3D12_RESOURCE_STATE_COPY_DESTからD3D12_RESOURCE_STATE_GENERIC_READへResourceStateを変更
-//	D3D12_RESOURCE_BARRIER barrier{};
-//	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
-//	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-//	barrier.Transition.pResource = texture ;
-//	barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
-//	barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
-//	barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_GENERIC_READ;
-//	directXSetup_->GetCommandList()->ResourceBarrier(1, &barrier);
-//	return intermediateResource;
-//
-//
-//}
+
 
 #pragma endregion
 

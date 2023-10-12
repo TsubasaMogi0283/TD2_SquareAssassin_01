@@ -26,8 +26,11 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	textureManager_ = TextureManager::GetInstance();
 	
 	//TextureHandleはそれぞれ違う値になっているのに何故
-	textureHandle_ = textureManager_->LoadTexture("Resources/uvChecker.png");
-	textureHandle2_=textureManager_->LoadTexture("Resources/monsterBall.png");
+	textureHandle_ = TextureManager::LoadTexture("Resources/uvChecker.png");
+	textureHandle2_= TextureManager::LoadTexture("Resources/monsterBall.png");
+	textureHandle3_= TextureManager::LoadTexture("Resources/uvChecker.png");
+
+
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	
 	sprite_ = new Sprite();
@@ -39,8 +42,17 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	
 	sprite2_ = new Sprite();
 	sprite2_->LoadTextureHandle(textureHandle2_);
-	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
-	sprite2_->SetAllPosition(spriteAllPosition_);
+	spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	sprite2_->SetAllPosition(spriteAllPosition2_);
+
+	
+
+	transformSprite3_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1000.0f,0.0f,0.0f} };
+	
+	sprite3_ = new Sprite();
+	sprite3_->LoadTextureHandle(textureHandle3_);
+	spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	sprite3_->SetAllPosition(spriteAllPosition3_);
 
 	
 
@@ -62,7 +74,9 @@ void SampleScene::Initialize(GameManager* gameManager) {
 void SampleScene::Update(GameManager* gameManager) {
 
 	sampleTimer_ += 1;
-	
+	if (sampleTimer_ > 60) {
+		gameManager->ChangeScene(new SampleScene2());
+	}
 	
 	ImGui::Begin("SampleScene1");
 	ImGui::Text("Time",sampleTimer_);
@@ -82,4 +96,7 @@ void SampleScene::Update(GameManager* gameManager) {
 void SampleScene::Draw(GameManager* gameManager) {
 	sprite_->DrawRect(transformSprite_);
 	sprite2_->DrawRect(transformSprite2_);
+	sprite3_->DrawRect(transformSprite3_);
+
+
 }
