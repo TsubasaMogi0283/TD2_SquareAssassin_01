@@ -58,6 +58,8 @@ private:
 	Model* plane2_ = nullptr;
 	Transform transformModel2_ = {};
 
+	Transform cameraTransform_ = {};
+	Matrix4x4 projectionMatrix_ = {};
 
 };
 
