@@ -75,8 +75,8 @@ private:
 #pragma endregion
 	
 
-
-
+public:
+		static const int TEXTURE_MAX_AMOUNT_ = 128;
 private:
 	//シングルインスタンス
 	//static TextureManager* instance_ ;
@@ -88,7 +88,7 @@ private:
 	//D3D12_HEAP_PROPERTIES uploadHeapProperties_{};
 	//D3D12_RESOURCE_DESC vertexResourceDesc_{};
 
-	static const int TEXTURE_MAX_AMOUNT_ = 128;
+	
 
 	ID3D12Resource* textureResource_[TEXTURE_MAX_AMOUNT_] = {nullptr};
 
@@ -98,8 +98,5 @@ private:
 	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_[TEXTURE_MAX_AMOUNT_] = {};
 
 
-
-	static DirectX::ScratchImage mipImages_[TEXTURE_MAX_AMOUNT_];
-	static D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc[TEXTURE_MAX_AMOUNT_];
 
 };

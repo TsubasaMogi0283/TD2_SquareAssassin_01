@@ -8,41 +8,15 @@ static uint32_t descriptorSizeRTV_ = 0u;
 static uint32_t descriptorSizeDSV_ = 0u;
 static uint32_t textureIndex;
 
+
+static DirectX::ScratchImage mipImages_[TextureManager::TEXTURE_MAX_AMOUNT_];
+static D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc[TextureManager::TEXTURE_MAX_AMOUNT_];
+
 //コンストラクタ
 TextureManager::TextureManager() {
 
 }
 
-TextureManager* TextureManager::GetInstance() {
-	//これだと無限に生成される
-	
-	static TextureManager instance;
-	return &instance;
-	/*
-	if (instance_ == nullptr) {
-		instance_ = new TextureManager();
-
-	}
-	*/
-	//return instance_;
-}
-
-//初期化
-void TextureManager::Initilalize() {
-	//this->directXSetup_ = DirectXSetup::GetInstance();
-	//COMの初期化
-	//COM...ComponentObjectModel、Microsoftの提唱する設計技術の１つ
-	//		DirectX12も簡略化されたCOM(Nano-COM)という設計で作られている
-	
-	//COMを使用して開発されたソフトウェア部品をCOMコンポーネントと呼ぶ
-	//Textureを読むにあたって、COMコンポーネントの１つを利用する
-	CoInitializeEx(0, COINIT_MULTITHREADED);
-
-	descriptorSizeSRV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	descriptorSizeRTV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-	descriptorSizeDSV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
-	textureIndex = 0;
-}
 
 //Resource作成の関数化
 ID3D12Resource* TextureManager::CreateBufferResource(size_t sizeInBytes) {
@@ -94,6 +68,38 @@ D3D12_CPU_DESCRIPTOR_HANDLE TextureManager::GetCPUDescriptorHandle(ID3D12Descrip
 	handleCPU.ptr += (descriptorSize * index);
 	return handleCPU;
 }
+TextureManager* TextureManager::GetInstance() {
+	//これだと無限に生成される
+	
+	static TextureManager instance;
+	return &instance;
+	/*
+	if (instance_ == nullptr) {
+		instance_ = new TextureManager();
+
+	}
+	*/
+	//return instance_;
+}
+
+//初期化
+void TextureManager::Initilalize() {
+	//this->directXSetup_ = DirectXSetup::GetInstance();
+	//COMの初期化
+	//COM...ComponentObjectModel、Microsoftの提唱する設計技術の１つ
+	//		DirectX12も簡略化されたCOM(Nano-COM)という設計で作られている
+	
+	//COMを使用して開発されたソフトウェア部品をCOMコンポーネントと呼ぶ
+	//Textureを読むにあたって、COMコンポーネントの１つを利用する
+	CoInitializeEx(0, COINIT_MULTITHREADED);
+
+	descriptorSizeSRV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	descriptorSizeRTV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	descriptorSizeDSV_ =  DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
+	textureIndex = 0;
+}
+
+
 
 D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index) {
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
@@ -143,8 +149,8 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex] = TextureManager::GetInstance()->GetGPUDescriptorHandle(DirectXSetup::GetInstance()->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
 
 	//先頭はImGuiが使っているのでその次を使う
-	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	//TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	//TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 	
 	//SRVの生成
 	DirectXSetup::GetInstance()->GetDevice()->CreateShaderResourceView(TextureManager::GetInstance()->textureResource_[textureIndex], &srvDesc[textureIndex], TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex]);
