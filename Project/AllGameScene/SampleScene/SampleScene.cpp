@@ -96,7 +96,9 @@ void SampleScene::Update(GameManager* gameManager) {
 /// 描画
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
+
 	plane_->Draw(transformModel_);
+
 	//sprite_->DrawRect(transformSprite_);
 	////sprite2_->DrawRect(transformSprite2_);
 	//sprite3_->DrawRect(transformSprite3_);
