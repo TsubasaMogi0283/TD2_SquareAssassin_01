@@ -27,36 +27,27 @@ public:
 	void Draw(GameManager* gameManager)override;
 
 private:
-	//Audio
 	Audio* audio_ = nullptr;
 	//Input
 	Input* input_ = nullptr;
-	TextureManager* textureManager_ = nullptr;
-	
-
-	Sprite* sprite_ = nullptr;
-	Sprite* sprite2_ = nullptr;
-	Sprite* sprite3_ = nullptr;
-
-
-	SoundData soundData_ = {};
-
-	Transform transformSprite_ = {};
-	Transform transformSprite2_ = {};
-	Transform transformSprite3_ = {};
-
-	SpritePosition spriteAllPosition_ = {};
-	SpritePosition spriteAllPosition2_ = {};
-	SpritePosition spriteAllPosition3_ = {};
-
-	int sampleTimer_ = 0;
 
 
 	Model* plane_ = nullptr;
 	Transform transformModel_ = {};
+	Matrix4x4 cameraMatrix_ = {};
+	Matrix4x4 viewMatrix_ = {};
 
-	Model* plane2_ = nullptr;
-	Transform transformModel2_ = {};
+	Sprite* sprite_ = nullptr;
+
+	SoundData soundData_ = {};
+
+	Transform transformSprite_;
+	SpritePosition spriteAllPosition_;
+
+	int sampleTimer_ = 0;
+
+	Transform cameraTransform_ = {};
+	Matrix4x4 projectionMatrix_ = {};
 
 	Transform cameraTransform_ = {};
 	Matrix4x4 projectionMatrix_ = {};
