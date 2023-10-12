@@ -27,16 +27,16 @@ void SampleScene::Initialize(GameManager* gameManager) {
 
 	sprite_ = new Sprite();
 	//sprite_->Initialize();
-	sprite_->LoadTexture("Resources/hai.png");
+	//sprite_->LoadTexture("Resources/hai.png");
 
-	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,y},{x,0.0f},{x,y} };
-	sprite_->SetAllPosition(spriteAllPosition_);
+	//transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	//spriteAllPosition_ = { {0.0f,0.0f},{0.0f,y},{x,0.0f},{x,y} };
+	//sprite_->SetAllPosition(spriteAllPosition_);
 
 	plane_ = new Model();
-	plane_->CreateObject("Resources/05_02", "axis.obj");
-	plane_->LoadTexture("Resources/05_02/uvChecker.png");
-	transformModel_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	plane_->CreateObject("Resources/05_02", "enemy.obj");
+	plane_->LoadTexture("Resources/05_02/enemy.png");
+	transformModel_ = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{0.0f,0.0f,0.0f} };
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-9.8f} };
 
 	/*audio_ = Audio::GetInstance();
@@ -65,10 +65,10 @@ void SampleScene::Update(GameManager* gameManager) {
 
 
 
-	
-	ImGui::Begin("SampleScene1");
-	ImGui::Text("Time",sampleTimer_);
-	ImGui::End();
+	//
+	//ImGui::Begin("SampleScene1");
+	//ImGui::Text("Time",sampleTimer_);
+	//ImGui::End();
 
 }
 
@@ -76,7 +76,8 @@ void SampleScene::Update(GameManager* gameManager) {
 /// 描画
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
-	sprite_->DrawRect(transformSprite_);
+	//sprite_->DrawRect(transformSprite_);
 
-	sprite_->DrawRect(transformSprite_);
+	plane_->Draw(transformModel_, viewMatrix_, projectionMatrix_);
+
 }
