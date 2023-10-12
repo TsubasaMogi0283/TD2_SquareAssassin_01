@@ -52,7 +52,7 @@ private:
 	int sampleTimer_ = 0;
 
 
-	//Model* plane_ = nullptr;
+	Model* plane_ = nullptr;
 	Transform transformModel_ = {};
 
 	
