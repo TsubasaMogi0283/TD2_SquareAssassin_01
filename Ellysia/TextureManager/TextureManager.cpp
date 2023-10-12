@@ -1,7 +1,6 @@
 #include "TextureManager.h"
 
 
-//TextureManager* TextureManager::instance_ = nullptr;
 
 static uint32_t descriptorSizeSRV_ = 0u;
 static uint32_t descriptorSizeRTV_ = 0u;
@@ -141,10 +140,6 @@ uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 	TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex] = TextureManager::GetInstance()->GetCPUDescriptorHandle(DirectXSetup::GetInstance()->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
 	TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex] = TextureManager::GetInstance()->GetGPUDescriptorHandle(DirectXSetup::GetInstance()->GetSrvDescriptorHeap(), descriptorSizeSRV_, textureIndex);
 
-	//先頭はImGuiが使っているのでその次を使う
-	//TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	//TextureManager::GetInstance()->textureSrvHandleGPU_[textureIndex].ptr += DirectXSetup::GetInstance()->GetDevice()->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	
 	//SRVの生成
 	DirectXSetup::GetInstance()->GetDevice()->CreateShaderResourceView(TextureManager::GetInstance()->textureResource_[textureIndex], &srvDesc[textureIndex], TextureManager::GetInstance()->textureSrvHandleCPU_[textureIndex]);
 	
