@@ -76,7 +76,6 @@ void SampleScene::Initialize(GameManager* gameManager) {
 
 	plane_ = new Model();
 	plane_->CreateObject("Resources/05_02", "enemy.obj");
-	plane_->LoadTexture("Resources/05_02/enemy.png");
 	transformModel_ = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{0.0f,0.0f,0.0f} };
 	cameraTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,-9.8f} };
 
@@ -89,37 +88,37 @@ void SampleScene::Initialize(GameManager* gameManager) {
 /// </summary>
 void SampleScene::Update(GameManager* gameManager) {
 
-	sampleTimer_ += 1;
-	if (sampleTimer_ >30) {
-		//audio_->StopWave(soundData_);
-	}
-	if (sampleTimer_ > 120) {
-		gameManager->ChangeScene(new SampleScene2());
-	}
-	
-	ImGui::Begin("SampleScene1");
-	ImGui::Text("Time",sampleTimer_);
-	ImGui::End();
+	//sampleTimer_ += 1;
+	//if (sampleTimer_ >30) {
+	//	//audio_->StopWave(soundData_);
+	//}
+	//if (sampleTimer_ > 120) {
+	//	gameManager->ChangeScene(new SampleScene2());
+	//}
+	//
+	//ImGui::Begin("SampleScene1");
+	//ImGui::Text("Time",sampleTimer_);
+	//ImGui::End();
 
 
-	ImGui::Begin("Sprite");
-	ImGui::InputFloat3("scale", &transformSprite_.scale.x);
-	ImGui::SliderFloat3("scale", &transformSprite_.scale.x,0.0f,10.0f);
-	ImGui::End();
+	//ImGui::Begin("Sprite");
+	//ImGui::InputFloat3("scale", &transformSprite_.scale.x);
+	//ImGui::SliderFloat3("scale", &transformSprite_.scale.x,0.0f,10.0f);
+	//ImGui::End();
 
-	ImGui::Begin("Model");
-	ImGui::InputFloat3("translate", &transformModel_.translate.x);
-	ImGui::SliderFloat3("translate", &transformModel_.translate.x,-10.0f,10.0f);
-	ImGui::End();
+	//ImGui::Begin("Model");
+	//ImGui::InputFloat3("translate", &transformModel_.translate.x);
+	//ImGui::SliderFloat3("translate", &transformModel_.translate.x,-10.0f,10.0f);
+	//ImGui::End();
 }
 
 /// <summary>
 /// 描画
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
-	plane_->Draw(transformModel_);
-	sprite_->DrawRect(transformSprite_);
-	//sprite2_->DrawRect(transformSprite2_);
-	sprite3_->DrawRect(transformSprite3_);
+	//plane_->Draw(transformModel_);
+	//sprite_->DrawRect(transformSprite_);
+	////sprite2_->DrawRect(transformSprite2_);
+	//sprite3_->DrawRect(transformSprite3_);
 
 }
