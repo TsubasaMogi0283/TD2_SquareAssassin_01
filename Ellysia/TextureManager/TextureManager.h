@@ -78,15 +78,6 @@ private:
 public:
 		static const int TEXTURE_MAX_AMOUNT_ = 256;
 private:
-	//シングルインスタンス
-	//static TextureManager* instance_ ;
-	
-	//DirectX読み込み
-	//DirectXSetup* directXSetup_ = nullptr;
-
-	//関数用
-	//D3D12_HEAP_PROPERTIES uploadHeapProperties_{};
-	//D3D12_RESOURCE_DESC vertexResourceDesc_{};
 
 	
 

@@ -4,6 +4,7 @@
 #include <Audio/Audio.h>
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
+#include "TextureManager/TextureManager.h"
 
 //StatePatternをル買う時は必ず前方宣言をするように
 class Gamemanager;
@@ -35,11 +36,21 @@ private:
 	TextureManager* textureManager_ = nullptr;
 	
 
-	Sprite* sprite_ = nullptr;
 
 	SoundData soundData_ = {};
 
-	Transform transformSprite_;
-	SpritePosition spriteAllPosition_;
-	uint32_t textureHandle_ = 0u;
+	Sprite* sprite_ = nullptr;
+	Sprite* sprite2_ = nullptr;
+	Sprite* sprite3_ = nullptr;
+
+
+	Transform transformSprite_ = {};
+	Transform transformSprite2_ = {};
+	Transform transformSprite3_ = {};
+
+	SpritePosition spriteAllPosition_ = {};
+	SpritePosition spriteAllPosition2_ = {};
+	SpritePosition spriteAllPosition3_ = {};
+
+
 };

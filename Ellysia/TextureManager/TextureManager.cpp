@@ -73,13 +73,6 @@ TextureManager* TextureManager::GetInstance() {
 	
 	static TextureManager instance;
 	return &instance;
-	/*
-	if (instance_ == nullptr) {
-		instance_ = new TextureManager();
-
-	}
-	*/
-	//return instance_;
 }
 
 //初期化

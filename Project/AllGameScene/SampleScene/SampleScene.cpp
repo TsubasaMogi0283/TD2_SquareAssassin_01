@@ -79,7 +79,7 @@ void SampleScene::Update(GameManager* gameManager) {
 
 	sampleTimer_ += 1;
 	if (sampleTimer_ > 60) {
-		//gameManager->ChangeScene(new SampleScene2());
+		gameManager->ChangeScene(new SampleScene2());
 	}
 	
 	ImGui::Begin("SampleScene1");
