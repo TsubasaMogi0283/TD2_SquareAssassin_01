@@ -65,9 +65,6 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	plane_ = new Model();
 	plane_->CreateObject("Resources/Sample", "enemy.obj");
 	
-	transformModel2_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{2.0f,0.0f,0.0f}};
-	plane2_ = new Model();
-	plane2_->CreateObject("Resources/Sample/cube", "cube.obj");
 	
 
 	audio_ = Audio::GetInstance();
@@ -75,7 +72,7 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	soundData_ = audio_->LoadWave("Resources/Audio/Sample/Hit.wav");
 
 
-	//audio_->PlayWave(soundData_ ,true);
+	audio_->PlayWave(soundData_ ,true);
 	
 
 	
@@ -87,8 +84,11 @@ void SampleScene::Initialize(GameManager* gameManager) {
 void SampleScene::Update(GameManager* gameManager) {
 
 	sampleTimer_ += 1;
-	if (sampleTimer_ > 60) {
-		//gameManager->ChangeScene(new SampleScene2());
+	if (sampleTimer_ >30) {
+		//audio_->StopWave(soundData_);
+	}
+	if (sampleTimer_ > 120) {
+		gameManager->ChangeScene(new SampleScene2());
 	}
 	
 	ImGui::Begin("SampleScene1");
@@ -116,5 +116,4 @@ void SampleScene::Draw(GameManager* gameManager) {
 	//sprite2_->DrawRect(transformSprite2_);
 	sprite3_->DrawRect(transformSprite3_);
 
-	plane2_->Draw(transformModel2_);
 }
