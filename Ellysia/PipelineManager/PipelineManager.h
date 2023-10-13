@@ -10,6 +10,7 @@
 //スプライトはスプライトで同じ情報だからインスタンス１つでいいよね
 //同様にモデルも
 
+
 class PipelineManager {
 private:
 
@@ -25,6 +26,14 @@ public:
 
 	//デリート代わり
 	void DeleteInstance();
+
+	//コマンドに積む専用のGetter
+	ID3D12RootSignature* GetRootSignature() {
+		return rootSignature_;
+	}
+	ID3D12PipelineState* GetGraphicsPipelineState() {
+		return graphicsPipelineState_;
+	}
 
 	void Release();
 
