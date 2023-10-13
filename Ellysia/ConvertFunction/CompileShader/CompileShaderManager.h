@@ -12,7 +12,8 @@
 
 
 
-
+//コンパイル関数だけをもってきても良かったけど資料読みなおしたら
+//DXCも必要だったから一緒にクラス化した方が良いと思った
 class CompileShaderManager {
 private:
 
