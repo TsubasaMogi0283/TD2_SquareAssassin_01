@@ -23,6 +23,7 @@ GameManager::GameManager() {
 	input_ = Input::GetInstance();
 	camera_ = Camera::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
+	audio_ = Audio::GetInstance();
 }
 	
 void GameManager::Initialize() {
@@ -34,7 +35,8 @@ void GameManager::Initialize() {
 	directXSetup_->Initialize();
 	imGuiManager_->Initialize();
 	input_->Initialize();
-	TextureManager::Initilalize();
+	textureManager_->Initilalize();
+	audio_->Initialize();
 
 	//シーンごとに動作確認したいときはここを変えてね
 	currentGamaScene_ = new SampleScene();
@@ -73,6 +75,7 @@ void GameManager::EndFrame() {
 }
 
 void GameManager::Release() {
+	audio_->DeleteInstance();
 	camera_->DeleteInstance();
 	textureManager_->Release();
 	textureManager_->DeleteInstance();

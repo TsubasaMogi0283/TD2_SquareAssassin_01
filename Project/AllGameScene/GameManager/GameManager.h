@@ -68,6 +68,7 @@ private:
 	Input* input_ = nullptr;
 	Camera* camera_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
+	Audio* audio_ = nullptr;
 
 #pragma region サンプル
 	

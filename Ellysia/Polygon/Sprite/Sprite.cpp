@@ -143,6 +143,22 @@ void Sprite::AssertInformation() {
 
 		assert(leftTop_.y == rightTop_.y);
 	}
+
+
+
+	//右側2つのX座標が一致していない
+	if (rightTop_.x != rightBottom_.x) {
+		Log("Please Set Same Value RightTop.x And RightBottom.x !!!\n\n");
+
+		assert(rightTop_.x == rightBottom_.x);
+	}
+
+	//下側2つのY座標が一致していない
+	if (rightBottom_.y != leftBottom_.y) {
+		Log("Please Set Same Value RightBottom.y And LeftBottom.y !!!\n\n");
+
+		assert(rightBottom_.y == leftBottom_.y);
+	}
 	
 }
 
