@@ -17,6 +17,8 @@
 
 
 
+#include "ConvertFunction/CompileShader/CompileShaderManager.h"
+
 
 
 //メンバ変数関数いつか整理したい・・・
@@ -48,16 +50,16 @@ public:
 	//アロー演算子を使ったとき邪魔になるから
 private:
 
-	//CompilerShader関数
-	IDxcBlob* CompileShader(
-		//CompilerするShaderファイルへのパス
-		const std::wstring& filePath,
-		//Compilerに使用するProfile
-		const wchar_t* profile,
-		//初期化で生成したものを３つ
-		IDxcUtils* dxcUtils,
-		IDxcCompiler3* dxcCompiler,
-		IDxcIncludeHandler* includeHandler);
+	////CompilerShader関数
+	//IDxcBlob* CompileShader(
+	//	//CompilerするShaderファイルへのパス
+	//	const std::wstring& filePath,
+	//	//Compilerに使用するProfile
+	//	const wchar_t* profile,
+	//	//初期化で生成したものを３つ
+	//	IDxcUtils* dxcUtils,
+	//	IDxcCompiler3* dxcCompiler,
+	//	IDxcIncludeHandler* includeHandler);
 
 
 	//関数化したやつ
@@ -95,7 +97,9 @@ private:
 
 	void SetRTV();
 
-	void InitializeDXC();
+
+
+	//void InitializeDXC();
 
 	void MakePSO();
 
@@ -189,7 +193,7 @@ public:
 #pragma endregion
 
 private:
-	static DirectXSetup* instance_;
+	
 
 
 	int32_t kClientWidth_;
@@ -299,7 +303,6 @@ private:
 
 
 #pragma region DXCの初期化について
-	IDxcUtils* dxcUtils_ = nullptr;
 	IDxcCompiler3* dxcCompiler_ = nullptr;
 
 	IDxcIncludeHandler* includeHandler_ = nullptr;

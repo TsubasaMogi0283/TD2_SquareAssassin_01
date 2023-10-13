@@ -15,6 +15,7 @@
 #include <Math/Vector/Material.h>
 
 #include <string>
+#include <format>
 #include <Math/Vector/DirectionalLight.h>
 #include <Math/Matrix/Matrix/TransformationMatrix.h>
 #include "Math/Vector/SpritePosition.h"
@@ -68,6 +69,9 @@ private:
 	//Index
 	void CreateIndexBufferView();
 
+
+	//
+	void AssertInformation();
 
 private:
 	DirectXSetup* directXSetup_ = nullptr;

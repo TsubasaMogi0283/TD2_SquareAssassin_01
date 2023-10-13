@@ -1,6 +1,6 @@
 #include "DirectXSetup.h"
 
-DirectXSetup* DirectXSetup::instance_ = nullptr;
+static DirectXSetup* instance_;
 
 DirectXSetup::DirectXSetup() {
 
@@ -24,68 +24,6 @@ void DirectXSetup::DeleteInstance() {
 }
 
 
-////CompileShader関数
-IDxcBlob* DirectXSetup::CompileShader(
-	const std::wstring& filePath,
-	const wchar_t* profile,
-	IDxcUtils* dxcUtils,
-	IDxcCompiler3* dxcCompiler,
-	IDxcIncludeHandler* includeHandler) {
-	//1.hlslファイルを読む
-	Log(ConvertString(std::format(L"Begin CompileShader,path:{},profile:{}\n", filePath, profile)));
-	//hlslファイルを読む
-	IDxcBlobEncoding* shaderSource = nullptr;
-	HRESULT hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
-	//読めなかったら止める
-	assert(SUCCEEDED(hr));
-	//読み込んだファイルの内容を設定する
-	DxcBuffer shaderSourceBuffer;
-	shaderSourceBuffer.Ptr = shaderSource->GetBufferPointer();
-	shaderSourceBuffer.Size = shaderSource->GetBufferSize();
-	shaderSourceBuffer.Encoding = DXC_CP_UTF8;
-
-	//2.Compileする
-	LPCWSTR arguments[] = {
-		filePath.c_str(),
-		L"-E",L"main",
-		L"-T",profile,
-		L"-Zi",L"-Qembed_debug",
-		L"-Od",
-		L"-Zpr",
-	};
-
-	//実際にShaderをコンパイルする
-	IDxcResult* shaderResult = nullptr;
-	hr = dxcCompiler->Compile(&shaderSourceBuffer, arguments, _countof(arguments), includeHandler, IID_PPV_ARGS(&shaderResult));
-	//コンパイルエラーではなくdxcが起動出来ないなど致命的な状況
-	assert(SUCCEEDED(hr));
-
-
-	//3.警告・エラーが出ていないかを確認する
-	//警告・エラーが出てたらログに出して止める
-	IDxcBlobUtf8* shaderError = nullptr;
-	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
-	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
-		Log(shaderError->GetStringPointer());
-		assert(false);
-	}
-
-
-	//4.Compile結果を受け取って返す
-	//BLOB・・・BinaryLargeOBject
-	IDxcBlob* shaderBlob = nullptr;
-	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
-	assert(SUCCEEDED(hr));
-	//成功したログを出す
-	Log(ConvertString(std::format(L"Compile Succeeded,path:{},profile:{}\n", filePath, profile)));
-	//もう使わないリソースを解放
-	shaderSource->Release();
-	shaderResult->Release();
-	//実行用のバイナリを返却
-	return shaderBlob;
-
-
-}
 
 //DescriptorHeapの作成関数
 ID3D12DescriptorHeap* DirectXSetup::GenarateDescriptorHeap(
@@ -171,7 +109,6 @@ void DirectXSetup::GenerateDXGIFactory() {
 
 #endif 
 	
-	//IDXGIFactory7* dxgiFactory_ = nullptr;
 	//関数が成功したかSUCCEEDEDでマクロで判定できる
 	hr_ = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
 	//初期でエラーが発生した場合どうにもできないのでassert
@@ -181,7 +118,6 @@ void DirectXSetup::GenerateDXGIFactory() {
 
 void DirectXSetup::SelectAdapter() {
 	//仕様するアダプタ用の変数、最初にnullptrを入れておく
-	//IDXGIAdapter4* useAdapter_ = nullptr;
 	//良い順でアダプタを頼む
 	for (UINT i = 0; dxgiFactory_->EnumAdapterByGpuPreference(i,
 		DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&useAdapter_)) !=
@@ -434,24 +370,7 @@ void DirectXSetup::SetRTV() {
 
 }
 
-void DirectXSetup::InitializeDXC() {
-	////DXCの初期化
-	//dxcCompilerを初期化
-	//IDxcUtils* dxcUtils_ = nullptr;
-	//IDxcCompiler3* dxcCompiler_ = nullptr;
-	hr_ = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
-	assert(SUCCEEDED(hr_));
 
-	hr_ = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler_));
-	assert(SUCCEEDED(hr_));
-
-	//現時点でincludeはしないが、includeに対応
-	//IDxcIncludeHandler* includeHandler_ = nullptr;
-	hr_ = dxcUtils_->CreateDefaultIncludeHandler(&includeHandler_);
-	assert(SUCCEEDED(hr_));
-	
-
-}
 
 void DirectXSetup::MakePSO() {
 	
@@ -629,12 +548,12 @@ void DirectXSetup::MakePSO() {
 
 
 	//ShaderをCompileする
-	vertexShaderBlob_ = CompileShader(L"Resources/Shader/Object3d.VS.hlsl", L"vs_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
+	vertexShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object3d.VS.hlsl", L"vs_6_0");
 	assert(vertexShaderBlob_ != nullptr);
 
 
 
-	pixelShaderBlob_ = CompileShader(L"Resources/Shader/Object3d.PS.hlsl", L"ps_6_0", dxcUtils_, dxcCompiler_, includeHandler_);
+	pixelShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object3d.PS.hlsl", L"ps_6_0");
 	assert(pixelShaderBlob_ != nullptr);
 
 
@@ -781,7 +700,7 @@ void DirectXSetup::Initialize() {
 	// 
 	// DXC(DirectX Shader Compiler)がHLSLからDXILにするCompilerである
 	//
-	InitializeDXC();
+	CompileShaderManager::GetInstance()->InitializeDXC();
 
 	//PSOの生成
 	MakePSO();

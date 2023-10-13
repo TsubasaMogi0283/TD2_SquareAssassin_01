@@ -94,6 +94,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Ellysia\Camera\Camera.cpp" />
     <ClCompile Include="Ellysia\Common\DirectX\DirectXSetup.cpp" />
     <ClCompile Include="Ellysia\Common\Windows\WinApp.cpp" />
+    <ClCompile Include="Ellysia\ConvertFunction\CompileShader\CompileShaderManager.cpp" />
     <ClCompile Include="Ellysia\ConvertFunction\ConvertColor\ColorConvert.cpp" />
     <ClCompile Include="Ellysia\ConvertFunction\ConvertLog\LogConvert.cpp" />
     <ClCompile Include="Ellysia\externals\imGui\imgui.cpp" />
@@ -128,6 +129,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Ellysia\Camera\Camera.h" />
     <ClInclude Include="Ellysia\Common\DirectX\DirectXSetup.h" />
     <ClInclude Include="Ellysia\Common\Windows\WinApp.h" />
+    <ClInclude Include="Ellysia\ConvertFunction\CompileShader\CompileShaderManager.h" />
     <ClInclude Include="Ellysia\ConvertFunction\ConvertColor\ColorConvert.h" />
     <ClInclude Include="Ellysia\ConvertFunction\ConvertLog\LogConvert.h" />
     <ClInclude Include="Ellysia\externals\imGui\imconfig.h" />

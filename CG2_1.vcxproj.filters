@@ -103,6 +103,12 @@
     <Filter Include="ソース ファイル\Camera">
       <UniqueIdentifier>{228bc102-211b-4df2-888d-435855aa6c74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Input">
+      <UniqueIdentifier>{9925981b-9c84-422a-b574-ea32b4bf256b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\TextureManager">
+      <UniqueIdentifier>{980df7e0-fba5-42c8-a3af-909754ec7057}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -168,9 +174,6 @@
     <ClCompile Include="Ellysia\TextureManager\TextureManager.cpp">
       <Filter>ソース ファイル\TextureManager</Filter>
     </ClCompile>
-    <ClCompile Include="Ellysia\Input\Input.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Project\AllGameScene\SampleScene\SampleScene.cpp">
       <Filter>ソース ファイル\GamaScene\SampleScene</Filter>
     </ClCompile>
@@ -185,6 +188,12 @@
     </ClCompile>
     <ClCompile Include="Ellysia\Camera\Camera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellysia\Input\Input.cpp">
+      <Filter>ソース ファイル\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Ellysia\ConvertFunction\CompileShader\CompileShaderManager.cpp">
+      <Filter>ソース ファイル\ConvertFunction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,9 +308,6 @@
     <ClInclude Include="Ellysia\Polygon\Triangle\Triangle.h">
       <Filter>ヘッダー ファイル\Polygone\2D</Filter>
     </ClInclude>
-    <ClInclude Include="Ellysia\TextureManager\TextureManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Ellysia\Blend\BlendMode.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -334,6 +340,12 @@
     </ClInclude>
     <ClInclude Include="Ellysia\Camera\Camera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Ellysia\TextureManager\TextureManager.h">
+      <Filter>ヘッダー ファイル\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Ellysia\ConvertFunction\CompileShader\CompileShaderManager.h">
+      <Filter>ヘッダー ファイル\ConvertFunction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

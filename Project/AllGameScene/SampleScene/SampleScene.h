@@ -34,9 +34,9 @@ private:
 	TextureManager* textureManager_ = nullptr;
 	
 
-	Sprite* sprite_ = nullptr;
-	Sprite* sprite2_ = nullptr;
-	Sprite* sprite3_ = nullptr;
+	//Sprite* sprite_ = nullptr;
+	//Sprite* sprite2_ = nullptr;
+	//Sprite* sprite3_ = nullptr;
 
 
 	SoundData soundData_ = {};
@@ -52,11 +52,9 @@ private:
 	int sampleTimer_ = 0;
 
 
-	Model* plane_ = nullptr;
+	//Model* plane_ = nullptr;
 	Transform transformModel_ = {};
 
-	Model* plane2_ = nullptr;
-	Transform transformModel2_ = {};
 
 
 };
