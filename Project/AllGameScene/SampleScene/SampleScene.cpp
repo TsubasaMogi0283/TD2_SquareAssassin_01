@@ -20,7 +20,7 @@ SampleScene::~SampleScene() {
 	//plane_->Release();
 	//delete plane_;
 
-
+	audio_->DeleteInstance();;
 }
 
 /// <summary>
