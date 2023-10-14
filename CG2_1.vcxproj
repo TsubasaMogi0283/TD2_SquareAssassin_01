@@ -182,7 +182,8 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Object3d.hlsli" />
+    <None Include="Resources\Shader\Object2d.hlsli" />
+    <None Include="Resources\Shader\Object3d.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\Shader\Object2d.PS.hlsl">

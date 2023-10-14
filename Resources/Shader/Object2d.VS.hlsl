@@ -1,4 +1,4 @@
-#include "Object3d.hlsli"
+#include "Object2d.hlsli"
 
 //座標返還を行うVS
 struct TransformationMatrix {

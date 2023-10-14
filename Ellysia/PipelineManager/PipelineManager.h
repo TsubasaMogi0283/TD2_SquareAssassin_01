@@ -11,6 +11,8 @@
 //同様にモデルも
 
 
+
+
 class PipelineManager {
 private:
 
@@ -49,19 +51,21 @@ private:
 
 private:
 	//メンバ変数
-	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature_{};
+	struct PipelineVariable {
+		ID3DBlob* signatureBlob_ = nullptr;
 
-	ID3DBlob* signatureBlob_ = nullptr;
+		ID3DBlob* errorBlob_ = nullptr;
 
-	ID3DBlob* errorBlob_ = nullptr;
+		ID3D12RootSignature* rootSignature_ = nullptr;
 
-	ID3D12RootSignature* rootSignature_ = nullptr;
+		IDxcBlob* pixelShaderBlob_ = nullptr;
 
-	IDxcBlob* pixelShaderBlob_ = nullptr;
+		IDxcBlob* vertexShaderBlob_ = nullptr;
 
-	IDxcBlob* vertexShaderBlob_ = nullptr;
+		ID3D12PipelineState* graphicsPipelineState_ = nullptr;
+	};
 
-	ID3D12PipelineState* graphicsPipelineState_ = nullptr;
-
+	PipelineVariable* psoSprite_ = nullptr;
+	PipelineVariable* psoModel_ = nullptr;
 };
 

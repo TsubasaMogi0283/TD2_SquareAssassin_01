@@ -31,7 +31,7 @@ void PipelineManager::GenerateSpritePSO() {
 	//PSO
 	////RootSignatureを作成
 	//RootSignature・・ShaderとResourceをどのように間レンズけるかを示したオブジェクトである
-	
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature_{};
 	descriptionRootSignature_.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
@@ -116,15 +116,15 @@ void PipelineManager::GenerateSpritePSO() {
 	//シリアライズしてバイナリにする
 	HRESULT hr_ = {};
 	hr_ = D3D12SerializeRootSignature(&descriptionRootSignature_,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
+		D3D_ROOT_SIGNATURE_VERSION_1, &psoSprite_->signatureBlob_, &psoSprite_->errorBlob_);
 	if (FAILED(hr_)) {
-		Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
+		Log(reinterpret_cast<char*>(psoSprite_->errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 
 	//バイナリを元に生成
-	hr_ = DirectXSetup::GetInstance()->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
-		signatureBlob_->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+	hr_ = DirectXSetup::GetInstance()->GetDevice()->CreateRootSignature(0, psoSprite_->signatureBlob_->GetBufferPointer(),
+		psoSprite_->signatureBlob_->GetBufferSize(), IID_PPV_ARGS(&psoSprite_->rootSignature_));
 	assert(SUCCEEDED(hr_));
 
 
@@ -200,13 +200,13 @@ void PipelineManager::GenerateSpritePSO() {
 
 
 	//ShaderをCompileする
-	vertexShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object2d.VS.hlsl", L"vs_6_0");
-	assert(vertexShaderBlob_ != nullptr);
+	psoSprite_->vertexShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object2d.VS.hlsl", L"vs_6_0");
+	assert(psoSprite_->vertexShaderBlob_ != nullptr);
 
 
 
-	pixelShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object2d.PS.hlsl", L"ps_6_0");
-	assert(pixelShaderBlob_ != nullptr);
+	psoSprite_->pixelShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object2d.PS.hlsl", L"ps_6_0");
+	assert(psoSprite_->pixelShaderBlob_ != nullptr);
 
 
 
@@ -214,11 +214,11 @@ void PipelineManager::GenerateSpritePSO() {
 
 	////PSO生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
-	graphicsPipelineStateDesc.pRootSignature = rootSignature_;
+	graphicsPipelineStateDesc.pRootSignature = psoSprite_->rootSignature_;
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc;
-	graphicsPipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),vertexShaderBlob_->GetBufferSize() };
+	graphicsPipelineStateDesc.VS = { psoSprite_->vertexShaderBlob_->GetBufferPointer(),psoSprite_->vertexShaderBlob_->GetBufferSize() };
 	//vertexShaderBlob_->GetBufferSize();
-	graphicsPipelineStateDesc.PS = { pixelShaderBlob_->GetBufferPointer(),pixelShaderBlob_->GetBufferSize() };
+	graphicsPipelineStateDesc.PS = { psoSprite_->pixelShaderBlob_->GetBufferPointer(),psoSprite_->pixelShaderBlob_->GetBufferSize() };
 	//pixelShaderBlob_->GetBufferSize();
 	graphicsPipelineStateDesc.BlendState = blendDesc;
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;
@@ -250,7 +250,7 @@ void PipelineManager::GenerateSpritePSO() {
 	//実際に生成
 	//ID3D12PipelineState* graphicsPipelineState_ = nullptr;
 	hr_ = DirectXSetup::GetInstance()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
-		IID_PPV_ARGS(&graphicsPipelineState_));
+		IID_PPV_ARGS(&psoSprite_->graphicsPipelineState_));
 	assert(SUCCEEDED(hr_));
 
 
@@ -266,7 +266,7 @@ void PipelineManager::GenerateModelPSO() {
 	//PSO
 	////RootSignatureを作成
 	//RootSignature・・ShaderとResourceをどのように間レンズけるかを示したオブジェクトである
-	
+	D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature_{};
 	descriptionRootSignature_.Flags =
 		D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
@@ -351,16 +351,16 @@ void PipelineManager::GenerateModelPSO() {
 	//シリアライズしてバイナリにする
 	HRESULT hr = {};
 	hr = D3D12SerializeRootSignature(&descriptionRootSignature_,
-		D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob_, &errorBlob_);
+		D3D_ROOT_SIGNATURE_VERSION_1, &psoModel_->signatureBlob_, &psoModel_->errorBlob_);
 	if (FAILED(hr)) {
-		Log(reinterpret_cast<char*>(errorBlob_->GetBufferPointer()));
+		Log(reinterpret_cast<char*>(psoModel_->errorBlob_->GetBufferPointer()));
 		assert(false);
 	}
 
 	//バイナリを元に生成
 	//ID3D12RootSignature* rootSignature_ = nullptr;
-	hr = DirectXSetup::GetInstance()->GetDevice()->CreateRootSignature(0, signatureBlob_->GetBufferPointer(),
-		signatureBlob_->GetBufferSize(), IID_PPV_ARGS(&rootSignature_));
+	hr = DirectXSetup::GetInstance()->GetDevice()->CreateRootSignature(0, psoModel_->signatureBlob_->GetBufferPointer(),
+		psoModel_->signatureBlob_->GetBufferSize(), IID_PPV_ARGS(&psoModel_->rootSignature_));
 	assert(SUCCEEDED(hr));
 
 
@@ -436,13 +436,13 @@ void PipelineManager::GenerateModelPSO() {
 
 
 	//ShaderをCompileする
-	vertexShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object3d.VS.hlsl", L"vs_6_0");
-	assert(vertexShaderBlob_ != nullptr);
+	psoModel_->vertexShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object3d.VS.hlsl", L"vs_6_0");
+	assert(psoModel_->vertexShaderBlob_ != nullptr);
 
 
 
-	pixelShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object3d.PS.hlsl", L"ps_6_0");
-	assert(pixelShaderBlob_ != nullptr);
+	psoModel_->pixelShaderBlob_ = CompileShaderManager::GetInstance()->CompileShader(L"Resources/Shader/Object3d.PS.hlsl", L"ps_6_0");
+	assert(psoModel_->pixelShaderBlob_ != nullptr);
 
 
 
@@ -450,11 +450,11 @@ void PipelineManager::GenerateModelPSO() {
 
 	////PSO生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc{};
-	graphicsPipelineStateDesc.pRootSignature = rootSignature_;
+	graphicsPipelineStateDesc.pRootSignature = psoModel_->rootSignature_;
 	graphicsPipelineStateDesc.InputLayout = inputLayoutDesc;
-	graphicsPipelineStateDesc.VS = { vertexShaderBlob_->GetBufferPointer(),vertexShaderBlob_->GetBufferSize() };
+	graphicsPipelineStateDesc.VS = { psoModel_->vertexShaderBlob_->GetBufferPointer(),psoModel_->vertexShaderBlob_->GetBufferSize() };
 	//vertexShaderBlob_->GetBufferSize();
-	graphicsPipelineStateDesc.PS = { pixelShaderBlob_->GetBufferPointer(),pixelShaderBlob_->GetBufferSize() };
+	graphicsPipelineStateDesc.PS = { psoModel_->pixelShaderBlob_->GetBufferPointer(),psoModel_->pixelShaderBlob_->GetBufferSize() };
 	//pixelShaderBlob_->GetBufferSize();
 	graphicsPipelineStateDesc.BlendState = blendDesc;
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;
@@ -486,7 +486,7 @@ void PipelineManager::GenerateModelPSO() {
 	//実際に生成
 	//ID3D12PipelineState* graphicsPipelineState_ = nullptr;
 	hr = DirectXSetup::GetInstance()->GetDevice()->CreateGraphicsPipelineState(&graphicsPipelineStateDesc,
-		IID_PPV_ARGS(&graphicsPipelineState_));
+		IID_PPV_ARGS(&psoModel_->graphicsPipelineState_));
 	assert(SUCCEEDED(hr));
 
 
@@ -496,16 +496,35 @@ void PipelineManager::GenerateModelPSO() {
 
 //解放
 void PipelineManager::Release() {
-	graphicsPipelineState_->Release();
-	signatureBlob_->Release();
-	if (errorBlob_) {
-		errorBlob_->Release();
+	psoSprite_->graphicsPipelineState_->Release();
+	psoSprite_->signatureBlob_->Release();
+	if (psoSprite_->errorBlob_) {
+		psoSprite_->errorBlob_->Release();
 	}
 	
-	rootSignature_->Release();
+	psoSprite_->rootSignature_->Release();
 
-	vertexShaderBlob_->Release();	
-	pixelShaderBlob_->Release();
+	psoSprite_->vertexShaderBlob_->Release();	
+	psoSprite_->pixelShaderBlob_->Release();
+
+
+
+
+
+	//Model
+	psoModel_->graphicsPipelineState_->Release();
+	psoModel_->signatureBlob_->Release();
+	if (psoModel_->errorBlob_) {
+		psoModel_->errorBlob_->Release();
+	}
+	
+	psoModel_->rootSignature_->Release();
+
+	psoModel_->vertexShaderBlob_->Release();	
+	psoModel_->pixelShaderBlob_->Release();
+
+
+
 }
 
 
