@@ -40,6 +40,10 @@ void CompileShaderManager::InitializeDXC() {
 IDxcBlob* CompileShaderManager::CompileShader(
 	const std::wstring& filePath,
 	const wchar_t* profile) {
+
+	////DXCの初期化
+	InitializeDXC();
+
 	//1.hlslファイルを読む
 	Log(ConvertString(std::format(L"Begin CompileShader,path:{},profile:{}\n", filePath, profile)));
 	//hlslファイルを読む

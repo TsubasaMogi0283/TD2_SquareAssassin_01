@@ -36,11 +36,13 @@ public:
 	//代入演算子を無効にする
 	CompileShaderManager& operator=(const CompileShaderManager& compileShaderManager) = delete;
 
-
+private:
 
 	//DXCの初期化
 	void InitializeDXC();
 
+
+public:
 	//CompilerShader関数
 	IDxcBlob* CompileShader(
 		//CompilerするShaderファイルへのパス

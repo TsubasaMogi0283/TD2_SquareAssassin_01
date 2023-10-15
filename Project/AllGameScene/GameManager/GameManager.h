@@ -18,6 +18,7 @@
 #include "IGameScene.h"
 #include "Camera/Camera.h"
 #include "TextureManager/TextureManager.h"
+#include "PipelineManager/PipelineManager.h"
 
 //main.cppにあるものを全部こっちに引っ越しする
 class GameManager {
@@ -64,6 +65,7 @@ private:
 	WinApp* winApp_ = nullptr;
 	DirectXSetup* directXSetup_ = nullptr;
 
+	PipelineManager* pipelineManager_ = nullptr;
 	ImGuiManager* imGuiManager_ = nullptr;
 	Input* input_ = nullptr;
 	Camera* camera_ = nullptr;

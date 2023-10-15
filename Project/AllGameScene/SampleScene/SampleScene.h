@@ -34,7 +34,7 @@ private:
 	TextureManager* textureManager_ = nullptr;
 	
 
-	//Sprite* sprite_ = nullptr;
+	Sprite* sprite_ = nullptr;
 	//Sprite* sprite2_ = nullptr;
 	//Sprite* sprite3_ = nullptr;
 

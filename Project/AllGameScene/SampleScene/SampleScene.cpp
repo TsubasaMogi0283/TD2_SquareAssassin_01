@@ -12,7 +12,7 @@ SampleScene::SampleScene() {
 /// デストラクタ
 /// </summary>
 SampleScene::~SampleScene() {
-	//sprite_->Release();
+	sprite_->Release();
 	audio_->SoundUnload(&soundData_);
 	//delete sprite_;
 	//delete sprite2_;
@@ -43,10 +43,10 @@ void SampleScene::Initialize(GameManager* gameManager) {
 
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	
-	//sprite_ = new Sprite();
-	//sprite_->LoadTextureHandle(textureHandle_);
-	//spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
-	//sprite_->SetAllPosition(spriteAllPosition_);
+	sprite_ = new Sprite();
+	sprite_->LoadTextureHandle(textureHandle_);
+	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	sprite_->SetAllPosition(spriteAllPosition_);
 
 	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f,0.0f,0.0f} };
 	
@@ -118,7 +118,7 @@ void SampleScene::Update(GameManager* gameManager) {
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
 	//plane_->Draw(transformModel_);
-	//sprite_->DrawRect(transformSprite_);
+	sprite_->DrawRect(transformSprite_);
 	////sprite2_->DrawRect(transformSprite2_);
 	//sprite3_->DrawRect(transformSprite3_);
 

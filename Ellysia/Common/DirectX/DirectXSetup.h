@@ -101,7 +101,7 @@ private:
 
 	//void InitializeDXC();
 
-	void MakePSO();
+	//void MakePSO();
 
 	void GenarateViewport();
 

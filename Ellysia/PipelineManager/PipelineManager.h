@@ -30,16 +30,24 @@ public:
 	void DeleteInstance();
 
 	//コマンドに積む専用のGetter
-	ID3D12RootSignature* GetRootSignature() {
-		return rootSignature_;
+	ID3D12RootSignature* GetSpriteRootSignature() {
+		return psoSprite_.rootSignature_;
 	}
-	ID3D12PipelineState* GetGraphicsPipelineState() {
-		return graphicsPipelineState_;
+	ID3D12PipelineState* GetSpriteGraphicsPipelineState() {
+		return psoSprite_.graphicsPipelineState_;
+	}
+
+	//コマンドに積む専用のGetter
+	ID3D12RootSignature* GetModelRootSignature() {
+		return psoModel_.rootSignature_;
+	}
+	ID3D12PipelineState* GetModelGraphicsPipelineState() {
+		return psoModel_.graphicsPipelineState_;
 	}
 
 	void Release();
 
-private:
+public:
 	//private関数
 	//アロー演算子の時邪魔になってしまうからここにいれよう
 
@@ -65,7 +73,7 @@ private:
 		ID3D12PipelineState* graphicsPipelineState_ = nullptr;
 	};
 
-	PipelineVariable* psoSprite_ = nullptr;
-	PipelineVariable* psoModel_ = nullptr;
+	PipelineVariable psoSprite_;
+	PipelineVariable psoModel_ ;
 };
 

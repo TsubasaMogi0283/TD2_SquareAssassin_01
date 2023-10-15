@@ -4,7 +4,7 @@
 
 #include "ConvertFunction/ConvertLog/LogConvert.h"
 #include "externals/DirectXTex/DirectXTex.h"
-#include <TextureManager/TextureManager.h>
+#include "PipelineManager/PipelineManager.h"
 
 #include "Math/Vector/Vector4.h"
 #include "Math/Matrix/Matrix/Matrix4x4.h"

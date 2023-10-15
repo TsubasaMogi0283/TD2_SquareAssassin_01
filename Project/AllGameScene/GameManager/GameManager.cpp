@@ -4,14 +4,6 @@
 
 //コンストラクタ
 GameManager::GameManager() {
-	//COMの初期化
-	//COM...ComponentObjectModel、Microsoftの提唱する設計技術の１つ
-	//		DirectX12も簡略化されたCOM(Nano-COM)という設計で作られている
-	
-	//COMを使用して開発されたソフトウェア部品をCOMコンポーネントと呼ぶ
-	//Textureを読むにあたって、COMコンポーネントの１つを利用する
-	//CoInitializeEx(0, COINIT_MULTITHREADED);
-
 	
 	
 	//コンストラクタ
@@ -24,6 +16,7 @@ GameManager::GameManager() {
 	camera_ = Camera::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
 	audio_ = Audio::GetInstance();
+	pipelineManager_ = PipelineManager::GetInstance();
 }
 	
 void GameManager::Initialize() {
@@ -33,6 +26,8 @@ void GameManager::Initialize() {
 	//初期化
 	winApp_->Initialize(titleBarName,WINDOW_SIZE_WIDTH_,WINDOW_SIZE_HEIGHT_);
 	directXSetup_->Initialize();
+	pipelineManager_->GenerateSpritePSO();
+	pipelineManager_->GenerateModelPSO();
 	imGuiManager_->Initialize();
 	input_->Initialize();
 	textureManager_->Initilalize();
@@ -77,8 +72,13 @@ void GameManager::EndFrame() {
 void GameManager::Release() {
 	audio_->DeleteInstance();
 	camera_->DeleteInstance();
+	
 	textureManager_->Release();
 	textureManager_->DeleteInstance();
+
+	pipelineManager_->Release();
+	pipelineManager_->DeleteInstance();
+
 	imGuiManager_->Release();
 	directXSetup_->Release();
 	directXSetup_->DeleteInstance();

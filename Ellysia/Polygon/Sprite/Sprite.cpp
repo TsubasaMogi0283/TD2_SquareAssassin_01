@@ -280,8 +280,8 @@ void Sprite::DrawRect(Transform transform) {
 	//参考
 	//commands.m_pList->SetGraphicsRootSignature(PSO.rootSignature.Get());
 	//commands.m_pList->SetPipelineState(PSO.GraphicsPipelineState.Get());
-	directXSetup_->GetCommandList()->SetGraphicsRootSignature(rootSignature_);
-	directXSetup_->GetCommandList()->SetPipelineState(graphicsPipelineState_);
+	directXSetup_->GetCommandList()->SetGraphicsRootSignature(PipelineManager::GetInstance()->GetSpriteRootSignature());
+	directXSetup_->GetCommandList()->SetPipelineState(PipelineManager::GetInstance()->GetSpriteGraphicsPipelineState());
 
 
 	//RootSignatureを設定。PSOに設定しているけど別途設定が必要

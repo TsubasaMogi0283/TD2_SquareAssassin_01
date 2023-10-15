@@ -700,10 +700,10 @@ void DirectXSetup::Initialize() {
 	// 
 	// DXC(DirectX Shader Compiler)がHLSLからDXILにするCompilerである
 	//
-	CompileShaderManager::GetInstance()->InitializeDXC();
+	//CompileShaderManager::GetInstance()->InitializeDXC();
 
 	//PSOの生成
-	MakePSO();
+	//MakePSO();
 
 	//ビューポートの生成
 	GenarateViewport();
@@ -788,8 +788,8 @@ void DirectXSetup::BeginFrame() {
 
 
 	//これをそれぞれに入れたい
-	commandList_->SetGraphicsRootSignature(rootSignature_);
-	commandList_->SetPipelineState(graphicsPipelineState_);
+	//commandList_->SetGraphicsRootSignature(rootSignature_);
+	//commandList_->SetPipelineState(graphicsPipelineState_);
 	
 }
 
