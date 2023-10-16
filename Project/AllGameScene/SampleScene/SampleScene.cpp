@@ -48,16 +48,16 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
 	sprite_->SetAllPosition(spriteAllPosition_);
 
-	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f,0.0f,0.0f} };
+	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{300.0f,0.0f,0.0f} };
 	
-	//sprite2_ = new Sprite();
-	//sprite2_->LoadTextureHandle(textureHandle2_);
-	//spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
-	//sprite2_->SetAllPosition(spriteAllPosition2_);
+	sprite2_ = new Sprite();
+	sprite2_->LoadTextureHandle(textureHandle2_);
+	spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
+	sprite2_->SetAllPosition(spriteAllPosition2_);
 
 	
 
-	transformSprite3_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1000.0f,0.0f,0.0f} };
+	transformSprite3_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{800.0f,0.0f,0.0f} };
 	
 	//sprite3_ = new Sprite();
 	//sprite3_->LoadTextureHandle(textureHandle3_);
@@ -97,6 +97,10 @@ void SampleScene::Update(GameManager* gameManager) {
 		//gameManager->ChangeScene(new SampleScene2());
 	}
 	
+	sprite_->SetTransparency(transparency1);
+	sprite2_->SetTransparency(transparency2);
+
+
 	ImGui::Begin("SampleScene1");
 	ImGui::Text("Time",sampleTimer_);
 	ImGui::End();
@@ -105,7 +109,16 @@ void SampleScene::Update(GameManager* gameManager) {
 	ImGui::Begin("Sprite");
 	ImGui::InputFloat3("scale", &transformSprite_.scale.x);
 	ImGui::SliderFloat3("scale", &transformSprite_.scale.x,0.0f,10.0f);
+	
+	ImGui::InputFloat("transparency", &transparency1);
+	ImGui::SliderFloat("transparency", &transparency1, 0.0f, 1.0f);
 	ImGui::End();
+
+	ImGui::Begin("Sprite2");
+	ImGui::InputFloat("transparency", &transparency2);
+	ImGui::SliderFloat("transparency", &transparency2, 0.0f, 1.0f);
+	ImGui::End();
+
 
 	ImGui::Begin("Model");
 	ImGui::InputFloat3("translate", &transformModel_.translate.x);
@@ -119,7 +132,7 @@ void SampleScene::Update(GameManager* gameManager) {
 void SampleScene::Draw(GameManager* gameManager) {
 	//plane_->Draw(transformModel_);
 	sprite_->DrawRect(transformSprite_);
-	////sprite2_->DrawRect(transformSprite2_);
+	sprite2_->DrawRect(transformSprite2_);
 	//sprite3_->DrawRect(transformSprite3_);
 
 }

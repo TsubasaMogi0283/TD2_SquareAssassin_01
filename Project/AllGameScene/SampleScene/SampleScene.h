@@ -35,7 +35,7 @@ private:
 	
 
 	Sprite* sprite_ = nullptr;
-	//Sprite* sprite2_ = nullptr;
+	Sprite* sprite2_ = nullptr;
 	//Sprite* sprite3_ = nullptr;
 
 
@@ -55,6 +55,8 @@ private:
 	//Model* plane_ = nullptr;
 	Transform transformModel_ = {};
 
+	float transparency1 = 1.0f;
+	float transparency2 = 1.0f;
 
 
 };

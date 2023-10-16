@@ -51,6 +51,10 @@ public:
 	void SetTransparency(float transparency) {
 		this->color_.w = transparency;
 	}
+	void SetColor(Vector4 color) {
+		this->color_ = color;
+	}
+
 
 
 #pragma endregion
