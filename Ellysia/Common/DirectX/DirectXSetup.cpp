@@ -537,7 +537,8 @@ void DirectXSetup::BeginFrame() {
 	//描画先のRTVを設定する
 	commandList_->OMSetRenderTargets(1, &rtvHandles_[backBufferIndex_], false, nullptr);
 	//指定した色で画面全体をクリアする
-	float clearColor[] = { 0.1f,0.25f,0.5f,1.0f };	//青っぽい色,RGBA
+	//青っぽい色だったけどfadeの時ダルイから黒にする
+	float clearColor[] = { 0.0f,0.0f,0.0f,1.0f };	//黒色,RGBA
 	commandList_->ClearRenderTargetView(rtvHandles_[backBufferIndex_], clearColor, 0, nullptr);
 
 	////コマンドを積む
@@ -555,9 +556,6 @@ void DirectXSetup::BeginFrame() {
 	commandList_->RSSetScissorRects(1, &scissorRect_);
 
 
-	//これをそれぞれに入れたい
-	//commandList_->SetGraphicsRootSignature(rootSignature_);
-	//commandList_->SetPipelineState(graphicsPipelineState_);
 	
 }
 
@@ -647,29 +645,12 @@ void DirectXSetup::Release() {
 	useAdapter_->Release();
 	dxgiFactory_->Release();
 
-	//////解放処理
-	//vertexResource_->Release();
-
-
 	
 
 #ifdef _DEBUG
 	debugController_->Release();
 
 #endif
-
-	
-	/*graphicsPipelineState_->Release();
-	signatureBlob_->Release();
-	if (errorBlob_) {
-		errorBlob_->Release();
-	}
-	
-	rootSignature_->Release();
-
-	vertexShaderBlob_->Release();	
-	pixelShaderBlob_->Release();*/
-
 
 
 

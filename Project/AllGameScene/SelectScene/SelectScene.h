@@ -6,13 +6,13 @@
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 
-class TitleScene  : public IGameScene{
+class SelectScene  : public IGameScene{
 public:
 	//コンストラクタ
-	TitleScene();
+	SelectScene();
 
 	/// デストラクタ
-	~TitleScene();
+	~SelectScene();
 
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
@@ -34,34 +34,12 @@ private:
 	TextureManager* textureManager_ = nullptr;
 	
 
-	Sprite* titleSprite = nullptr;
-	Sprite* startSprite = nullptr;
-	Sprite* selectSprite_ = nullptr;
-
-
-	
-
-	Transform transformSprite_ = {};
+	//選択画面の画像
+	Sprite* selectSprite = nullptr;
 	Transform selectSpriteTransform_ = {};
-
-
 	SpritePosition spriteAllPosition_ = {};
-	SpritePosition spriteAllPosition2_ = {};
-	SpritePosition selectspriteAllPosition_ = {};
-
-
-	//透明度
-	float titleTransparency = 1.0f;
-	float startTransparency = 1.0f;
-	//透明になる時間をこれで管理
-	int32_t textureChangeTime_ = 0;
 
 
 
-	
-	//1秒
-	const int SECOND_ = 60;
 
-	bool isFadeout_ = false;
-	int waitingTime_ = 0;
 };

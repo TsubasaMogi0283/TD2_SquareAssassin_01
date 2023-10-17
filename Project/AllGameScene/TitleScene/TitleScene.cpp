@@ -1,18 +1,19 @@
 #include "TitleScene.h"
+#include "AllGameScene/SelectScene/SelectScene.h"
 
 //コンストラクタ
 TitleScene::TitleScene() {
-
+	//input_ = Input::GetInstance();
 }
 
 /// デストラクタ
 TitleScene::~TitleScene() {
-	input_ = Input::GetInstance();
+	
 }
 
 /// 初期化
 void TitleScene::Initialize(GameManager* gameManager) {
-	input_->Initialize();
+	//input_->Initialize();
 
 
 	uint32_t titleTextureHandle = TextureManager::LoadTexture("Resources/Title/Texture/Title.png");
@@ -26,7 +27,6 @@ void TitleScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	titleSprite->SetAllPosition(spriteAllPosition_);
 
-	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	
 	startSprite = new Sprite();
 	startSprite->LoadTextureHandle(startTextureHandle);
@@ -34,13 +34,6 @@ void TitleScene::Initialize(GameManager* gameManager) {
 	startSprite->SetAllPosition(spriteAllPosition2_);
 
 
-
-	//選択画面
-	selectSprite_ = new Sprite();
-	uint32_t selectTextureHandle= TextureManager::LoadTexture("Resources/Title/Texture/Select/Select.png");
-	selectSprite_->LoadTextureHandle(selectTextureHandle);
-	selectspriteAllPosition_= { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
-	startSprite->SetAllPosition(spriteAllPosition_);
 
 
 	titleBGM_ = Audio::GetInstance();
@@ -57,11 +50,11 @@ void TitleScene::Initialize(GameManager* gameManager) {
 /// 更新
 void TitleScene::Update(GameManager* gameManager) {
 
-	switch (allTitleScene_) {
-	default:
-		//スペースキーかAボタンでスタートのシーン
-	case Start:
+
+	//スペースキーかAボタンでスタートのシーン
+	if (isFadeout_ == false) {
 		//透明度の変更
+		
 		startSprite->SetTransparency(startTransparency);
 		
 
@@ -78,53 +71,45 @@ void TitleScene::Update(GameManager* gameManager) {
 				textureChangeTime_ = 0;
 			}
 		}
-
 		//スペースを押したらSelectになる
-		if (input_->IsTriggerKey(DIK_SPACE)) {
-			allTitleScene_ = Select;
+		if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
+			titleBGM_->StopWave(titleSoundData_);
+
+			isFadeout_ = true;
 		}
 
-
-		break;
-
-
-		//「メインのゲーム」か「チュートリアル」を選択する
-	case Select:
-
-
-
-
-
-
-
-		break;
 	}
 	
-	
+
 	
 
+	if (isFadeout_ == true) {
+		titleTransparency -= 0.01f;
+		if (titleTransparency < 0.0f) {
+			waitingTime_ += 1;
 
+			if (waitingTime_ > SECOND_ * 3) {
+				gameManager->ChangeScene(new SelectScene());
+			}
+			
+		}
+	}
+	titleSprite->SetTransparency(titleTransparency);
+
+	ImGui::Begin("transparency");
+	ImGui::InputFloat("titleSprite", &titleTransparency);
+	ImGui::End();
 
 }
 
 /// 描画
 void TitleScene::Draw(GameManager* gameManager) {
-	switch (allTitleScene_) {
-	default:
-		//スペースキーかAボタンでスタートのシーン
-	case Start:
-		//下地
-		titleSprite->DrawRect(transformSprite_);
-		//スタート
-		startSprite->DrawRect(transformSprite_);
 
-		//「メインのゲーム」か「チュートリアル」を選択する
-	case Select:
-		//下地
-		titleSprite->DrawRect(transformSprite_);
-		//選択
-		selectSprite_->DrawRect(transformSprite_);
-	}
+	//下地
+	titleSprite->DrawRect(transformSprite_);
+	//スタート
+	startSprite->DrawRect(transformSprite_);
+	
 
 	
 }
