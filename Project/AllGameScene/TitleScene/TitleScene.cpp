@@ -33,10 +33,10 @@ void TitleScene::Initialize(GameManager* gameManager) {
 
 	titleBGM_ = Audio::GetInstance();
 	titleBGM_->Initialize();
-	soundData_ = titleBGM_->LoadWave("Resources/Audio/Sample/Hit.wav");
+	titleSoundData_ = titleBGM_->LoadWave("Resources/Title/Music/TitleBGM.wav");
 
 
-	titleBGM_->PlayWave(soundData_ ,true);
+	titleBGM_->PlayWave(titleSoundData_ ,true);
 	
 
 
@@ -45,22 +45,36 @@ void TitleScene::Initialize(GameManager* gameManager) {
 /// 更新
 void TitleScene::Update(GameManager* gameManager) {
 
-	startSprite->SetTransparency(startTransparency);
-	textureChangeTime_ += 1;
-	if (textureChangeTime_ > 0) {
-		if (textureChangeTime_ > 0 && textureChangeTime_ <= SECOND_/2) {
-			startTransparency = 1.0f;
+	switch (allTitleScene_) {
+	default:
+		//スペースキーかAボタンでスタートのシーン
+	case Start:
+		//透明度の変更
+		startSprite->SetTransparency(startTransparency);
+		
+
+		//0.5秒ずつ透明度が変わる
+		textureChangeTime_ += 1;
+		if (textureChangeTime_ > 0) {
+			if (textureChangeTime_ > 0 && textureChangeTime_ <= SECOND_/2) {
+				startTransparency = 1.0f;
+			}
+			if (textureChangeTime_ > SECOND_/2 && textureChangeTime_ <= SECOND_) {
+				startTransparency = 0.0f;
+			}
+			if (textureChangeTime_ > SECOND_) {
+				textureChangeTime_ = 0;
+			}
 		}
-		if (textureChangeTime_ > SECOND_/2 && textureChangeTime_ <= SECOND_) {
-			startTransparency = 0.0f;
-		}
-		if (textureChangeTime_ > SECOND_) {
-			textureChangeTime_ = 0;
-		}
+
+		//「メインのゲーム」か「チュートリアル」を選択する
+	case Select:
+
+
 	}
 	
-
-	//Aかスペースキーでスタート
+	
+	
 
 
 
@@ -68,9 +82,22 @@ void TitleScene::Update(GameManager* gameManager) {
 
 /// 描画
 void TitleScene::Draw(GameManager* gameManager) {
-	//下地
-	titleSprite->DrawRect(transformSprite_);
-	//スタート
-	startSprite->DrawRect(transformSprite2_);
+	switch (allTitleScene_) {
+	default:
+		//スペースキーかAボタンでスタートのシーン
+	case Start:
+		//下地
+		titleSprite->DrawRect(transformSprite_);
+		//スタート
+		startSprite->DrawRect(transformSprite2_);
+
+		//「メインのゲーム」か「チュートリアル」を選択する
+	case Select:
+		//下地
+		titleSprite->DrawRect(transformSprite_);
+
+	}
+
+	
 }
 

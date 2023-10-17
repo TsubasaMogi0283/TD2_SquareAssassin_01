@@ -27,6 +27,8 @@ public:
 private:
 	//Audio
 	Audio* titleBGM_ = nullptr;
+	SoundData titleSoundData_ = {};
+
 	//Input
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
@@ -36,7 +38,7 @@ private:
 	Sprite* startSprite = nullptr;
 
 
-	SoundData soundData_ = {};
+	
 
 	Transform transformSprite_ = {};
 	Transform transformSprite2_ = {};
@@ -44,9 +46,24 @@ private:
 	SpritePosition spriteAllPosition_ = {};
 	SpritePosition spriteAllPosition2_ = {};
 
+	//透明度
 	float startTransparency = 1.0f;
+	//透明になる時間をこれで管理
+	int32_t textureChangeTime_ = 0;
 
+	//これでタイトルシーン内の切り替えをしたい
+	int allTitleScene_ = 0;
+	enum TitleInternalScene {
+		Start,
+		Select,
+	};
+
+
+	
+	//1秒
 	const int SECOND_ = 60;
 
-	int32_t textureChangeTime_ = 0;
+	
+
+	
 };

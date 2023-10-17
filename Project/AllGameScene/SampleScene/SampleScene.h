@@ -59,6 +59,8 @@ private:
 	float transparency2 = 1.0f;
 
 
+	
+
 };
 
 
