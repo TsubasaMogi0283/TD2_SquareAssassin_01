@@ -34,8 +34,6 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	 
 	 
 	 
-
-	//TextureHandleはそれぞれ違う値になっているのに何故
 	uint32_t textureHandle_ = TextureManager::LoadTexture("Resources/uvChecker.png");
 	uint32_t textureHandle2_= TextureManager::LoadTexture("Resources/monsterBall.png");
 	uint32_t textureHandle3_= TextureManager::LoadTexture("Resources/bullet.png");
