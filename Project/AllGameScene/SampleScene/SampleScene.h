@@ -4,7 +4,7 @@
 #include "TextureManager/TextureManager.h"
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
-
+#include"../enemy.h"
 //StatePatternをル買う時は必ず前方宣言をするように
 class Gamemanager;
 
@@ -27,30 +27,9 @@ public:
 	void Draw(GameManager* gameManager)override;
 
 private:
-	Audio* audio_ = nullptr;
-	//Input
-	Input* input_ = nullptr;
-
-
-	Model* plane_ = nullptr;
-	Transform transformModel_ = {};
-	Matrix4x4 cameraMatrix_ = {};
-	Matrix4x4 viewMatrix_ = {};
-
-	Sprite* sprite_ = nullptr;
-
-	SoundData soundData_ = {};
-
-	Transform transformSprite_;
-	SpritePosition spriteAllPosition_;
-
-	int sampleTimer_ = 0;
-
-	Transform cameraTransform_ = {};
-	Matrix4x4 projectionMatrix_ = {};
-
-	
-
+	Transform transformModel_ [20] = {};
+	Enemy* enemy_[20];
+	Vector3 move_[20];
 };
 
 
