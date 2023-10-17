@@ -7,11 +7,14 @@ TitleScene::TitleScene() {
 
 /// デストラクタ
 TitleScene::~TitleScene() {
-
+	input_ = Input::GetInstance();
 }
 
 /// 初期化
 void TitleScene::Initialize(GameManager* gameManager) {
+	input_->Initialize();
+
+
 	uint32_t titleTextureHandle = TextureManager::LoadTexture("Resources/Title/Texture/Title.png");
 	uint32_t startTextureHandle= TextureManager::LoadTexture("Resources/Title/Texture/TitleStart.png");
 
@@ -23,12 +26,21 @@ void TitleScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	titleSprite->SetAllPosition(spriteAllPosition_);
 
-	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	
 	startSprite = new Sprite();
 	startSprite->LoadTextureHandle(startTextureHandle);
 	spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	startSprite->SetAllPosition(spriteAllPosition2_);
+
+
+
+	//選択画面
+	selectSprite_ = new Sprite();
+	uint32_t selectTextureHandle= TextureManager::LoadTexture("Resources/Title/Texture/Select/Select.png");
+	selectSprite_->LoadTextureHandle(selectTextureHandle);
+	selectspriteAllPosition_= { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
+	startSprite->SetAllPosition(spriteAllPosition_);
 
 
 	titleBGM_ = Audio::GetInstance();
@@ -67,10 +79,25 @@ void TitleScene::Update(GameManager* gameManager) {
 			}
 		}
 
+		//スペースを押したらSelectになる
+		if (input_->IsTriggerKey(DIK_SPACE)) {
+			allTitleScene_ = Select;
+		}
+
+
+		break;
+
+
 		//「メインのゲーム」か「チュートリアル」を選択する
 	case Select:
 
 
+
+
+
+
+
+		break;
 	}
 	
 	
@@ -89,13 +116,14 @@ void TitleScene::Draw(GameManager* gameManager) {
 		//下地
 		titleSprite->DrawRect(transformSprite_);
 		//スタート
-		startSprite->DrawRect(transformSprite2_);
+		startSprite->DrawRect(transformSprite_);
 
 		//「メインのゲーム」か「チュートリアル」を選択する
 	case Select:
 		//下地
 		titleSprite->DrawRect(transformSprite_);
-
+		//選択
+		selectSprite_->DrawRect(transformSprite_);
 	}
 
 	

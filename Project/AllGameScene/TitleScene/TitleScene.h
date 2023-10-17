@@ -36,15 +36,19 @@ private:
 
 	Sprite* titleSprite = nullptr;
 	Sprite* startSprite = nullptr;
+	Sprite* selectSprite_ = nullptr;
 
 
 	
 
 	Transform transformSprite_ = {};
-	Transform transformSprite2_ = {};
+	Transform selectSpriteTransform_ = {};
+
 
 	SpritePosition spriteAllPosition_ = {};
 	SpritePosition spriteAllPosition2_ = {};
+	SpritePosition selectspriteAllPosition_ = {};
+
 
 	//透明度
 	float startTransparency = 1.0f;
