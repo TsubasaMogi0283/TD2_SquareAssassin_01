@@ -64,4 +64,8 @@ private:
 
 	bool isFadeout_ = false;
 	int waitingTime_ = 0;
+
+	int startFlashTime_ = 0;
+	const int FLASH_INTERVAL = 3;
+
 };
