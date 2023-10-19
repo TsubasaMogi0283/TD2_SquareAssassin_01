@@ -16,7 +16,7 @@ Player::~Player() {
 void Player::Initialize() {
 
 	model_ = new Model();
-	model_->CreateObject("Resources/Player", "preyre.obj");
+	model_->CreateObject("Resources/Player", "playre.obj");
 
 	input_ = Input::GetInstance();
 

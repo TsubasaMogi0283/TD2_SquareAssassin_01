@@ -3,6 +3,11 @@
 #include <Input/Input.h>
 #include <Polygon/Sprite/Sprite.h>
 #include <Polygon/Model/Model.h>
+//
+//#include "TextureManager/TextureManager.h"
+#include "AllGameScene/GameManager/GameManager.h"
+//#include "AllGameScene/GameManager/IGameScene.h"
+
 class Player {
 public:
 	/// <summary>

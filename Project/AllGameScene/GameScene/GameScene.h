@@ -6,7 +6,7 @@
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 #include "../../../Player.h"
-
+#include <memory>
 
 class  GameScene  : public IGameScene{
 public:

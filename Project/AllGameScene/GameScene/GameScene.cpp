@@ -17,6 +17,7 @@ void GameScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	gameSprite_->SetAllPosition(spriteAllPosition_);
 
+	player_ = std::make_unique<Player>();
 	player_->Initialize();
 
 }
@@ -67,12 +68,13 @@ void GameScene::Update(GameManager* gameManager) {
 
 /// 描画
 void GameScene::Draw(GameManager* gameManager) {
-	gameSprite_->DrawRect(selectSpriteTransform_);
+	//gameSprite_->DrawRect(selectSpriteTransform_);
 	player_->Draw();
 }
 
 
 /// デストラクタ
 GameScene::~GameScene() {
+	//delete player_;
 	delete gameSprite_;
 }

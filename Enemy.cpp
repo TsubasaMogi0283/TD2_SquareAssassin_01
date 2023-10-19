@@ -1,5 +1,5 @@
 #include "Enemy.h"
-#include <Polygon/Model/Model.h>
+
 void Enemy::Initialize(
 	Model* model, uint32_t textureHandle, float x, float y, float kCharacterSpeedx,
 	float kCharacterSpeedy) {
