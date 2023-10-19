@@ -17,6 +17,7 @@ void GameScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	gameSprite_->SetAllPosition(spriteAllPosition_);
 
+	player_ = std::unique_ptr<Player>();
 	player_->Initialize();
 
 }

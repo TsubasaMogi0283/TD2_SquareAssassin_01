@@ -3,6 +3,8 @@
 #include <Input/Input.h>
 #include <Polygon/Sprite/Sprite.h>
 #include <Polygon/Model/Model.h>
+#include <memory>
+
 class Player {
 public:
 	/// <summary>
