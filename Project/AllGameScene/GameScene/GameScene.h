@@ -5,6 +5,7 @@
 #include "TextureManager/TextureManager.h"
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
+#include "../../../Player.h"
 
 
 class  GameScene  : public IGameScene{
@@ -49,7 +50,8 @@ private:
 	bool isFadeIn_ = true;
 	int fadeInTime_ = 0;
 
-
+	//プレイヤー
+	std::unique_ptr<Player> player_ = nullptr;
 
 
 	//UI

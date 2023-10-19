@@ -17,8 +17,8 @@ SampleScene::~SampleScene() {
 	//delete sprite_;
 	//delete sprite2_;
 	//delete sprite3_;
-	//plane_->Release();
-	//delete plane_;
+	plane_->Release();
+	delete plane_;
 
 	audio_->DeleteInstance();;
 }
@@ -66,8 +66,8 @@ void SampleScene::Initialize(GameManager* gameManager) {
 
 
 	transformModel_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
-	//plane_ = new Model();
-	///plane_->CreateObject("Resources/Sample", "enemy.obj");
+	plane_ = new Model();
+	plane_->CreateObject("Resources/Sample", "enemy.obj");
 	
 	
 
@@ -128,7 +128,7 @@ void SampleScene::Update(GameManager* gameManager) {
 /// 描画
 /// </summary>
 void SampleScene::Draw(GameManager* gameManager) {
-	//plane_->Draw(transformModel_);
+	plane_->Draw(transformModel_);
 	sprite_->DrawRect(transformSprite_);
 	sprite2_->DrawRect(transformSprite2_);
 	//sprite3_->DrawRect(transformSprite3_);

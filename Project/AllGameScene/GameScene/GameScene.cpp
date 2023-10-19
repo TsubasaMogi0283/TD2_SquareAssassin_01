@@ -17,13 +17,12 @@ void GameScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	gameSprite_->SetAllPosition(spriteAllPosition_);
 
-
-	
+	player_->Initialize();
 
 }
 
 void GameScene::Play() {
-
+	player_->Update();
 }
 
 /// 更新
@@ -54,8 +53,7 @@ void GameScene::Update(GameManager* gameManager) {
 
 	//選択画面
 	if (isFadeIn_ == false) {
-		
-		
+		Play();
 	}
 
 
@@ -70,6 +68,7 @@ void GameScene::Update(GameManager* gameManager) {
 /// 描画
 void GameScene::Draw(GameManager* gameManager) {
 	gameSprite_->DrawRect(selectSpriteTransform_);
+	player_->Draw();
 }
 
 

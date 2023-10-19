@@ -222,6 +222,12 @@
     <ClCompile Include="Project\AllGameScene\GameScene\GameScene.cpp">
       <Filter>Scene\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ellysia\externals\imGui\imconfig.h">
@@ -388,6 +394,12 @@
     </ClInclude>
     <ClInclude Include="Project\AllGameScene\GameScene\GameScene.h">
       <Filter>Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
