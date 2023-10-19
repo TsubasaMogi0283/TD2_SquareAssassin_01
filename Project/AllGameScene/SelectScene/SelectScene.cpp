@@ -79,7 +79,6 @@ void SelectScene::Update(GameManager* gameManager) {
 
 
 
-	ImGui
 
 
 	selectSprite->SetTransparency(selectTextureTransparency_);

@@ -64,6 +64,12 @@ private:
 
 
 
+	Model* model_ = nullptr;
+
+
+
+
+
 	//フェード
 	bool isFadeIn_ = true;
 	int fadeInTime_ = 0;
