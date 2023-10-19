@@ -38,16 +38,23 @@ private:
 	Sprite* startSprite = nullptr;
 	Sprite* selectSprite_ = nullptr;
 
+	Sprite* characterSprite_ = nullptr;
 
-	
+	static const int CLOUD_AMOUNT_ = 5;
+	Sprite* cloudSprite_[CLOUD_AMOUNT_] = { nullptr };
 
 	Transform transformSprite_ = {};
 	Transform selectSpriteTransform_ = {};
-
+	Transform cloudTransform_[CLOUD_AMOUNT_] = {};
+	//Spriteのトランスフォーム改良したい
+	//Vector2にしたい
+	const Vector3 cloudSpeed_ = { 1.0f,0.0f,0.0f };
 
 	SpritePosition spriteAllPosition_ = {};
 	SpritePosition spriteAllPosition2_ = {};
 	SpritePosition selectspriteAllPosition_ = {};
+	SpritePosition cloudAllPosition_ = {};
+
 
 
 	//透明度
