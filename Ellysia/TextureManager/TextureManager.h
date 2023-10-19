@@ -76,7 +76,8 @@ private:
 	
 
 public:
-		static const int TEXTURE_MAX_AMOUNT_ = 256;
+	//何個までいけるのだろうか
+	static const int TEXTURE_MAX_AMOUNT_ = 512;
 private:
 
 	

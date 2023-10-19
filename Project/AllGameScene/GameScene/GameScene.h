@@ -1,71 +1,61 @@
 #pragma once
-#include <cstdint>
-#include "Common/Windows/WinApp.h"
-#include "Common/DirectX/DirectXSetup.h"
 
-#include "ConvertFunction/ConvertColor/ColorConvert.h"
+#include <Input/Input.h>
+#include <Audio/Audio.h>
+#include "TextureManager/TextureManager.h"
+#include "AllGameScene/GameManager/GameManager.h"
+#include "AllGameScene/GameManager/IGameScene.h"
 
-class GameScene {
+
+class  GameScene  : public IGameScene{
 public:
-
 	//コンストラクタ
 	GameScene();
 
-
-	//初期化
-	void Initialize();
-
-
-
-#pragma region ゲームループの中
-
-
-	//ウィンドウのメッセージ
-	void WindowMSG(MSG& msg);
-
-
-	//フレームの始め
-	void BeginFrame();
-
-
-	//更新処理
-	void UpDate();
-
-
-	//描画処理
-	void Draw();
-
-
-	//フレーム終わり
-	void EndFrame();
-
-
-#pragma endregion
-
-
-
-	//解放処理
-	void Release();
-
-
-
-	//デストラクタ
+	/// デストラクタ
 	~GameScene();
+
+	/// 初期化
+	void Initialize(GameManager* gameManager)override;
+
+	void Play();
+
+	/// 更新
+	void Update(GameManager* gameManager)override;
+
+	/// 描画
+	void Draw(GameManager* gameManager)override;
+
 
 
 private:
-
-	//画面のサイズ
-	const int32_t WINDOW_SIZE_WIDTH_ = 1280;
-	const int32_t WINDOW_SIZE_HEIGHT_ = 720;
-
-
-
-	//インスタンス(空)
-	WinApp* winSetup = nullptr;
-	DirectXSetup* directXSetup = nullptr;
+	//Audio
+	Audio* gameBGM_ = nullptr;
+	//Input
+	Input* input_ = nullptr;
+	//TextureManager
+	TextureManager* textureManager_ = nullptr;
 
 
-	
-	
+
+	//チュートリアル画面の画像
+	Sprite* gameSprite_ = nullptr;
+	Transform selectSpriteTransform_ = {};
+	SpritePosition spriteAllPosition_ = {};
+	float gameTextureTransparency_ = 0.0f;
+
+
+	//フェード
+	bool isFadeIn_ = true;
+	int fadeInTime_ = 0;
+
+
+
+
+	//UI
+	//ロード時間
+	int waitingTime_ = 0;
+	const int SECOND_ = 60;
+
+
 };

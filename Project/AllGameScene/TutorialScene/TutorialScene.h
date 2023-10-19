@@ -6,16 +6,22 @@
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 
-class SelectScene  : public IGameScene{
+
+class  TutorialScene  : public IGameScene{
 public:
 	//コンストラクタ
-	SelectScene();
+	TutorialScene();
 
 	/// デストラクタ
-	~SelectScene();
+	~TutorialScene();
 
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
+
+
+	//チュートリアル
+	void Explanation();
+
 
 	/// 更新
 	void Update(GameManager* gameManager)override;
@@ -24,21 +30,22 @@ public:
 	void Draw(GameManager* gameManager)override;
 
 
+
 private:
 	//Audio
 	Audio* titleBGM_ = nullptr;
-	SoundData titleSoundData_ = {};
-
 	//Input
 	Input* input_ = nullptr;
+	//TextureManager
 	TextureManager* textureManager_ = nullptr;
-	
 
-	//選択画面の画像
-	Sprite* selectSprite = nullptr;
+
+
+	//チュートリアル画面の画像
+	Sprite* tutorialSprite = nullptr;
 	Transform selectSpriteTransform_ = {};
 	SpritePosition spriteAllPosition_ = {};
-	float selectTextureTransparency_ = 0.0f;
+	float tutorialTextureTransparency_ = 0.0f;
 
 
 	//フェード
@@ -49,16 +56,12 @@ private:
 	int fadeOutTime_ = 0;
 
 
-	//次はどのシーンに行くか決めるための列挙
-	enum NextScene {
-		Game,
-		Tutorial,
-	};
 
-	int nextScene_ = 0;
 
+	//UI
 	//ロード時間
 	int waitingTime_ = 0;
 	const int SECOND_ = 60;
+
 
 };
