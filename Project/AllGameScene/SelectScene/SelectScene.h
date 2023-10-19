@@ -41,6 +41,15 @@ private:
 	float selectTextureTransparency_ = 0.0f;
 
 
+	//ステージ
+	const float stageTextureScale_ = 1.5f;
+	static const int STAGE_AMOUNT_=2;
+	Sprite* stageSprite_[STAGE_AMOUNT_] = { nullptr };
+	Transform stageTransform_[STAGE_AMOUNT_] = {};
+	SpritePosition stageAllPosition_ = {};
+
+
+
 	//フェード
 	bool isFadeIn_ = true;
 	int fadeInTime_ = 0;

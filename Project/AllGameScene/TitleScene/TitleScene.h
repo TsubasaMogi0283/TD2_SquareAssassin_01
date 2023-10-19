@@ -34,8 +34,8 @@ private:
 	TextureManager* textureManager_ = nullptr;
 	
 
-	Sprite* titleSprite = nullptr;
-	Sprite* startSprite = nullptr;
+	Sprite* titleSprite_ = nullptr;
+	Sprite* startSprite_ = nullptr;
 	Sprite* selectSprite_ = nullptr;
 
 	Sprite* characterSprite_ = nullptr;

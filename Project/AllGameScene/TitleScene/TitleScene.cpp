@@ -3,13 +3,23 @@
 
 //コンストラクタ
 TitleScene::TitleScene() {
-	//input_ = Input::GetInstance();
 }
 
 /// デストラクタ
 TitleScene::~TitleScene() {
-	delete titleSprite;
-	delete startSprite;
+	delete titleSprite_;
+	delete startSprite_;
+
+	
+	//雲の動き
+	for (int i = 0; i < CLOUD_AMOUNT_; i++) {
+		delete cloudSprite_[i];
+
+	}
+	
+	//キャラクター
+	delete characterSprite_;
+
 }
 
 /// 初期化
@@ -26,17 +36,17 @@ void TitleScene::Initialize(GameManager* gameManager) {
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
 	//タイトル
-	titleSprite = new Sprite();
-	titleSprite->LoadTextureHandle(titleTextureHandle);
+	titleSprite_ = new Sprite();
+	titleSprite_->LoadTextureHandle(titleTextureHandle);
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
-	titleSprite->SetAllPosition(spriteAllPosition_);
+	titleSprite_->SetAllPosition(spriteAllPosition_);
 
 	
 	//スタート
-	startSprite = new Sprite();
-	startSprite->LoadTextureHandle(startTextureHandle);
+	startSprite_ = new Sprite();
+	startSprite_->LoadTextureHandle(startTextureHandle);
 	spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
-	startSprite->SetAllPosition(spriteAllPosition2_);
+	startSprite_->SetAllPosition(spriteAllPosition2_);
 
 
 	//雲
@@ -80,9 +90,9 @@ void TitleScene::Initialize(GameManager* gameManager) {
 
 /// 更新
 void TitleScene::Update(GameManager* gameManager) {
-	startSprite->SetTransparency(startTransparency);
+	startSprite_->SetTransparency(startTransparency);
 	//タイトルキャラクター雲同じ透明度の変化だから変数一つで良いよね
-	titleSprite->SetTransparency(textureTransparency);
+	titleSprite_->SetTransparency(textureTransparency);
 	characterSprite_->SetTransparency(textureTransparency);
 	//雲の動き
 	for (int i = 0; i < CLOUD_AMOUNT_; i++) {
@@ -92,15 +102,15 @@ void TitleScene::Update(GameManager* gameManager) {
 
 
 	//雲の動き
-		for (int i = 0; i < CLOUD_AMOUNT_; i++) {
-			cloudTransform_[i].translate = Add(cloudTransform_[i].translate,cloudSpeed_);
+	for (int i = 0; i < CLOUD_AMOUNT_; i++) {
+		cloudTransform_[i].translate = Add(cloudTransform_[i].translate,cloudSpeed_);
 
-			//ループ処理
-			if (cloudTransform_[i].translate.x > 1280.0f) {
-				cloudTransform_[i].translate.x = -256.0f;
-			}
-
+		//ループ処理
+		if (cloudTransform_[i].translate.x > 1280.0f) {
+			cloudTransform_[i].translate.x = -256.0f;
 		}
+
+	}
 
 	ImGui::Begin("Character");
 	ImGui::InputFloat3("Position", &characterTransform_.translate.x);
@@ -111,11 +121,6 @@ void TitleScene::Update(GameManager* gameManager) {
 	
 	//スペースキーかAボタンでスタートのシーン
 	if (isFadeout_ == false) {
-		
-		
-		
-		
-		
 		
 
 		//0.5秒ずつ透明度が変わる
@@ -205,9 +210,9 @@ void TitleScene::Update(GameManager* gameManager) {
 void TitleScene::Draw(GameManager* gameManager) {
 
 	//下地
-	titleSprite->DrawRect(transformSprite_);
+	titleSprite_->DrawRect(transformSprite_);
 	//スタート
-	startSprite->DrawRect(transformSprite_);
+	startSprite_->DrawRect(transformSprite_);
 	
 	//雲の動き
 	for (int i = 0; i < CLOUD_AMOUNT_; i++) {
