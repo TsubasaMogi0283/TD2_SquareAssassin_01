@@ -79,6 +79,6 @@ private:
 #pragma endregion
 
 	//StatePatternに必要な変数
-	IGameScene* currentGamaScene_ = nullptr;
+	IGameScene* currentGameScene_ = nullptr;
 
 };

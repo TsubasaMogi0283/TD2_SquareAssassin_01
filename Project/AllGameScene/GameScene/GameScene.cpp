@@ -29,7 +29,7 @@ void GameScene::Play() {
 /// 更新
 void GameScene::Update(GameManager* gameManager) {
 
-	ImGui::Begin("Select");
+	ImGui::Begin("Game");
 	ImGui::Text("1 To GameScene");
 	ImGui::Text("2 To GameScene");
 

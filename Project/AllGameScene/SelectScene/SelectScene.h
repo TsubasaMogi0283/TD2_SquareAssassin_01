@@ -40,6 +40,11 @@ private:
 	SpritePosition spriteAllPosition_ = {};
 	float selectTextureTransparency_ = 0.0f;
 
+	//タイトルに戻る
+	Sprite* titleIconSprite = nullptr;
+	Transform titleIconTransform_ = {};
+	SpritePosition titleIconAllPosition_ = {};
+
 
 	//ステージ
 	const float stageTextureScale_ = 1.5f;
@@ -47,6 +52,15 @@ private:
 	Sprite* stageSprite_[STAGE_AMOUNT_] = { nullptr };
 	Transform stageTransform_[STAGE_AMOUNT_] = {};
 	SpritePosition stageAllPosition_ = {};
+
+
+	//キャラクター
+	Sprite* characterSprite = nullptr;
+	Transform characterTransform_ = {};
+	SpritePosition characterAllPosition_ = {};
+	//float selectTextureTransparency_ = 0.0f;
+	float scale_ = 1.0f;
+
 
 
 
