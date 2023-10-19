@@ -115,6 +115,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClCompile Include="Ellysia\Polygon\Sprite\Sprite.cpp" />
     <ClCompile Include="Ellysia\Polygon\Triangle\Triangle.cpp" />
     <ClCompile Include="Ellysia\TextureManager\TextureManager.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Project\AllGameScene\GameManager\GameManager.cpp" />
     <ClCompile Include="Project\AllGameScene\SampleScene2\SampleScene2.cpp" />
@@ -169,6 +170,7 @@ copy "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dx
     <ClInclude Include="Ellysia\TextureManager\MaterialData\MaterialData.h" />
     <ClInclude Include="Ellysia\TextureManager\ModelData\ModelData.h" />
     <ClInclude Include="Ellysia\TextureManager\TextureManager.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="Project\AllGameScene\GameManager\GameManager.h" />
     <ClInclude Include="Project\AllGameScene\GameManager\IGameScene.h" />
     <ClInclude Include="Project\AllGameScene\SampleScene2\SampleScene2.h" />

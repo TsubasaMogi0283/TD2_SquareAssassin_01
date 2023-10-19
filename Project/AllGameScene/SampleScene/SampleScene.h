@@ -5,6 +5,8 @@
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 
+
+#include"../enemy.h"
 //StatePatternをル買う時は必ず前方宣言をするように
 class Gamemanager;
 
@@ -28,36 +30,40 @@ public:
 
 private:
 	//Audio
-	Audio* audio_ = nullptr;
-	//Input
-	Input* input_ = nullptr;
-	TextureManager* textureManager_ = nullptr;
-	
+	//Audio* audio_ = nullptr;
+	////Input
+	//Input* input_ = nullptr;
+	//TextureManager* textureManager_ = nullptr;
+	//
 
-	Sprite* sprite_ = nullptr;
-	Sprite* sprite2_ = nullptr;
-	//Sprite* sprite3_ = nullptr;
-
-
-	SoundData soundData_ = {};
-
-	Transform transformSprite_ = {};
-	Transform transformSprite2_ = {};
-	Transform transformSprite3_ = {};
-
-	SpritePosition spriteAllPosition_ = {};
-	SpritePosition spriteAllPosition2_ = {};
-	SpritePosition spriteAllPosition3_ = {};
-
-	int sampleTimer_ = 0;
+	//Sprite* sprite_ = nullptr;
+	//Sprite* sprite2_ = nullptr;
+	////Sprite* sprite3_ = nullptr;
 
 
-	//Model* plane_ = nullptr;
-	Transform transformModel_ = {};
+	//SoundData soundData_ = {};
 
-	float transparency1 = 1.0f;
-	float transparency2 = 1.0f;
+	//Transform transformSprite_ = {};
+	//Transform transformSprite2_ = {};
+	//Transform transformSprite3_ = {};
 
+	//SpritePosition spriteAllPosition_ = {};
+	//SpritePosition spriteAllPosition2_ = {};
+	//SpritePosition spriteAllPosition3_ = {};
+
+	//int sampleTimer_ = 0;
+
+
+	////Model* plane_ = nullptr;
+	//Transform transformModel_ = {};
+
+	//float transparency1 = 1.0f;
+	//float transparency2 = 1.0f;
+
+
+	Transform transformModel_[20] = {};
+	Enemy* enemy_[20];
+	Vector3 move_[20];
 
 };
 

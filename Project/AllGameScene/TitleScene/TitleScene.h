@@ -5,7 +5,7 @@
 #include "TextureManager/TextureManager.h"
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
-
+#include"../enemy.h"
 class TitleScene  : public IGameScene{
 public:
 	//コンストラクタ
@@ -49,4 +49,30 @@ private:
 	const int SECOND_ = 60;
 
 	int32_t textureChangeTime_ = 0;
+
+	const int enemyCount = 20;
+	const int enemyCount2 = 10;
+	const int enemyCount3 = 3;
+
+
+	Transform transformModel_[20] = {};
+	Vector3 move_[20];
+
+
+
+	Transform transformModel2_[10] = {};
+	Vector3 move2_[10];
+
+	Transform transformModel3_[3] = {};
+	Vector3 move3_[3];
+
+
+	Enemy* enemy_[20];
+	Enemy* enemy2_[10];
+	Enemy* enemy3_[3];
+
+
+	Model* yuka_ = nullptr;
+	Transform transformyuka_ = {};
+
 };

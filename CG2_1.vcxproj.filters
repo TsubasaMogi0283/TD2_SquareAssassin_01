@@ -109,6 +109,9 @@
     <Filter Include="ヘッダー ファイル\TextureManager">
       <UniqueIdentifier>{980df7e0-fba5-42c8-a3af-909754ec7057}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\enemy">
+      <UniqueIdentifier>{6b8e2eda-3868-46f3-addd-d79cc04ed909}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -200,6 +203,9 @@
     </ClCompile>
     <ClCompile Include="Project\AllGameScene\TitleScene\TitleScene.cpp">
       <Filter>ソース ファイル\GamaScene</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="Project\AllGameScene\TitleScene\TitleScene.h">
       <Filter>ソース ファイル\GamaScene</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy.h">
+      <Filter>ソース ファイル\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
