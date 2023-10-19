@@ -119,7 +119,7 @@ void TitleScene::Initialize(GameManager* gameManager) {
 		enemy3_[i]->Initialize("Resources/05_02", "enemy3.obj", transformModel3_[i], move3_[i]);
 	}
 	yuka_ = new Model;
-	transformyuka_ = { {0.25f,0.244f,0.1f},{0.0f,0.0f,0.0f},{0.0f,-2.18f,0.0f} };
+	transformyuka_ = { {0.25f,0.25f,0.1f},{0.0f,0.0f,0.0f},{0.0f,-2.28f,0.0f} };
 	yuka_->CreateObject("Resources/05_02", "yuka.obj");
 
 }
