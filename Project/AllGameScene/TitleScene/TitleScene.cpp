@@ -14,33 +14,37 @@ TitleScene::~TitleScene() {
 
 /// 初期化
 void TitleScene::Initialize(GameManager* gameManager) {
-	//input_->Initialize();
 
-
+	//画像の読み込み
 	uint32_t titleTextureHandle = TextureManager::LoadTexture("Resources/Title/Texture/Base/TitleLogo.png");
 	uint32_t startTextureHandle= TextureManager::LoadTexture("Resources/Title/Texture/Start/Start.png");
 	uint32_t cloudTextureHandle = TextureManager::LoadTexture("Resources/Title/Texture/Cloud/Cloud.png");
+	uint32_t characterTextureHandle = TextureManager::LoadTexture("Resources/Title/Texture/Character/Character.png");
 
+
+	//タイトルとスタート
 	transformSprite_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
+	//タイトル
 	titleSprite = new Sprite();
 	titleSprite->LoadTextureHandle(titleTextureHandle);
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	titleSprite->SetAllPosition(spriteAllPosition_);
 
 	
+	//スタート
 	startSprite = new Sprite();
 	startSprite->LoadTextureHandle(startTextureHandle);
 	spriteAllPosition2_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	startSprite->SetAllPosition(spriteAllPosition2_);
 
 
+	//雲
 	for (int i = 0; i < CLOUD_AMOUNT_; i++) {
 		cloudSprite_[i] = new Sprite();
 		cloudSprite_[i]->LoadTextureHandle(cloudTextureHandle);
 		cloudAllPosition_ = { {0.0f,0.0f},{0.0f,128.0f},{256.0f,0.0f},{256.0f,128.0f} };
 		cloudSprite_[i]->SetAllPosition(cloudAllPosition_);
-
 
 		cloudTransform_[0] = { { 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, { -100.0f,10.0f,0.0f } };
 		cloudTransform_[1] = { { 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, { 200.0f,30.0f,0.0f } };
@@ -48,19 +52,26 @@ void TitleScene::Initialize(GameManager* gameManager) {
 		cloudTransform_[3] = { { 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, { 700.0f,0.0f,0.0f } };
 		cloudTransform_[4] = { { 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, { 1100.0f,15.0f,0.0f } };
 
-
 	}
 	
-	Transform cloudTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+	
+	//キャラクター
+	characterSprite_ = new Sprite();
+	characterSprite_->LoadTextureHandle(characterTextureHandle);
+	characterAllPosition_ = { {0.0f,0.0f},{0.0f,256.0f},{256.0f,0.0f},{256.0f,256.0f} };
+	characterSprite_->SetAllPosition(characterAllPosition_);
+	characterTransform_ = { { 1.0f,1.0f,1.0f }, { 0.0f,0.0f,0.0f }, { 0.0f,0.0f,0.0f } };
 
 
 
 
+
+	//タイトルBGM
 	titleBGM_ = Audio::GetInstance();
 	titleBGM_->Initialize();
 	titleSoundData_ = titleBGM_->LoadWave("Resources/Title/Music/TitleBGM.wav");
 
-
+	//再生
 	titleBGM_->PlayWave(titleSoundData_ ,true);
 	
 
@@ -70,18 +81,17 @@ void TitleScene::Initialize(GameManager* gameManager) {
 /// 更新
 void TitleScene::Update(GameManager* gameManager) {
 	startSprite->SetTransparency(startTransparency);
-	titleSprite->SetTransparency(titleTransparency);
+	//タイトルキャラクター雲同じ透明度の変化だから変数一つで良いよね
+	titleSprite->SetTransparency(textureTransparency);
+	characterSprite_->SetTransparency(textureTransparency);
+	//雲の動き
+	for (int i = 0; i < CLOUD_AMOUNT_; i++) {
+		cloudSprite_[i]->SetTransparency(textureTransparency);
 
-	ImGui::Begin("transparency");
-	ImGui::InputFloat("titleSprite", &titleTransparency);
-	ImGui::InputInt("waitingTime_",&waitingTime_);
-	
-	ImGui::End();
-	
-	//スペースキーかAボタンでスタートのシーン
-	if (isFadeout_ == false) {
-		
-		//雲の動き
+	}
+
+
+	//雲の動き
 		for (int i = 0; i < CLOUD_AMOUNT_; i++) {
 			cloudTransform_[i].translate = Add(cloudTransform_[i].translate,cloudSpeed_);
 
@@ -91,6 +101,18 @@ void TitleScene::Update(GameManager* gameManager) {
 			}
 
 		}
+
+	ImGui::Begin("Character");
+	ImGui::InputFloat3("Position", &characterTransform_.translate.x);
+	ImGui::SliderFloat3("Position", &characterTransform_.translate.x,0.0f,1280.0f);
+
+	
+	ImGui::End();
+	
+	//スペースキーかAボタンでスタートのシーン
+	if (isFadeout_ == false) {
+		
+		
 		
 		
 		
@@ -157,10 +179,10 @@ void TitleScene::Update(GameManager* gameManager) {
 
 			if (startFlashTime_ > FLASH_INTERVAL * 9 ) {
 				//フェードアウト
-				titleTransparency -= 0.01f;
-				if (titleTransparency < 0.0f) {
+				textureTransparency -= 0.01f;
+				if (textureTransparency < 0.0f) {
 					waitingTime_ += 1;
-					titleTransparency = 0.0f;
+					textureTransparency = 0.0f;
 					startTransparency = 0.0f;
 
 					if (waitingTime_ > SECOND_ * 3) {
@@ -193,5 +215,8 @@ void TitleScene::Draw(GameManager* gameManager) {
 
 	}
 	
+	//キャラクター
+	characterSprite_->DrawRect(characterTransform_);
+
 }
 
