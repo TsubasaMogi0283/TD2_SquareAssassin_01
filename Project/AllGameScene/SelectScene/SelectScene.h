@@ -17,6 +17,8 @@ public:
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
 
+	void ImGuiDebug();
+
 	/// 更新
 	void Update(GameManager* gameManager)override;
 
@@ -54,18 +56,22 @@ private:
 	SpritePosition stageAllPosition_ = {};
 
 
+	//ステージの名前
+	Sprite* gameTextSprite_ =  nullptr ;
+	Sprite* tutorialtextSprite_ =  nullptr ;
+
+	Transform gameTextTransform_ = {};
+	Transform tutorialTextTransform_ = {};
+
+	SpritePosition TextAllPosition_ = {};
+
+
+
 	//キャラクター
 	Sprite* characterSprite = nullptr;
 	Transform characterTransform_ = {};
 	SpritePosition characterAllPosition_ = {};
-	//float selectTextureTransparency_ = 0.0f;
-	float scale_ = 1.0f;
-
-
-
-
-	Model* model_ = nullptr;
-
+	float_t MOVE_INTERVAL = 400.0f;
 
 
 

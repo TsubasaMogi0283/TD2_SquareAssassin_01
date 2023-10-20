@@ -121,6 +121,9 @@
     <Filter Include="Scene\Select">
       <UniqueIdentifier>{5aab42db-477b-48a6-bb4d-2c66417b625a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\Result">
+      <UniqueIdentifier>{874be97e-923c-4a13-a61d-37888de292f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -221,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="Project\AllGameScene\GameScene\GameScene.cpp">
       <Filter>Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\AllGameScene\ResultScene\ResultScene.cpp">
+      <Filter>Scene\Result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="Project\AllGameScene\GameScene\GameScene.h">
       <Filter>Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\AllGameScene\ResultScene\ResultScene.h">
+      <Filter>Scene\Result</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

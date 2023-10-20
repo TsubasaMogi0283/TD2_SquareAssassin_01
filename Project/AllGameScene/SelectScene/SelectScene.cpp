@@ -9,59 +9,84 @@ SelectScene::SelectScene() {
 
 /// 初期化
 void SelectScene::Initialize(GameManager* gameManager) {
-	uint32_t selectTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Base/SelectTexture.png");
-	uint32_t stageTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Stage/Stage.png");
-
-	selectSpriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-
-	//セレクト
+	
+#pragma region 背景
+	
 	selectSprite = new Sprite();
+	selectSpriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	uint32_t selectTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Base/SelectTexture.png");
 	selectSprite->LoadTextureHandle(selectTextureHandle);
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	selectSprite->SetAllPosition(spriteAllPosition_);
 
+#pragma endregion
 
-	//ステージ
+#pragma region ステージ
 	for (int i = 0; i < STAGE_AMOUNT_; i++) {
 		stageSprite_[i] = new Sprite();
+		uint32_t stageTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Stage/Stage.png");
 		stageSprite_[i]->LoadTextureHandle(stageTextureHandle);
 		stageAllPosition_ = {{0.0f,0.0f},{0.0f,300.0f},{200.0f,0.0f},{200.0f,300.0f}};
-		stageTransform_[0] = { {stageTextureScale_,stageTextureScale_,stageTextureScale_},{0.0f,0.0f,0.0f},{345.0f,160.0f,0.0f}};
-		stageTransform_[1] = { {stageTextureScale_,stageTextureScale_,stageTextureScale_},{0.0f,0.0f,0.0f},{725.0f,160.0f,0.0f}};
+		stageTransform_[0] = { {stageTextureScale_,stageTextureScale_,stageTextureScale_},{0.0f,0.0f,0.0f},{500.0f,160.0f,0.0f}};
+		stageTransform_[1] = { {stageTextureScale_,stageTextureScale_,stageTextureScale_},{0.0f,0.0f,0.0f},{900.0f,160.0f,0.0f}};
 		stageSprite_[i]->SetAllPosition(stageAllPosition_);
 
 	}
 
+#pragma endregion
 
-	//タイトルに戻る
+#pragma region ステージの名前
+
+	gameTextSprite_ =  new Sprite() ;
+	tutorialtextSprite_ = new Sprite();
+
+	gameTextTransform_ = {{stageTextureScale_,stageTextureScale_,stageTextureScale_},{0.0f,0.0f,0.0f},{500.0f,160.0f,0.0f}};
+	tutorialTextTransform_ = {{stageTextureScale_,stageTextureScale_,stageTextureScale_},{0.0f,0.0f,0.0f},{900.0f,160.0f,0.0f}};
+
+	TextAllPosition_ = { {0.0f,0.0f},{0.0f,310.0f},{200.0f,0.0f}, {200.0f,310.0f}, };
+
+	uint32_t tutorialTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Text/Tutorial.png");
+	uint32_t gameTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Text/Game.png");
+
+	gameTextSprite_->LoadTextureHandle(gameTextureHandle);
+	tutorialtextSprite_->LoadTextureHandle(tutorialTextureHandle);
+
+
+	gameTextSprite_->SetAllPosition(TextAllPosition_);
+	tutorialtextSprite_->SetAllPosition(TextAllPosition_);
+
+	
+	
+	
+
+#pragma endregion
+
+#pragma region タイトルに戻る
 	titleIconSprite =  new Sprite();
-	titleIconTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	titleIconTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{130.0f,460.0f,0.0f} };
 	titleIconAllPosition_ = { {0.0f,0.0f},{0.0f,150.0f},{150.0f,0.0f},{150.0f,150.0f}};
 	uint32_t titleIconTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Icon/BackToTitle.png");
 	titleIconSprite->LoadTextureHandle(titleIconTextureHandle);
+	titleIconSprite->SetAllPosition(titleIconAllPosition_);
 
-	
+#pragma endregion
 
-	//キャラクター
+
+#pragma region キャラクター
 	characterSprite =  new Sprite();;
-	characterTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+	characterTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,5.870f},{460.0f,500.0f,0.0f}};
 	characterAllPosition_ = { {0.0f,0.0f},{0.0f,100.0f},{100.0f,0.0f},{100.0f,100.0f} };
 	uint32_t characterTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Character/Character.png");
 	
 	characterSprite->LoadTextureHandle(characterTextureHandle);
 
 	characterSprite->SetAllPosition(characterAllPosition_);
-	
+#pragma endregion
+
 
 }
 
-/// 更新
-void SelectScene::Update(GameManager* gameManager) {
-
-
-
-
-
+void SelectScene::ImGuiDebug() {
 	ImGui::Begin("Select");
 	ImGui::Text("1 To GameScene");
 	ImGui::Text("2 To GameScene");
@@ -70,27 +95,70 @@ void SelectScene::Update(GameManager* gameManager) {
 	ImGui::End();
 
 
+	ImGui::Begin("Title");
+	ImGui::SliderFloat3("Scale", &titleIconTransform_.scale.x,1.0f,5.0f);
+	ImGui::SliderFloat3("Rotate", &titleIconTransform_.rotate.x,0.0f,60.0f);
+	ImGui::SliderFloat3("Position", &titleIconTransform_.translate.x,0.0f,1280.0f);
+	ImGui::End();
+
+
 	ImGui::Begin("Character");
 	ImGui::SliderFloat3("Scale", &characterTransform_.scale.x,1.0f,5.0f);
 	ImGui::SliderFloat3("Rotate", &characterTransform_.rotate.x,0.0f,60.0f);
 	ImGui::SliderFloat3("Position", &characterTransform_.translate.x,0.0f,1280.0f);
+	ImGui::SliderFloat("MoveInterval", &MOVE_INTERVAL,0.0f,1280.0f);
+	
+	ImGui::End();
+
+
+	ImGui::Begin("Stage1");
+	ImGui::SliderFloat3("Scale", &stageTransform_[0].scale.x, 1.0f, 5.0f);
+	ImGui::SliderFloat3("Rotate", &stageTransform_[0].rotate.x,0.0f,60.0f);
+	ImGui::SliderFloat3("Position", &stageTransform_[0].translate.x,0.0f,1280.0f);
+	ImGui::End();
+
+	ImGui::Begin("Stage2");
+	ImGui::SliderFloat3("Scale", &stageTransform_[1].scale.x, 1.0f, 5.0f);
+	ImGui::SliderFloat3("Rotate", &stageTransform_[1].rotate.x,0.0f,60.0f);
+	ImGui::SliderFloat3("Position", &stageTransform_[1].translate.x,0.0f,1280.0f);
+	ImGui::End();
+
+	ImGui::Begin("GameText");
+	ImGui::SliderFloat3("Scale", &gameTextTransform_.scale.x, 1.0f, 5.0f);
+	ImGui::SliderFloat3("Rotate", &gameTextTransform_.rotate.x,0.0f,60.0f);
+	ImGui::SliderFloat3("Position", &gameTextTransform_.translate.x,0.0f,1280.0f);
+	ImGui::End();
+
+	ImGui::Begin("TutorialText");
+	ImGui::SliderFloat3("Scale", &tutorialTextTransform_.scale.x, 1.0f, 5.0f);
+	ImGui::SliderFloat3("Rotate", &tutorialTextTransform_.rotate.x,0.0f,60.0f);
+	ImGui::SliderFloat3("Position", &tutorialTextTransform_.translate.x,0.0f,1280.0f);
 	ImGui::End();
 
 
 
+}
+
+/// 更新
+void SelectScene::Update(GameManager* gameManager) {
 
 
 
+	ImGuiDebug();
+
+#pragma region 透明度
 	selectSprite->SetTransparency(selectTextureTransparency_);
 	for (int i = 0; i < STAGE_AMOUNT_; i++) {
 		stageSprite_[i]->SetTransparency(selectTextureTransparency_);
-		
+		//textSprite_[i]->SetTransparency(selectTextureTransparency_);
 	}
-	
+	characterSprite->SetTransparency(selectTextureTransparency_);
+
+#pragma endregion
 
 	//フェードイン
 	if (isFadeIn_ == true) {
-		selectTextureTransparency_ += 0.01f;
+		selectTextureTransparency_ += 0.07f;
 		if (selectTextureTransparency_ > 1.0f) {
 			selectTextureTransparency_ = 1.0f;
 			isFadeIn_ = false;
@@ -116,9 +184,34 @@ void SelectScene::Update(GameManager* gameManager) {
 			isFadeOut_ = true;
 		}
 
-
 		//キャラクターの動き
+		//右に動く
+		if ((input_->GetInstance()->IsTriggerKey(DIK_RIGHT) == true) ||
+			(input_->GetInstance()->IsTriggerKey(DIK_D) == true)) {
+			
+			
 
+			
+			if (characterTransform_.translate.x !=860.0f) {
+				characterTransform_.translate.x += MOVE_INTERVAL;
+			}
+			
+
+		}
+
+		//左に動く
+		if ((input_->GetInstance()->IsTriggerKey(DIK_LEFT) == true) ||
+			(input_->GetInstance()->IsTriggerKey(DIK_A) == true)) {
+			
+			
+
+
+			if (characterTransform_.translate.x != 60.0) {
+				characterTransform_.translate.x -= MOVE_INTERVAL;
+			}
+		
+
+		}
 
 	}
 
@@ -155,19 +248,22 @@ void SelectScene::Update(GameManager* gameManager) {
 void SelectScene::Draw(GameManager* gameManager) {
 	//ベースの画像
 	selectSprite->DrawRect(selectSpriteTransform_);
-
 	//キャラクターひょっこり
 	characterSprite->DrawRect(characterTransform_);
-	//ステージこと巻物
-	for (int i = 0; i < STAGE_AMOUNT_; i++) {
-		stageSprite_[i]->DrawRect(stageTransform_[i]);
-		
-	}
-	
 	//タイトルへ
 	titleIconSprite->DrawRect(titleIconTransform_);
 
+	//ステージこと巻物
+	for (int i = 0; i < STAGE_AMOUNT_; i++) {
+		stageSprite_[i]->DrawRect(stageTransform_[i]);
 
+	}
+	gameTextSprite_->DrawRect(gameTextTransform_);
+	tutorialtextSprite_->DrawRect(tutorialTextTransform_);
+
+	
+
+	
 }
 
 
