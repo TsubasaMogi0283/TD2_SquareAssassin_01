@@ -110,7 +110,7 @@ private:
 
 
 	//頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 
 	
 
@@ -129,8 +129,8 @@ private:
 	ID3D12Resource* textureResource_ = nullptr;
 	ID3D12Resource* resource_ = nullptr;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
+	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_ = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};
 
 	ID3D12Resource* intermediateResource_= nullptr ;
 

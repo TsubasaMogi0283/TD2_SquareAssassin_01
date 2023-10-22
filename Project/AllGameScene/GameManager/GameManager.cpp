@@ -2,6 +2,8 @@
 
 #include "AllGameScene/SampleScene/SampleScene.h"
 #include "AllGameScene/TitleScene/TitleScene.h"
+#include "AllGameScene/SelectScene/SelectScene.h"
+#include "AllGameScene/ResultScene/ResultScene.h"
 
 //コンストラクタ
 GameManager::GameManager() {
@@ -35,8 +37,8 @@ void GameManager::Initialize() {
 	audio_->Initialize();
 
 	//シーンごとに動作確認したいときはここを変えてね
-	currentGamaScene_ = new TitleScene();
-	currentGamaScene_->Initialize(this);
+	currentGameScene_ = new ResultScene();
+	currentGameScene_->Initialize(this);
 
 }
 
@@ -52,14 +54,14 @@ void GameManager::Update() {
 
 	//入力の更新
 	input_->Update();
-	currentGamaScene_->Update(this);
+	currentGameScene_->Update(this);
 }
 
 void GameManager::Draw() {
 	imGuiManager_->PreDraw();	
 	imGuiManager_->Draw();
 	
-	currentGamaScene_->Draw(this);
+	currentGameScene_->Draw(this);
 
 }
 
@@ -88,11 +90,11 @@ void GameManager::Release() {
 
 void GameManager::ChangeScene(IGameScene* newGameScene) {
 	//一度消してから次のシーンにいく
-	delete currentGamaScene_;
+	delete currentGameScene_;
 
-	currentGamaScene_ = newGameScene;
+	currentGameScene_ = newGameScene;
 	//今は言っているシーンが引数
-	currentGamaScene_->Initialize(this);
+	currentGameScene_->Initialize(this);
 
 
 }

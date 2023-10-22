@@ -17,6 +17,8 @@ public:
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
 
+	void ImGuiDebug();
+
 	/// 更新
 	void Update(GameManager* gameManager)override;
 
@@ -39,6 +41,39 @@ private:
 	Transform selectSpriteTransform_ = {};
 	SpritePosition spriteAllPosition_ = {};
 	float selectTextureTransparency_ = 0.0f;
+
+	//タイトルに戻る
+	Sprite* titleIconSprite = nullptr;
+	Transform titleIconTransform_ = {};
+	SpritePosition titleIconAllPosition_ = {};
+
+
+	//ステージ
+	const float stageTextureScale_ = 1.5f;
+	static const int STAGE_AMOUNT_=2;
+	Sprite* stageSprite_[STAGE_AMOUNT_] = { nullptr };
+	Transform stageTransform_[STAGE_AMOUNT_] = {};
+	SpritePosition stageAllPosition_ = {};
+
+
+	//ステージの名前
+	Sprite* gameTextSprite_ =  nullptr ;
+	Sprite* tutorialtextSprite_ =  nullptr ;
+
+	Transform gameTextTransform_ = {};
+	Transform tutorialTextTransform_ = {};
+
+	SpritePosition TextAllPosition_ = {};
+
+
+
+	//キャラクター
+	Sprite* characterSprite = nullptr;
+	Transform characterTransform_ = {};
+	SpritePosition characterAllPosition_ = {};
+	float_t MOVE_INTERVAL = 400.0f;
+
+
 
 
 	//フェード
