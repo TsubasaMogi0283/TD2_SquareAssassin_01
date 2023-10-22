@@ -59,6 +59,38 @@ private:
 	SpritePosition smallScoreAllPosition_[NUMBER_AMOUNT_] = {};
 
 
+
+
+	//キャラクター
+	Sprite* characterSprite_ = nullptr ;
+	Transform characterTransform_ = {};
+	SpritePosition characterAllPosition_ = {};
+
+
+	//吹き出し
+	Sprite* speechBubbleSprite_ = nullptr ;
+	Transform speechBubbleTransform_ = {};
+	SpritePosition speechBubbleAllPosition_ = {};
+	float scaleSize_ = 1.5f;
+
+
+
+	//ランク
+	int32_t rankName_ = 0;
+
+	static const int RANK_AMOUNT_ = 5;
+	Sprite* rankSprite_[RANK_AMOUNT_] = { nullptr };
+	Transform rankTransform_[RANK_AMOUNT_]  = {};
+	SpritePosition rankAllPosition_ [RANK_AMOUNT_] = {};
+
+
+	//コメント
+	Sprite* commentSprite_[RANK_AMOUNT_] = { nullptr };
+	Transform commentTransform_[RANK_AMOUNT_]  = {};
+	SpritePosition commentAllPosition_ [RANK_AMOUNT_] = {};
+
+
+
 };
 
 
