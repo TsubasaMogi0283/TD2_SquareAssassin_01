@@ -99,22 +99,22 @@ void GameScene::Initialize(GameManager* gameManager) {
 	for (int i = 0; i < enemyCount; i++) {
 
 		enemy_[i] = new Enemy;
-		enemy_[i]->Initialize("Resources/05_02", "enemy.obj", transformModel_[i], move_[i]);
+		enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", transformModel_[i], move_[i]);
 	}
 
 	for (int i = 0; i < enemyCount2; i++) {
 
 		enemy2_[i] = new Enemy;
-		enemy2_[i]->Initialize("Resources/05_02", "enemy2.obj", transformModel2_[i], move2_[i]);
+		enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", transformModel2_[i], move2_[i]);
 	}
 	for (int i = 0; i < enemyCount3; i++) {
 
 		enemy3_[i] = new Enemy;
-		enemy3_[i]->Initialize("Resources/05_02", "enemy3.obj", transformModel3_[i], move3_[i]);
+		enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", transformModel3_[i], move3_[i]);
 	}
 	yuka_ = new Model;
 	transformyuka_ = { {0.25f,0.25f,0.1f},{0.0f,0.0f,0.0f},{0.0f,-2.28f,0.0f} };
-	yuka_->CreateObject("Resources/05_02", "yuka.obj");
+	yuka_->CreateObject("Resources/Game/Ground", "yuka.obj");
 
 
 
