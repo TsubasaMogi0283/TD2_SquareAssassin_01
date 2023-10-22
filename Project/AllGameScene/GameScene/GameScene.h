@@ -38,19 +38,11 @@ private:
 	TextureManager* textureManager_ = nullptr;
 
 
-
-	//チュートリアル画面の画像
-	Sprite* gameSprite_ = nullptr;
-	Transform selectSpriteTransform_ = {};
-	SpritePosition spriteAllPosition_ = {};
-	float gameTextureTransparency_ = 0.0f;
-
-
 	//フェード
 	bool isFadeIn_ = true;
 	int fadeInTime_ = 0;
 
-
+	float transparency_ = 0.0f;
 
 
 	//UI

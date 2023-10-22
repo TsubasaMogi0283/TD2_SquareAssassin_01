@@ -149,15 +149,18 @@ void GameScene::Update(GameManager* gameManager) {
 	ImGui::End();
 
 
-	gameSprite_->SetTransparency(gameTextureTransparency_);
+	yuka_->SetTransparency(transparency_);
 
 	//フェードイン
 	if (isFadeIn_ == true) {
-		gameTextureTransparency_ += 0.01f;
-		if (gameTextureTransparency_ > 1.0f) {
-			gameTextureTransparency_ = 1.0f;
+		transparency_ += 0.05f;
+		if (transparency_ > 1.0f) {
+			transparency_ = 0.0f;
 			isFadeIn_ = false;
 		}
+
+		
+		
 	
 	}
 	
@@ -166,13 +169,13 @@ void GameScene::Update(GameManager* gameManager) {
 
 	//選択画面
 	if (isFadeIn_ == false) {
-		
+		Play();
 		
 	}
 
 
 	if (waitingTime_ > SECOND_ * 3) {
-		gameManager->ChangeScene(new TutorialScene());
+		//gameManager->ChangeScene(new TutorialScene());
 	}
 	
 
@@ -201,8 +204,6 @@ void GameScene::Draw(GameManager* gameManager) {
 
 /// デストラクタ
 GameScene::~GameScene() {
-	delete gameSprite_;
-
 	for (int i = 0; i < enemyCount; i++) {
 		enemy_[i]->Release();
 	}
