@@ -270,4 +270,18 @@ void SelectScene::Draw(GameManager* gameManager) {
 /// デストラクタ
 SelectScene::~SelectScene() {
 	delete selectSprite;
+	delete characterSprite;
+	//タイトルへ
+	delete titleIconSprite;
+
+	//ステージこと巻物
+	for (int i = 0; i < STAGE_AMOUNT_; i++) {
+		delete stageSprite_[i];
+
+	}
+	delete gameTextSprite_;
+	delete tutorialtextSprite_;
+
+	
+
 }

@@ -8,14 +8,7 @@ GameScene::GameScene() {
 
 /// 初期化
 void GameScene::Initialize(GameManager* gameManager) {
-	uint32_t selectTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/SelectTexture.png");
-
-	selectSpriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-
-	gameSprite_ = new Sprite();
-	gameSprite_->LoadTextureHandle(selectTextureHandle);
-	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
-	gameSprite_->SetAllPosition(spriteAllPosition_);
+	
 
 
 

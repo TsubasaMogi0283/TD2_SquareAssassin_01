@@ -5,6 +5,7 @@
 #include "TextureManager/TextureManager.h"
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
+#include <Object/Enemy/enemy.h>
 
 
 class  GameScene  : public IGameScene{
@@ -68,12 +69,10 @@ private:
 	Transform transformSprite_ = {};
 	Transform transformSprite2_ = {};
 
-	SpritePosition spriteAllPosition_ = {};
 	SpritePosition spriteAllPosition2_ = {};
 
 	float startTransparency = 1.0f;
 
-	const int SECOND_ = 60;
 
 	int32_t textureChangeTime_ = 0;
 
