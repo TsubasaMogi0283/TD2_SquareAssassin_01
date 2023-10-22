@@ -90,7 +90,24 @@ private:
 	SpritePosition commentAllPosition_ [RANK_AMOUNT_] = {};
 
 
+	//倒した数
+	const float ENEMY_SIZE_ = 3.0f;
+	static const int ENMEY_AMOUNT_ = 3;
+	Sprite* enemySprite_[ENMEY_AMOUNT_] = { nullptr };
+	Transform enemyTransform_[ENMEY_AMOUNT_]  = {};
+	SpritePosition enemyAllPosition_ [ENMEY_AMOUNT_] = {};
 
+	//×部分
+	const float MULTIPLY_SIZE_ = 2.5f;
+	Sprite* multiplySprite_[ENMEY_AMOUNT_] = { nullptr };
+	Transform multiplyTransform_[ENMEY_AMOUNT_] = {};
+	SpritePosition multiplyAllPosition_[ENMEY_AMOUNT_] = {};
+
+
+
+	bool isFadeOut_ = false;
+	int loadingTime_ = 0;
+	float transparency_ = 1.0f;
 };
 
 

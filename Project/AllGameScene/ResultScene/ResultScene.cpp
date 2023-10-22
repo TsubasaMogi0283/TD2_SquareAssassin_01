@@ -104,14 +104,14 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	//コメント
 	for (int i = 0; i < RANK_AMOUNT_; i++) {
 		commentSprite_[i] = new Sprite();
-		commentTransform_[i]  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+		commentTransform_[i]  = {{1.5f,1.5f,1.0f},{0.0f,0.0f,0.0f},{60.0f,300.0f,0.0f}};
 	}
 	
-	uint32_t noobCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Rank/Noob.png");
-	uint32_t BeginnerCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Rank/Beginner.png");
-	uint32_t NormalCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Rank/Normal.png");
-	uint32_t expertCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Rank/Expert.png");
-	uint32_t masterCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Rank/Master.png");
+	uint32_t noobCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Comment/NoobComment.png");
+	uint32_t BeginnerCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Comment/BeginnerComment.png");
+	uint32_t NormalCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Comment/NormalComment.png");
+	uint32_t expertCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Comment/ExpertComment.png");
+	uint32_t masterCommentTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Comment/MasterComment.png");
 	
 
 	commentSprite_[0]->LoadTextureHandle(noobCommentTextureHandle);
@@ -127,8 +127,56 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	}
 	
 
+#pragma region 敵
+
+	for (int i = 0; i < ENMEY_AMOUNT_; i++) {
+		enemySprite_[i] = { new Sprite()};
+		
+	}
+	uint32_t enemyTextureHandle_[ENMEY_AMOUNT_] = {};
+	enemyTextureHandle_[0] = TextureManager::LoadTexture("Resources/Result/Texture/Enemy/enemy1.png");
+	enemyTextureHandle_[1] = TextureManager::LoadTexture("Resources/Result/Texture/Enemy/enemy2.png");
+	enemyTextureHandle_[2] = TextureManager::LoadTexture("Resources/Result/Texture/Enemy/enemy3.png");
+	
+	enemyTransform_[0] = {{ENEMY_SIZE_,ENEMY_SIZE_,1.0f},{0.0f,0.0f,0.0f},{600.0f,300.0f,0.0f}};
+	enemyTransform_[1] = {{ENEMY_SIZE_,ENEMY_SIZE_,1.0f},{0.0f,0.0f,0.0f},{600.0f,430.0f,0.0f}};
+	enemyTransform_[2] = {{ENEMY_SIZE_,ENEMY_SIZE_,1.0f},{0.0f,0.0f,0.0f},{600.0f,560.0f,0.0f}};
 
 
+	enemySprite_[0]->LoadTextureHandle(enemyTextureHandle_[0]);
+	enemySprite_[1]->LoadTextureHandle(enemyTextureHandle_[1]);
+	enemySprite_[2]->LoadTextureHandle(enemyTextureHandle_[2]);
+
+	for (int i = 0; i < ENMEY_AMOUNT_; i++) {
+		commentAllPosition_[i] = {{0.0f,0.0f},{0.0f,32.0f},{32.0f,0.0f},{32.0f,32.0f}};
+		enemySprite_[i]->SetAllPosition(commentAllPosition_[i]);
+	}
+
+
+
+
+	//×
+	for (int i = 0; i < ENMEY_AMOUNT_; i++) {
+		multiplySprite_[i] = new Sprite();
+		uint32_t multiplyTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Enemy/x.png");
+		multiplySprite_[i]->LoadTextureHandle(multiplyTextureHandle);
+		multiplyAllPosition_[i] = {{0.0f,0.0f},{0.0f,32.0f},{32.0f,0.0f},{32.0f,32.0f}};
+		multiplySprite_[i]->SetAllPosition(multiplyAllPosition_[i]);
+	}
+	multiplyTransform_[0] = {{MULTIPLY_SIZE_,MULTIPLY_SIZE_,1.0f},{0.0f,0.0f,0.0f},{720.0f,310.0f,0.0f}};
+	multiplyTransform_[1] = {{MULTIPLY_SIZE_,MULTIPLY_SIZE_,1.0f},{0.0f,0.0f,0.0f},{720.0f,440.0f,0.0f}};
+	multiplyTransform_[2] = {{MULTIPLY_SIZE_,MULTIPLY_SIZE_,1.0f},{0.0f,0.0f,0.0f},{720.0f,570.0f,0.0f}};
+	
+
+	
+
+
+
+
+
+#pragma endregion
+
+	
 
 
 
@@ -147,19 +195,43 @@ void ResultScene::ImGuiDebug() {
 	ImGui::End();
 
 	ImGui::Begin("Rank");
-	ImGui::SliderInt("rank", &rankName_, 0, 5);
+	ImGui::SliderInt("rank", &rankName_, 0, 4);
 	ImGui::SliderFloat3("commentPosition", &commentTransform_[0].translate.x, 0.0f, 1280.0f);
 	ImGui::End();
 
-
+	ImGui::Begin("Enemy");
+	ImGui::SliderFloat3("enemy1",&enemyTransform_[0].translate.x,0.0f,1280.0f);
+	ImGui::SliderFloat3("enemy2",&enemyTransform_[1].translate.x,0.0f,1280.0f);
+	ImGui::SliderFloat3("enemy3",&enemyTransform_[2].translate.x,0.0f,1280.0f);
+	
+	
+	ImGui::End();
+	
 }
 
 /// 更新
 void ResultScene::Update(GameManager* gameManager) {
 
 	ImGuiDebug();
+	backSprite->SetTransparency(transparency_);
+	characterSprite_->SetTransparency(transparency_);
+	speechBubbleSprite_->SetTransparency(transparency_);
 
 
+	
+	//敵
+	for (int i = 0; i < ENMEY_AMOUNT_; i++) {
+		enemySprite_[i]->SetTransparency(transparency_);
+		multiplySprite_[i]->SetTransparency(transparency_);
+	}
+	
+	for (int i = 0; i < RANK_AMOUNT_; i++) {
+		rankSprite_[i]->SetTransparency(transparency_);
+		commentSprite_[i]->SetTransparency(transparency_);
+	}
+
+	
+	
 
 
 #pragma region デバッグ
@@ -180,9 +252,26 @@ void ResultScene::Update(GameManager* gameManager) {
 	}
 
 #pragma endregion
-
+	
 	if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
-		gameManager->ChangeScene(new TitleScene());
+
+		isFadeOut_ = true;
+		
+	}
+	if (isFadeOut_ == true) {
+		transparency_ -= 0.01f;
+		if (transparency_ < 0.0f) {
+			transparency_ = 0.0f;
+
+			//ローディング
+			loadingTime_ += 1;
+			if (loadingTime_ > 120) {
+				gameManager->ChangeScene(new TitleScene());
+
+			}
+			
+		}
+		
 	}
 
 }
@@ -192,6 +281,14 @@ void ResultScene::Draw(GameManager* gameManager) {
 	backSprite->DrawRect(backTransform_);
 	characterSprite_->DrawRect(characterTransform_);
 	speechBubbleSprite_->DrawRect(speechBubbleTransform_);
+
+	//敵
+	for (int i = 0; i < ENMEY_AMOUNT_; i++) {
+		enemySprite_[i]->DrawRect(enemyTransform_[i]);
+		multiplySprite_[i]->DrawRect(multiplyTransform_[i]);
+	}
+	
+	
 
 	
 
@@ -218,11 +315,13 @@ void ResultScene::Draw(GameManager* gameManager) {
 
 		case Expert:
 			rankSprite_[3]->DrawRect(rankTransform_[3]);
+			commentSprite_[3]->DrawRect(commentTransform_[3]);
 
 			break;
 
 		case Master:
 			rankSprite_[4]->DrawRect(rankTransform_[4]);
+			commentSprite_[4]->DrawRect(commentTransform_[4]);
 
 			break;
 	}
