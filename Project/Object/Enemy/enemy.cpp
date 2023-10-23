@@ -1,12 +1,16 @@
 #include "enemy.h"
 
-void Enemy::Initialize(const std::string& directoryPath, const std::string& fileName, Transform transformModel, Vector3 move)
+void Enemy::Initialize(const std::string& directoryPath,
+	const std::string& fileName, Transform transformModel, Vector3 move)
 {
-	enemy_ = new Model();
-	enemy_->CreateObject(directoryPath, fileName);
+
+	model_ = new Model();
+	model_->CreateObject(directoryPath, fileName);
 	transformModel_ = transformModel;
 	move_ = move;
-	//= { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{0.0f,0.0f,0.0f} };
+	//hpCount_ = hpCount;
+
+	isLive_ = 1;
 
 }
 
@@ -34,18 +38,32 @@ void Enemy::Update()
 	}
 
 	transformModel_.translate = Add(transformModel_.translate, move_);
-	/*worldTransform_.matWorld_ = MakeAffineMatrix(
-		worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);*/
+	if (hpCount_ == 0) {
+		isLive_ = 0;
+	}
+	if (isLive_ == 0) {
+		timCount_ += 1;
+	}
+	if (timCount_ == 60) {
+		isLive_ = 1;
+		timCount_ = 0;
+	}
 
 }
 
-void Enemy::Dorw()
+void Enemy::Draw()
 {
-	enemy_->Draw(transformModel_);
+	if (isLive_ == 1) {
+
+		model_->Draw(transformModel_);
+
+	}
+
 }
 
-void Enemy::Release(){
 
-	enemy_->Release();
+void Enemy::Release() {
+
+	model_->Release();
 
 }

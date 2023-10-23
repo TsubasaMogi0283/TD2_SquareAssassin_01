@@ -89,15 +89,21 @@ private:
 	Enemy* enemy2_[10];
 	Enemy* enemy3_[3];
 
-
+	
 	Model* yuka_ = nullptr;
 	Transform transformyuka_ = {};
 
 
 
 
-
-
+	//敵フラグ
+	int32_t HPcont1;
+	int32_t HPcont2;
+	int32_t HPcont3;
+	
+	int32_t num1;
+	int32_t num2;
+	int32_t num3;
 
 
 

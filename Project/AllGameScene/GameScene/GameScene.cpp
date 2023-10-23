@@ -178,7 +178,6 @@ void GameScene::Update(GameManager* gameManager) {
 		//gameManager->ChangeScene(new TutorialScene());
 	}
 	
-
 	
 }
 
@@ -189,13 +188,13 @@ void GameScene::Draw(GameManager* gameManager) {
 	yuka_->Draw(transformyuka_);
 
 	for (int i = 0; i < enemyCount; i++) {
-		enemy_[i]->Dorw();
+		enemy_[i]->Draw();
 	}
 	for (int i = 0; i < enemyCount2; i++) {
-		enemy2_[i]->Dorw();
+		enemy2_[i]->Draw();
 	}
 	for (int i = 0; i < enemyCount3; i++) {
-		enemy3_[i]->Dorw();
+		enemy3_[i]->Draw();
 	}
 
 
@@ -206,12 +205,16 @@ void GameScene::Draw(GameManager* gameManager) {
 GameScene::~GameScene() {
 	for (int i = 0; i < enemyCount; i++) {
 		enemy_[i]->Release();
+		delete enemy_[i];
 	}
 	for (int i = 0; i < enemyCount2; i++) {
 		enemy2_[i]->Release();
+		delete enemy2_[i];
+	
 	}
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Release();
+		delete enemy3_[i];
 	}
 
 }

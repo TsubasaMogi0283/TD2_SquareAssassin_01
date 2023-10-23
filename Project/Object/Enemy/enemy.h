@@ -6,10 +6,14 @@ class Enemy {
 public:
 	void Initialize(const std::string& directoryPath, const std::string& fileName, Transform transformModel, Vector3 move);
 	void Update();
-	void Dorw();
+	void Draw();
 	void Release();
 private:
-	Model* enemy_ = nullptr;
+	Model* model_ = nullptr;
 	Transform transformModel_ = {};
 	Vector3 move_ ;
+	int32_t hpCount_;
+	//int32_t killCount_;
+	int32_t timCount_;
+	int32_t isLive_;
 };
