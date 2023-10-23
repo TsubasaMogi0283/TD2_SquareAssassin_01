@@ -154,6 +154,12 @@ void Audio::StopWave(const SoundData& soundData) {
 	hr = pSourceVoice_->Stop();
 }
 
+//音量調節
+void Audio::SetVolume(float volume) {
+	HRESULT hr{};
+	hr = pSourceVoice_->SetVolume(volume);
+}
+
 
 //音声データの開放
 void Audio::SoundUnload(SoundData* soundData) {

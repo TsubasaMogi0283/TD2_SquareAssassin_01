@@ -28,8 +28,15 @@ public:
 
 private:
 	//Audio
-	Audio* titleBGM_ = nullptr;
-	SoundData titleSoundData_ = {};
+	Audio* selectBGM_ = nullptr;
+	SoundData selectSoundData_ = {};
+
+	Audio* decideSE_ = nullptr;
+	SoundData decideSESoundData_ = {};
+
+	Audio* moveSE_ = nullptr;
+	SoundData moveSESoundData_ = {};
+
 
 	//Input
 	Input* input_ = nullptr;
@@ -89,6 +96,7 @@ private:
 	enum NextScene {
 		Game,
 		Tutorial,
+		Title,
 	};
 
 	int nextScene_ = 0;

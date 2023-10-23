@@ -60,6 +60,7 @@ public:
 	//音声停止
 	void StopWave(const SoundData& soundData);
 
+	void SetVolume(float voloume);
 
 
 

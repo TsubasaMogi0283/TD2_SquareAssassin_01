@@ -78,18 +78,43 @@ void TitleScene::Initialize(GameManager* gameManager) {
 
 	//タイトルBGM
 	titleBGM_ = Audio::GetInstance();
-	titleBGM_->Initialize();
-	titleSoundData_ = titleBGM_->LoadWave("Resources/Title/Music/TitleBGM.wav");
+	//titleBGM_->Initialize();
+	titleSoundData_ = titleBGM_->LoadWave("Resources/Title/Music/Title.wav");
 
 	//再生
 	titleBGM_->PlayWave(titleSoundData_ ,true);
 	
+	//SE
+	startSE_ = Audio::GetInstance();
+	//startSE_->Initialize();
+	startSESoundData_ = titleBGM_->LoadWave("Resources/Title/Music/StartSE.wav");
 
+
+}
+
+void TitleScene::ImGui() {
+	ImGui::Begin("Character");
+	ImGui::InputFloat3("Position", &characterTransform_.translate.x);
+	ImGui::SliderFloat3("Position", &characterTransform_.translate.x,0.0f,1280.0f);
+
+	
+	ImGui::End();
+
+
+	ImGui::Begin("Volume");
+	ImGui::SliderFloat("Title", &volume_, 0.0f, 1.0f);
+	
+	ImGui::End();
 
 }
 
 /// 更新
 void TitleScene::Update(GameManager* gameManager) {
+
+	//ImGui();
+
+#pragma region 透明度
+
 	startSprite_->SetTransparency(startTransparency);
 	//タイトルキャラクター雲同じ透明度の変化だから変数一つで良いよね
 	titleSprite_->SetTransparency(textureTransparency);
@@ -99,6 +124,10 @@ void TitleScene::Update(GameManager* gameManager) {
 		cloudSprite_[i]->SetTransparency(textureTransparency);
 
 	}
+
+
+#pragma endregion
+	//titleBGM_->SetVolume(volume_);
 
 
 	//雲の動き
@@ -112,12 +141,7 @@ void TitleScene::Update(GameManager* gameManager) {
 
 	}
 
-	ImGui::Begin("Character");
-	ImGui::InputFloat3("Position", &characterTransform_.translate.x);
-	ImGui::SliderFloat3("Position", &characterTransform_.translate.x,0.0f,1280.0f);
-
 	
-	ImGui::End();
 	
 	//スペースキーかAボタンでスタートのシーン
 	if (isFadeout_ == false) {
@@ -139,6 +163,7 @@ void TitleScene::Update(GameManager* gameManager) {
 		//スペースを押したらSelectになる
 		if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
 			titleBGM_->StopWave(titleSoundData_);
+			startSE_->PlayWave(startSESoundData_, false);
 
 			isFadeout_ = true;
 		}

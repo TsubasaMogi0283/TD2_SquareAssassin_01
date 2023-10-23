@@ -37,7 +37,7 @@ void GameManager::Initialize() {
 	audio_->Initialize();
 
 	//シーンごとに動作確認したいときはここを変えてね
-	currentGameScene_ = new ResultScene();
+	currentGameScene_ = new SelectScene();
 	currentGameScene_->Initialize(this);
 
 }
