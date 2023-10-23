@@ -153,6 +153,7 @@ void SelectScene::Update(GameManager* gameManager) {
 		//textSprite_[i]->SetTransparency(selectTextureTransparency_);
 	}
 	characterSprite->SetTransparency(selectTextureTransparency_);
+	titleIconSprite->SetTransparency(selectTextureTransparency_);
 
 #pragma endregion
 
