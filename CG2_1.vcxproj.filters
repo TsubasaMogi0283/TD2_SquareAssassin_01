@@ -130,6 +130,9 @@
     <Filter Include="Project\Rank">
       <UniqueIdentifier>{a3723ec1-0312-4dfe-93bc-1207e465f69e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Enemy">
+      <UniqueIdentifier>{0a3dec23-6b5b-4b61-a2c9-d093838cdf04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -236,6 +239,9 @@
     </ClCompile>
     <ClCompile Include="Project\Object\Record\Record.cpp">
       <Filter>Project</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Object\Enemy\enemy.cpp">
+      <Filter>Project\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -412,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="Project\Object\Record\Record.h">
       <Filter>Project</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Object\Enemy\enemy.h">
+      <Filter>Project\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

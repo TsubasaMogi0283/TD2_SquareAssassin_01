@@ -83,6 +83,7 @@ private:
 	bool isFadeOut_ = false;
 	int fadeOutTime_ = 0;
 
+	int loadingTime_ = 0;
 
 	//次はどのシーンに行くか決めるための列挙
 	enum NextScene {

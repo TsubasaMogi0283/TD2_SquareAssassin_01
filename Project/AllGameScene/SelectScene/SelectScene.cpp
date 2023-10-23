@@ -153,6 +153,7 @@ void SelectScene::Update(GameManager* gameManager) {
 		//textSprite_[i]->SetTransparency(selectTextureTransparency_);
 	}
 	characterSprite->SetTransparency(selectTextureTransparency_);
+	titleIconSprite->SetTransparency(selectTextureTransparency_);
 
 #pragma endregion
 
@@ -219,23 +220,29 @@ void SelectScene::Update(GameManager* gameManager) {
 
 	//フェードアウト
 	if (isFadeOut_ == true) {
-		selectTextureTransparency_ -= 0.01f;
+		selectTextureTransparency_ -= 0.07f;
 		if (selectTextureTransparency_ < 0.0f) {
 			selectTextureTransparency_ = 0.0f;
 
-			//GameSceneへ
-			if (nextScene_ == Game) {
-				gameManager->ChangeScene(new GameScene());
-			}
-			//TutorialSceneへ
-			if (nextScene_ == Tutorial) {
-				waitingTime_ += 1;
-
-				if (waitingTime_ > SECOND_ * 3) {
-					gameManager->ChangeScene(new TutorialScene());
+			loadingTime_ += 1;
+			if (loadingTime_ > 100) {
+				//GameSceneへ
+				if (nextScene_ == Game) {
+					gameManager->ChangeScene(new GameScene());
 				}
-			}
 
+
+				//TutorialSceneへ
+				if (nextScene_ == Tutorial) {
+					waitingTime_ += 1;
+
+					if (waitingTime_ > SECOND_ * 3) {
+						gameManager->ChangeScene(new TutorialScene());
+					}
+				}
+			
+			}
+			
 		}
 	}
 
@@ -270,4 +277,18 @@ void SelectScene::Draw(GameManager* gameManager) {
 /// デストラクタ
 SelectScene::~SelectScene() {
 	delete selectSprite;
+	delete characterSprite;
+	//タイトルへ
+	delete titleIconSprite;
+
+	//ステージこと巻物
+	for (int i = 0; i < STAGE_AMOUNT_; i++) {
+		delete stageSprite_[i];
+
+	}
+	delete gameTextSprite_;
+	delete tutorialtextSprite_;
+
+	
+
 }
