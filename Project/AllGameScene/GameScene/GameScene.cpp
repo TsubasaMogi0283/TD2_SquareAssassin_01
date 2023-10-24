@@ -168,12 +168,12 @@ void GameScene::Play() {
 
 
 	Collision();
-	//for (int i = 0; i < enemyCount; i++) {
-	//	enemy_[i]->Update(enemyHP[i]);
-	//}
-	//for (int i = 0; i < enemyCount2; i++) {
-	//	enemy2_[i]->Update( enemyHP2[i]);
-	//}
+	for (int i = 0; i < enemyCount; i++) {
+		enemy_[i]->Update(enemyHP[i]);
+	}
+	for (int i = 0; i < enemyCount2; i++) {
+		enemy2_[i]->Update( enemyHP2[i]);
+	}
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Update(enemyHP3[i]);
 	}
