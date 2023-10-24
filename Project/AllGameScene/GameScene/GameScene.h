@@ -6,6 +6,7 @@
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 #include <Object/Enemy/enemy.h>
+#include <Object/Player/Player.h>
 
 
 class  GameScene  : public IGameScene{
@@ -93,18 +94,12 @@ private:
 	Model* yuka_ = nullptr;
 	Transform transformyuka_ = {};
 
+	int32_t enemyHP = 1;
+	int32_t enemyHP2 = 2;
+	int32_t enemyHP3 = 3;
 
-
-
-	//敵フラグ
-	int32_t HPcont1;
-	int32_t HPcont2;
-	int32_t HPcont3;
-	
-	int32_t num1;
-	int32_t num2;
-	int32_t num3;
-
+#pragma region 自機の動き
+	Player* player_;
 
 
 

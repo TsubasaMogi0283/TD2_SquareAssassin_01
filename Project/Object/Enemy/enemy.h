@@ -4,7 +4,7 @@
 #include "AllGameScene/GameManager/IGameScene.h"
 class Enemy {
 public:
-	void Initialize(const std::string& directoryPath, const std::string& fileName, Transform transformModel, Vector3 move);
+	void Initialize(const std::string& directoryPath, const std::string& fileName, Transform transformModel, Vector3 move, int32_t hpCount);
 	void Update();
 	void Draw();
 	void Release();

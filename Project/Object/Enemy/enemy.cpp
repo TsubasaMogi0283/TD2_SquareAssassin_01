@@ -1,14 +1,15 @@
 #include "enemy.h"
 
 void Enemy::Initialize(const std::string& directoryPath,
-	const std::string& fileName, Transform transformModel, Vector3 move)
+	const std::string& fileName, Transform transformModel,
+	Vector3 move, int32_t hpCount)
 {
 
 	model_ = new Model();
 	model_->CreateObject(directoryPath, fileName);
 	transformModel_ = transformModel;
 	move_ = move;
-	//hpCount_ = hpCount;
+	hpCount_ = hpCount;
 
 	isLive_ = 1;
 

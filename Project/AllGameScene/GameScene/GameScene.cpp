@@ -99,18 +99,18 @@ void GameScene::Initialize(GameManager* gameManager) {
 	for (int i = 0; i < enemyCount; i++) {
 
 		enemy_[i] = new Enemy;
-		enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", transformModel_[i], move_[i]);
+		enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", transformModel_[i], move_[i],enemyHP);
 	}
 
 	for (int i = 0; i < enemyCount2; i++) {
 
 		enemy2_[i] = new Enemy;
-		enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", transformModel2_[i], move2_[i]);
+		enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", transformModel2_[i], move2_[i], enemyHP2);
 	}
 	for (int i = 0; i < enemyCount3; i++) {
 
 		enemy3_[i] = new Enemy;
-		enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", transformModel3_[i], move3_[i]);
+		enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", transformModel3_[i], move3_[i], enemyHP3);
 	}
 	yuka_ = new Model;
 	transformyuka_ = { {0.25f,0.25f,0.1f},{0.0f,0.0f,0.0f},{0.0f,-2.28f,0.0f} };
@@ -120,6 +120,13 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
+
+#pragma region 自機
+	player_ = new Player;
+
+	player_->Initialize("Resources/Game/Player", "playre.obj");
+
+#pragma endregion
 }
 
 void GameScene::Play() {
@@ -134,8 +141,8 @@ void GameScene::Play() {
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Update();
 	}
-
-
+	player_->Update();
+	
 }
 
 /// 更新
@@ -155,7 +162,7 @@ void GameScene::Update(GameManager* gameManager) {
 	if (isFadeIn_ == true) {
 		transparency_ += 0.05f;
 		if (transparency_ > 1.0f) {
-			transparency_ = 0.0f;
+			transparency_ = 1.0f;
 			isFadeIn_ = false;
 		}
 
@@ -196,7 +203,7 @@ void GameScene::Draw(GameManager* gameManager) {
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Draw();
 	}
-
+	player_->Draw();
 
 }
 
