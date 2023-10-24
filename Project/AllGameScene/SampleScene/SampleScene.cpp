@@ -13,14 +13,13 @@ SampleScene::SampleScene() {
 /// </summary>
 SampleScene::~SampleScene() {
 	sprite_->Release();
-	audio_->SoundUnload(&soundData_);
+	audio_->SoundUnload(soundData_);
 	//delete sprite_;
 	//delete sprite2_;
 	//delete sprite3_;
 	//plane_->Release();
 	//delete plane_;
 
-	audio_->DeleteInstance();;
 }
 
 /// <summary>

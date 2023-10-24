@@ -33,7 +33,9 @@ public:
 
 private:
 	//Audio
-	Audio* titleBGM_ = nullptr;
+	Audio* bgm_ = nullptr;
+	uint32_t bgmHandle_ = 0u;
+
 	//Input
 	Input* input_ = nullptr;
 	//TextureManager

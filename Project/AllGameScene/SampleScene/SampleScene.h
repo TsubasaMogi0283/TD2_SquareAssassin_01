@@ -39,7 +39,7 @@ private:
 	//Sprite* sprite3_ = nullptr;
 
 
-	SoundData soundData_ = {};
+	uint32_t soundData_ = {};
 
 	Transform transformSprite_ = {};
 	Transform transformSprite2_ = {};

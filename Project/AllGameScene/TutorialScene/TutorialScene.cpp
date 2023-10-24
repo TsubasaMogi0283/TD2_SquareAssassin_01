@@ -11,7 +11,7 @@ TutorialScene::TutorialScene() {
 
 /// 初期化
 void TutorialScene::Initialize(GameManager* gameManager) {
-	uint32_t selectTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/SelectTexture.png");
+	uint32_t selectTextureHandle = TextureManager::LoadTexture("Resources/Select/Texture/Base/SelectTexture.png");
 
 	selectSpriteTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 
@@ -20,6 +20,9 @@ void TutorialScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f} };
 	tutorialSprite->SetAllPosition(spriteAllPosition_);
 
+
+
+	
 
 }
 

@@ -37,7 +37,7 @@ private:
 	
 
 
-	SoundData soundData_ = {};
+	uint32_t soundData_ = {};
 
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;

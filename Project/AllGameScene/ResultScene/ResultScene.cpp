@@ -8,10 +8,7 @@ ResultScene::ResultScene() {
 
 }
 
-/// デストラクタ
-ResultScene::~ResultScene() {
 
-}
 
 /// 初期化
 void ResultScene::Initialize(GameManager* gameManager) {
@@ -70,6 +67,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	characterSprite_->SetAllPosition(characterAllPosition_);
 	characterSprite2_->SetAllPosition(characterAllPosition_);
 
+
 	//吹き出し
 	speechBubbleSprite_ = new Sprite() ;
 	speechBubbleTransform_ = { {scaleSize_,scaleSize_,1.0f},{0.0f,0.0f,0.0f},{60.0f,300.0f,0.0f} };
@@ -77,6 +75,8 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	speechBubbleSprite_->LoadTextureHandle(speechBublleTextureHandle);
 	speechBubbleAllPosition_ = { {0.0f,0.0f},{0.0f,150.0f},{200.0f,0.0f},{200.0f,150.0f} };
 	speechBubbleSprite_->SetAllPosition(speechBubbleAllPosition_);
+
+
 
 	//ランク
 	for (int i = 0; i < RANK_AMOUNT_; i++) {
@@ -179,10 +179,19 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
-	
+	//BGM
+	bgm_ = Audio::GetInstance();
+	bgmHandle_ = bgm_->LoadWave("Resources/Result/Music/ResultBGM.wav");
+
+
+	bgm_->PlayWave(bgmHandle_, true);
+	bgm_->ChangeVolume(bgmHandle_,0.7f);
 
 
 
+	//SE
+	decideSE_ =  Audio::GetInstance();
+	decideSEHandle_ = decideSE_->LoadWave("Resources/Result/Music/Decide.wav");;
 
 }
 
@@ -210,6 +219,11 @@ void ResultScene::ImGuiDebug() {
 	
 	ImGui::End();
 	
+	ImGui::Begin("time");
+
+	ImGui::InputInt("decideSE", &decideSETime_);
+	ImGui::End();
+
 }
 
 /// 更新
@@ -257,12 +271,29 @@ void ResultScene::Update(GameManager* gameManager) {
 
 #pragma endregion
 	
-	if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
+	XINPUT_STATE joyState{};
 
-		isFadeOut_ = true;
+	if (Input::GetInstance()->GetJoystickState(joyState)) {
+		//Aボタン
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			triggerButtonATime_ += 1;
 		
+		}
+
+	}
+
+
+	if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
+
+		decideSE_->PlayWave(decideSEHandle_, false);
+		decideSE_->ChangeVolume(decideSEHandle_, 0.5f);
+		isFadeOut_ = true;
+		bgm_->StopWave(bgmHandle_);
+
 	}
 	if (isFadeOut_ == true) {
+		decideSETime_ = 0;
+
 		transparency_ -= 0.01f;
 		if (transparency_ < 0.0f) {
 			transparency_ = 0.0f;
@@ -273,9 +304,9 @@ void ResultScene::Update(GameManager* gameManager) {
 				gameManager->ChangeScene(new TitleScene());
 
 			}
-			
+
 		}
-		
+
 	}
 
 }
@@ -340,6 +371,10 @@ void ResultScene::Draw(GameManager* gameManager) {
 
 }
 
-
+/// デストラクタ
+ResultScene::~ResultScene() {
+	decideSE_->Release();
+		
+}
 
 

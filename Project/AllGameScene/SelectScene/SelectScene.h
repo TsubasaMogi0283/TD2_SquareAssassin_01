@@ -28,8 +28,15 @@ public:
 
 private:
 	//Audio
-	Audio* titleBGM_ = nullptr;
-	SoundData titleSoundData_ = {};
+	Audio* selectBGM_ = nullptr;
+	uint32_t selectSoundData_ = {};
+
+	Audio* decideSE_ = nullptr;
+	uint32_t decideSESoundData_ = {};
+
+	Audio* moveSE_ = nullptr;
+	uint32_t moveSESoundData_ = {};
+
 
 	//Input
 	Input* input_ = nullptr;
@@ -89,6 +96,7 @@ private:
 	enum NextScene {
 		Game,
 		Tutorial,
+		Title,
 	};
 
 	int nextScene_ = 0;
@@ -96,5 +104,18 @@ private:
 	//ロード時間
 	int waitingTime_ = 0;
 	const int SECOND_ = 60;
+
+
+
+	//コントローラー
+	int triggerButtonATime_ = 0;
+
+	//右
+	bool isTriggerRight_ = false;
+	int triggerRightTime_ = 0;
+	
+	//左
+	bool isTriggerLeft_ = false;
+	int triggerLeftTime_ = 0;
 
 };
