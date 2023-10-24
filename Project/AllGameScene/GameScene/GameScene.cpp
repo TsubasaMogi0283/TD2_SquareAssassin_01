@@ -543,6 +543,7 @@ void GameScene::Collision()
 		}
 		if (enemyHP[i] ==0) {
 			killCount1_ += 1;
+			Record::GetInstance()->SetAttackedSmallEnemy(killCount1_);
 			allKillCount_ += 1;
 			enemyHP[i] = 5;
 		}
@@ -580,6 +581,7 @@ void GameScene::Collision()
 		}
 		if (enemyHP2[i] == 0) {
 			killCount2_ += 1;
+			Record::GetInstance()->SetAttackedNormalEnemy(killCount2_);
 			allKillCount_ += 1;
 			enemyHP2[i] = 5;
 		}
@@ -616,7 +618,8 @@ void GameScene::Collision()
 	
 		}
 		if (enemyHP3[i] == 0) {
-			killCount1_ += 1;
+			killCount3_ += 1;
+			Record::GetInstance()->SetAttackedBigEnemy(killCount3_);
 			allKillCount_ += 1;
 			enemyHP3[i] = 5;
 		}

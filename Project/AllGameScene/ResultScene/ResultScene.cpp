@@ -179,6 +179,12 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
+
+	smallScore_ = Record::GetInstance()->GetSmallEnemy();
+	normalScore_ = Record::GetInstance()->GetNormalEnemy();
+	bigScore_ = Record::GetInstance()->GetBigEnemy();
+
+
 	//BGM
 	bgm_ = Audio::GetInstance();
 	bgmHandle_ = bgm_->LoadWave("Resources/Result/Music/ResultBGM.wav");
@@ -196,15 +202,15 @@ void ResultScene::Initialize(GameManager* gameManager) {
 }
 
 void ResultScene::ImGuiDebug() {
-	ImGui::Begin("Character");
 
-	ImGui::SliderFloat3("Translate", &characterTransform_.translate.x, 0.0f, 1280.0f);
+	ImGui::Begin("Record");
+
+	ImGui::InputInt("Small", &smallScore_);
+	ImGui::InputInt("Normal", &normalScore_);
+	ImGui::InputInt("Big", &bigScore_);
+
 	ImGui::End();
 
-	ImGui::Begin("SpeechBubble");
-	ImGui::SliderFloat3("Rotate", &speechBubbleTransform_.scale.x, 0.0f, 5.0f);
-	ImGui::SliderFloat3("Translate", &speechBubbleTransform_.translate.x, 0.0f, 1280.0f);
-	ImGui::End();
 
 	ImGui::Begin("Rank");
 	ImGui::SliderInt("rank", &rankName_, 0, 4);

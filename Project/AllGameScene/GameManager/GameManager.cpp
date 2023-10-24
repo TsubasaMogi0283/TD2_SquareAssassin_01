@@ -22,6 +22,7 @@ GameManager::GameManager() {
 	textureManager_ = TextureManager::GetInstance();
 	audio_ = Audio::GetInstance();
 	pipelineManager_ = PipelineManager::GetInstance();
+	record_ = Record::GetInstance();
 }
 	
 void GameManager::Initialize() {

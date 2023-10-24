@@ -21,13 +21,19 @@ public:
 
 
 
-	void SetAttackedEnemy(int smallEnemy,int normalEnemy,int bigEnemy) {
+	void SetAttackedSmallEnemy(int smallEnemy) {
 		this->attackdEnemy[0] = smallEnemy;
+
+	}
+	void SetAttackedNormalEnemy(int normalEnemy) {
 		this->attackdEnemy[1] = normalEnemy;
+
+	}
+	void SetAttackedBigEnemy(int bigEnemy) {
+		
 		this->attackdEnemy[2] = bigEnemy;
 
 	}
-
 
 	int GetSmallEnemy() {
 		return attackdEnemy[0];

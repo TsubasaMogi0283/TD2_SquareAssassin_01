@@ -19,6 +19,7 @@
 #include "Camera/Camera.h"
 #include "TextureManager/TextureManager.h"
 #include "PipelineManager/PipelineManager.h"
+#include <Object/Record/Record.h>
 
 //main.cppにあるものを全部こっちに引っ越しする
 class GameManager {
@@ -71,7 +72,7 @@ private:
 	Camera* camera_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
 	Audio* audio_ = nullptr;
-
+	Record* record_ = nullptr;
 #pragma region サンプル
 	
 

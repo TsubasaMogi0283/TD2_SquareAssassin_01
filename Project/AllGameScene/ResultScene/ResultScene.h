@@ -121,6 +121,11 @@ private:
 
 
 
+	int smallScore_ = 0;
+	int normalScore_ = 0;
+	int bigScore_ = 0;
+
+
 };
 
 
