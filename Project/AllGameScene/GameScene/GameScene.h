@@ -44,6 +44,7 @@ private:
 	//BGM
 	Audio* gameBGM_ = nullptr;
 	uint32_t gameBGMHandle_ = 0u;
+	float volume_ = 1.0f;
 	int bgmTime_ = 0;
 
 	Audio* countSE_ = nullptr;
@@ -52,6 +53,8 @@ private:
 	Audio* startSE_ = nullptr;
 	uint32_t startSEHandle_ = 0u;
 
+	Audio* endSE_ = nullptr;
+	uint32_t endSEHandle_ = 0u;
 
 
 	//Input
@@ -124,6 +127,8 @@ private:
 	//ゲーム開始
 	bool isGamePlay_ = false;
 
+	bool isStopGame_ = false;
+
 #pragma region カウントダウン
 	int countDown_ = SECOND_ * 4;
 	//カウント
@@ -144,10 +149,11 @@ private:
 #pragma endregion
 
 	//ゲームの時間
-	int gameTime_ = SECOND_ * 60;
+	const int timer_ = 10;
+	int gameTime_ = SECOND_ * timer_;
 
 	//表示されている時間
-	int displayTime_ = 0;
+	int displayTime_ = gameTime_/60;
 	//1の位
 	int onesPlace_ = 0;
 	//10の位
@@ -166,6 +172,11 @@ private:
 	SpritePosition timeOnesPlaneAllPosition_ = {};
 	SpritePosition timeTensPlaneAllPosition_ = {};
 
+
+	int endSETime_ = 0;
+
+
+	int displayStopTime_ = 0;
 
 
 };

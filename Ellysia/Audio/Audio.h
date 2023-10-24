@@ -60,7 +60,7 @@ public:
 
 	
 	//音量調節
-	void SetVolume(float volume);
+	void ChangeVolume(uint32_t audiohandle,float volume);
 
 
 	//音声データの開放

@@ -141,9 +141,9 @@ void Audio::PlayWave(uint32_t audioHandle,bool isLoop) {
 	
 }
 
-void Audio::SetVolume(float volume) {
+void Audio::ChangeVolume(uint32_t audiohandle, float volume) {
 	HRESULT hr = {};
-	hr = pSourceVoice_[audioHandle_]->SetVolume(volume);
+	hr = pSourceVoice_[audiohandle]->SetVolume(volume);
 }
 
 //音声停止

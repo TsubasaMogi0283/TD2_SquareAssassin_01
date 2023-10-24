@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "AllGameScene/TutorialScene/TutorialScene.h"
+#include "AllGameScene/ResultScene/ResultScene.h"
 
 //コンストラクタ
 GameScene::GameScene() {
@@ -39,7 +40,7 @@ void GameScene::Initialize(GameManager* gameManager) {
 	endTransform_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{190.0f,210.0f,0.0f}};
 	endAllPosition_ = {{0.0f,0.0f},{0.0f,300.0f},{900.0f,0.0f},{900.0f,300.0f}};
 	uint32_t endTextureHandle = TextureManager::LoadTexture("Resources/Game/CountDown/End.png");
-	end_->LoadTextureHandle(startTextureHandle);
+	end_->LoadTextureHandle(endTextureHandle);
 	end_->SetAllPosition(startAllPosition_);
 
 
@@ -201,12 +202,13 @@ void GameScene::Initialize(GameManager* gameManager) {
 	countSEHandle_ = countSE_->LoadWave("Resources/Game/Music/Count.wav");
 
 	//開始
-	startSE_ = Audio::GetInstance();;
+	startSE_ = Audio::GetInstance();
 	startSEHandle_ = startSE_->LoadWave("Resources/Game/Music/Start.wav");
 
 
-
-
+	//終了
+	endSE_ = Audio::GetInstance();
+	endSEHandle_ = endSE_->LoadWave("Resources/Game/Music/End.wav");
 
 }
 
@@ -236,6 +238,15 @@ void GameScene::ImGuiDebug() {
 	ImGui::InputInt("OnePlace", &onesPlace_);
 	ImGui::End();
 
+
+	ImGui::Begin("End");
+	ImGui::SliderFloat3("translate", &endTransform_.translate.x, 0.0f, 1280.0f);
+
+	ImGui::End();
+
+	
+
+
 }
 
 void GameScene::Play() {
@@ -264,7 +275,9 @@ void GameScene::CountDown() {
 	tensPlace_ = displayTime_ / 10;
 	onesPlace_ = displayTime_ % 10;
 
-
+	if (displayTime_ < 1) {
+		isStopGame_ = true;
+	}
 
 }
 
@@ -324,11 +337,7 @@ void GameScene::Update(GameManager* gameManager) {
 
 	//ゲームプレイ
 	if (isGamePlay_ == true){
-		//主なゲームの動き
-		Play();
-
-		//ゲームの時間
-		CountDown();
+		
 
 		//再生
 		bgmTime_ += 1;
@@ -340,44 +349,76 @@ void GameScene::Update(GameManager* gameManager) {
 			
 			bgmTime_ = 0;
 		}
+		//主なゲームの動き
+		Play();
+
+		//ゲームの時間
+		CountDown();
+	}
+
+
+
+	if (isStopGame_ == true) {
 		
+		endSETime_ += 1;
+		if (endSETime_==1) {
+			endSE_->ChangeVolume(endSEHandle_,1.5f);
+			endSE_->PlayWave(endSEHandle_, false);
+		
+		}
+
+
+
+		gameTime_ = 0;
+
+
+		displayStopTime_ += 1;
+
+		if (displayStopTime_ > SECOND_ * 3) {
+			//BGM止める
+			gameBGM_->StopWave(gameBGMHandle_);
+			gameManager->ChangeScene(new ResultScene());
+		}
 	}
 
 
-	if (waitingTime_ > SECOND_ * 3) {
-		//gameManager->ChangeScene(new TutorialScene());
-	}
-	
+	//
+	//if (displayTime_ < SECOND_ * 0) {
+	//	
+	//}
 
 	
 }
 
 /// 描画
 void GameScene::Draw(GameManager* gameManager) {
-	//gameSprite_->DrawRect(selectSpriteTransform_);
-
+	//地面
 	yuka_->Draw(transformyuka_);
 
-	for (int i = 0; i < enemyCount; i++) {
-		enemy_[i]->Draw();
-	}
-	for (int i = 0; i < enemyCount2; i++) {
-		enemy2_[i]->Draw();
-	}
-	for (int i = 0; i < enemyCount3; i++) {
-		enemy3_[i]->Draw();
+#pragma region 敵
+	if (isGamePlay_ == true) {
+		for (int i = 0; i < enemyCount; i++) {
+			enemy_[i]->Draw();
+		}
+		for (int i = 0; i < enemyCount2; i++) {
+			enemy2_[i]->Draw();
+		}
+		for (int i = 0; i < enemyCount3; i++) {
+			enemy3_[i]->Draw();
+		}
 	}
 	
-	
+#pragma endregion
+
 #pragma region カウントダウン
 	if (countDown_ < SECOND_ * 4 && countDown_ >= SECOND_ * 3) {
-		 count_[2]->DrawRect(countTransform_[2]);	
+		count_[2]->DrawRect(countTransform_[2]);
 	}
 	if (countDown_ < SECOND_ * 3 && countDown_ >= SECOND_ * 2) {
-		 count_[1]->DrawRect(countTransform_[1]);	
+		count_[1]->DrawRect(countTransform_[1]);
 	}
 	if (countDown_ < SECOND_ * 2 && countDown_ >= SECOND_ * 1) {
-		 count_[0]->DrawRect(countTransform_[0]);	
+		count_[0]->DrawRect(countTransform_[0]);
 	}
 	if (countDown_ < SECOND_ * 1 && countDown_ >= SECOND_ * 0) {
 		start_->DrawRect(startTransform_);
@@ -386,26 +427,31 @@ void GameScene::Draw(GameManager* gameManager) {
 #pragma endregion
 
 #pragma region 時間
+	if (isGamePlay_ == true) {
 
-
-	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
-		if (tensPlace_ == i) {
-			timeTensPlane_[i]->DrawRect(timeTensPlaneTransform_);
-		}
-		if (onesPlace_ == i) {
-			timeOnesPlane_[i]->DrawRect(timeOnesPlaneTransform_);
-		}
-		
-
-
-	}
-
+		for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+			if (tensPlace_ == i) {
+				timeTensPlane_[i]->DrawRect(timeTensPlaneTransform_);
+			}
+			if (onesPlace_ == i) {
+				timeOnesPlane_[i]->DrawRect(timeOnesPlaneTransform_);
+			}
 	
+	
+	
+		}
+	
+	}
 
 	
 #pragma endregion
 
 
+	if (isStopGame_ == true) {
+		end_->DrawRect(endTransform_);
+
+	}
+	
 
 }
 
