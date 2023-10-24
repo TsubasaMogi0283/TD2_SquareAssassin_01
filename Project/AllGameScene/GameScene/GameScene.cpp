@@ -173,22 +173,22 @@ void GameScene::Initialize(GameManager* gameManager) {
 	enemyHP3[1] = 3;
 	enemyHP3[2] = 3;
 
-	//for (int i = 0; i < enemyCount; i++) {
-	//
-	//	enemy_[i] = new Enemy;
-	//	enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", enemyTransform_[i], enemyMove_[i]);
-	//}
-	//
-	//for (int i = 0; i < enemyCount2; i++) {
-	//
-	//	enemy2_[i] = new Enemy;
-	//	enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", enemyTransformModel2_[i], enemyMove2_[i]);
-	//}
-	//for (int i = 0; i < enemyCount3; i++) {
-	//
-	//	enemy3_[i] = new Enemy;
-	//	enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", enemyTransformModel3_[i], enemyMove3_[i]);
-	//}
+	for (int i = 0; i < enemyCount; i++) {
+	
+		enemy_[i] = new Enemy;
+		enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", enemyTransform_[i], enemyMove_[i]);
+	}
+	
+	for (int i = 0; i < enemyCount2; i++) {
+	
+		enemy2_[i] = new Enemy;
+		enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", enemyTransformModel2_[i], enemyMove2_[i]);
+	}
+	for (int i = 0; i < enemyCount3; i++) {
+	
+		enemy3_[i] = new Enemy;
+		enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", enemyTransformModel3_[i], enemyMove3_[i]);
+	}
 	yuka_ = new Model;
 	transformyuka_ = { {0.25f,0.25f,0.1f},{0.0f,0.0f,0.0f},{0.0f,-2.28f,0.0f} };
 	yuka_->CreateObject("Resources/Game/Ground", "yuka.obj");
@@ -235,26 +235,25 @@ void GameScene::Initialize(GameManager* gameManager) {
 #pragma endregion
 
 
-	////BGM
-	////タイトルBGM
-	//gameBGM_ = Audio::GetInstance();
-	////titleBGM_->Initialize();
-	//gameBGMHandle_ = gameBGM_->LoadWave("Resources/Game/Music/Game.wav");
-	//
-	//
-	//
-	////カウントダウン
-	//countSE_ =  Audio::GetInstance();
-	//countSEHandle_ = countSE_->LoadWave("Resources/Game/Music/Count.wav");
-	//
-	////開始
-	//startSE_ = Audio::GetInstance();
-	//startSEHandle_ = startSE_->LoadWave("Resources/Game/Music/Start.wav");
-	//
-	//
-	////終了
-	//endSE_ = Audio::GetInstance();
-	//endSEHandle_ = endSE_->LoadWave("Resources/Game/Music/End.wav");
+	//BGM
+	//タイトルBGM
+	gameBGM_ = Audio::GetInstance();
+	gameBGMHandle_ = gameBGM_->LoadWave("Resources/Game/Music/Game.wav");
+	
+	
+	
+	//カウントダウン
+	countSE_ =  Audio::GetInstance();
+	countSEHandle_ = countSE_->LoadWave("Resources/Game/Music/Count.wav");
+	
+	//開始
+	startSE_ = Audio::GetInstance();
+	startSEHandle_ = startSE_->LoadWave("Resources/Game/Music/Start.wav");
+	
+	
+	//終了
+	endSE_ = Audio::GetInstance();
+	endSEHandle_ = endSE_->LoadWave("Resources/Game/Music/End.wav");
 
 }
 
@@ -294,13 +293,6 @@ void GameScene::ImGuiDebug() {
 
 
 
-#pragma region 自機
-	playerTransform_ = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{3.7f,2.0f,0.0f} };
-	player_ = new Player;
-
-	player_->Initialize("Resources/Game/Player", "playre.obj", playerTransform_);
-
-#pragma endregion
 }
 
 void GameScene::Play() {
@@ -369,23 +361,23 @@ void GameScene::Update(GameManager* gameManager) {
 
 		if (countDown_ < SECOND_ * 4 && countDown_ >= SECOND_ * 3) {
 			if (countDown_ == SECOND_ * 4 - 1) {
-				//countSE_->PlayWave(countSEHandle_, false);
+				countSE_->PlayWave(countSEHandle_, false);
 			}
 		}
 		if (countDown_ < SECOND_ * 3 && countDown_ >= SECOND_ * 2) {
 			if (countDown_ == SECOND_ * 3 - 1) {
-				//countSE_->PlayWave(countSEHandle_, false);
+				countSE_->PlayWave(countSEHandle_, false);
 			}
 
 		}
 		if (countDown_ < SECOND_ * 2 && countDown_ >= SECOND_ * 1) {
 			if (countDown_ == SECOND_ * 2 - 1) {
-				//countSE_->PlayWave(countSEHandle_, false);
+				countSE_->PlayWave(countSEHandle_, false);
 			}
 		}
 		if (countDown_ < SECOND_ * 1 && countDown_ >= SECOND_ * 0) {
 			if (countDown_ == SECOND_ * 1 - 1) {
-				//startSE_->PlayWave(startSEHandle_, false);
+				startSE_->PlayWave(startSEHandle_, false);
 			}
 		}
 
@@ -458,16 +450,18 @@ void GameScene::Draw(GameManager* gameManager) {
 #pragma region 敵
 	if (isGamePlay_ == true) {
 		for (int i = 0; i < enemyCount; i++) {
-			//enemy_[i]->Draw();
+			enemy_[i]->Draw();
 		}
 		for (int i = 0; i < enemyCount2; i++) {
-			//enemy2_[i]->Draw();
+			enemy2_[i]->Draw();
 		}
 		for (int i = 0; i < enemyCount3; i++) {
-			//enemy3_[i]->Draw();
+			enemy3_[i]->Draw();
 		}
 	}
 	
+
+
 #pragma endregion
 
 #pragma region カウントダウン
@@ -502,6 +496,14 @@ void GameScene::Draw(GameManager* gameManager) {
 		}
 	
 	}
+
+#pragma endregion
+
+	if (isStopGame_ == true) {
+		end_->DrawRect(endTransform_);
+
+	}
+
 	player_->Draw();
 
 }
@@ -525,10 +527,10 @@ void GameScene::Collision()
 		posA = enemy_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
 		float distanceAB = Length(Subtract(posA, posB));
-
+	
 		if (distanceAB <= enemy_[i]->GetRadius() + player_->GetRadius()) {
-
-
+	
+	
 			//配列にしましょう
 			//ん、はやくやるべき
 			if (!HPCoolFlag_[i])
@@ -537,14 +539,14 @@ void GameScene::Collision()
 				HPCoolFlag_[i] = true;
 			}
 			
-
+	
 		}
 		if (enemyHP[i] ==0) {
 			killCount1_ += 1;
 			allKillCount_ += 1;
 			enemyHP[i] = 5;
 		}
-
+	
 		if (HPCoolFlag_[i])
 		{
 			HPCoolTimer_[i]++;
@@ -554,18 +556,18 @@ void GameScene::Collision()
 				HPCoolFlag_[i] = false;
 			}
 		}
-
+	
 	}
 	
-
+	
 	for (int i = 0; i < enemyCount2; i++) {
 		posA = enemy2_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
 		float distanceAB = Length(Subtract(posA, posB));
-
+	
 		if (distanceAB <= enemy2_[i]->GetRadius() + player_->GetRadius()) {
-
-
+	
+	
 			//配列にしましょう
 			//ん、はやくやるべき
 			if (!HPCoolFlag2_[i])
@@ -573,15 +575,15 @@ void GameScene::Collision()
 				enemyHP2[i] -= 1;
 				HPCoolFlag2_[i] = true;
 			}
-
-
+	
+	
 		}
 		if (enemyHP2[i] == 0) {
 			killCount2_ += 1;
 			allKillCount_ += 1;
 			enemyHP2[i] = 5;
 		}
-
+	
 		if (HPCoolFlag2_[i])
 		{
 			HPCoolTimer2_[i]++;
@@ -591,18 +593,18 @@ void GameScene::Collision()
 				HPCoolFlag2_[i] = false;
 			}
 		}
-
+	
 	}
-
-
+	
+	
 	for (int i = 0; i < enemyCount3; i++) {
 		posA = enemy3_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
 		float distanceAB = Length(Subtract(posA, posB));
-
+	
 		if (distanceAB <= enemy3_[i]->GetRadius() + player_->GetRadius()) {
-
-
+	
+	
 			//配列にしましょう
 			//ん、はやくやるべき
 			if (!HPCoolFlag3_[i])
@@ -611,14 +613,14 @@ void GameScene::Collision()
 				HPCoolFlag3_[i] = true;
 			}
 			
-
+	
 		}
 		if (enemyHP3[i] == 0) {
 			killCount1_ += 1;
 			allKillCount_ += 1;
 			enemyHP3[i] = 5;
 		}
-
+	
 		if (HPCoolFlag3_[i])
 		{
 			HPCoolTimer3_[i]++;
@@ -628,18 +630,13 @@ void GameScene::Collision()
 				HPCoolFlag3_[i] = false;
 			}
 		}
-
+	
 	}
-
+	
 
 	
 #pragma endregion
 
-
-	if (isStopGame_ == true) {
-		end_->DrawRect(endTransform_);
-
-	}
 	
 
 }
@@ -654,13 +651,13 @@ GameScene::~GameScene() {
 	for (int i = 0; i < enemyCount2; i++) {
 		enemy2_[i]->Release();
 		delete enemy2_[i];
-
+	
 	}
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Release();
 		delete enemy3_[i];
 	}
-
+	
 
 	
 
