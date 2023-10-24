@@ -80,6 +80,48 @@ void GameScene::Update(GameManager* gameManager) {
 	}
 	
 
+	for (int i = 0; i < 6; i++) {
+		if (player_->GetIsPlayerAttack()) {
+			int attackRange{};
+
+			if (player_->GetIsPlayerAttack() == 2) {
+				attackRange = player_->GetAttackRangeStrong();
+			} else if (player_->GetIsPlayerAttack() == 1) {
+				attackRange = player_->GetAttackRangeWeak();
+			}
+
+			switch (player_->GetNowPlayerSide()) {
+			case Player::side::up:
+				if (enemy_[i]->GetWorldTransform().translate.x > player_->GetAttackRangePos().x - attackRange / 2 && enemy_[i]->GetWorldTransform().translate.x < player_->GetAttackRangePos().x + attackRange) {
+					if (enemy_[i]->GetWorldTransform().translate.y > player_->GetAttackRangePos().y && enemy_[i]->GetWorldTransform().translate.y < player_->GetAttackRangePos().y + 30) {
+						enemy_[i]->SetIsDeath(true);
+					}
+				}
+				break;
+			case Player::side::down:
+				if (enemy_[i]->GetWorldTransform().translate.x > player_->GetAttackRangePos().x - attackRange / 2 && enemy_[i]->GetWorldTransform().translate.x < player_->GetAttackRangePos().x + attackRange) {
+					if (enemy_[i]->GetWorldTransform().translate.y < player_->GetAttackRangePos().y && enemy_[i]->GetWorldTransform().translate.y > player_->GetAttackRangePos().y - 30) {
+						enemy_[i]->SetIsDeath(true);
+					}
+				}
+				break;
+			case Player::side::left:
+				if (enemy_[i]->GetWorldTransform().translate.x > player_->GetAttackRangePos().x && enemy_[i]->GetWorldTransform().translate.x < player_->GetAttackRangePos().x + 30) {
+					if (enemy_[i]->GetWorldTransform().translate.y > player_->GetAttackRangePos().y - attackRange / 2 && enemy_[i]->GetWorldTransform().translate.y < player_->GetAttackRangePos().y + attackRange / 2) {
+						enemy_[i]->SetIsDeath(true);
+					}
+				}
+				break;
+			case Player::side::right:
+				if (enemy_[i]->GetWorldTransform().translate.x < player_->GetAttackRangePos().x && enemy_[i]->GetWorldTransform().translate.x > player_->GetAttackRangePos().x - 30) {
+					if (enemy_[i]->GetWorldTransform().translate.y > player_->GetAttackRangePos().y - attackRange / 2 && enemy_[i]->GetWorldTransform().translate.y < player_->GetAttackRangePos().y + attackRange / 2) {
+						enemy_[i]->SetIsDeath(true);
+					}
+				}
+				break;
+			}
+		}
+	}
 	
 }
 
