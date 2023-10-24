@@ -124,7 +124,7 @@ void GameScene::Initialize(GameManager* gameManager) {
 	enemyMove3_[0] = { -0.02f,  0.02f, 0 };
 	enemyMove3_[1] = { 0.02f,  0.02f, 0 };
 	enemyMove3_[2] = { -0.02f,  0.02f, 0 };
-
+	
 
 	enemyHP3[0] = 3;
 	enemyHP3[1] = 3;
@@ -168,12 +168,12 @@ void GameScene::Play() {
 
 
 	Collision();
-	for (int i = 0; i < enemyCount; i++) {
-		enemy_[i]->Update(enemyHP[i]);
-	}
-	for (int i = 0; i < enemyCount2; i++) {
-		enemy2_[i]->Update( enemyHP2[i]);
-	}
+	//for (int i = 0; i < enemyCount; i++) {
+	//	enemy_[i]->Update(enemyHP[i]);
+	//}
+	//for (int i = 0; i < enemyCount2; i++) {
+	//	enemy2_[i]->Update( enemyHP2[i]);
+	//}
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Update(enemyHP3[i]);
 	}
@@ -259,25 +259,42 @@ void GameScene::Collision()
 	Vector3 posA, posB;
 
 
-	for (int i = 0; i < enemyCount3; i++) {
+	for (int i = 0; i < enemyCount; i++) {
 		posA = enemy_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
 		float distanceAB = Length(Subtract(posA, posB));
 
 		if (distanceAB <= enemy_[i]->GetRadius() + player_->GetRadius()) {
 
-			enemyHP[i] -= 1;
 
-			if (enemyHP[i] < 0) {
-				killCount1_ += 1;
-				allKillCount_ += 1;
-				enemyHP[i] = 5;
+			//配列にしましょう
+			//ん、はやくやるべき
+			if (!HPCoolFlag_[i])
+			{
+				enemyHP[i] -= 1;
+				HPCoolFlag_[i] = true;
 			}
+			
 
+		}
+		if (enemyHP[i] ==0) {
+			killCount1_ += 1;
+			allKillCount_ += 1;
+			enemyHP[i] = 5;
+		}
+
+		if (HPCoolFlag_[i])
+		{
+			HPCoolTimer_[i]++;
+			if (HPCoolTimer_[i] > 30)
+			{
+				HPCoolTimer_[i] = 0;
+				HPCoolFlag_[i] = false;
+			}
 		}
 
 	}
-
+	
 
 	for (int i = 0; i < enemyCount2; i++) {
 		posA = enemy2_[i]->GetWorldPosition();
@@ -286,17 +303,35 @@ void GameScene::Collision()
 
 		if (distanceAB <= enemy2_[i]->GetRadius() + player_->GetRadius()) {
 
-			enemyHP2[i] -= 1;
 
-			if (enemyHP2[i] < 0) {
-				killCount2_ += 1;
-				allKillCount_ += 1;
-				enemyHP2[i] = 5;
+			//配列にしましょう
+			//ん、はやくやるべき
+			if (!HPCoolFlag2_[i])
+			{
+				enemyHP2[i] -= 1;
+				HPCoolFlag2_[i] = true;
 			}
 
+
+		}
+		if (enemyHP2[i] == 0) {
+			killCount2_ += 1;
+			allKillCount_ += 1;
+			enemyHP2[i] = 5;
+		}
+
+		if (HPCoolFlag2_[i])
+		{
+			HPCoolTimer2_[i]++;
+			if (HPCoolTimer2_[i] > 30)
+			{
+				HPCoolTimer2_[i] = 0;
+				HPCoolFlag2_[i] = false;
+			}
 		}
 
 	}
+
 
 	for (int i = 0; i < enemyCount3; i++) {
 		posA = enemy3_[i]->GetWorldPosition();
@@ -305,14 +340,31 @@ void GameScene::Collision()
 
 		if (distanceAB <= enemy3_[i]->GetRadius() + player_->GetRadius()) {
 
-			enemyHP3[i] -= 1;
 
-			if (enemyHP3[i] < 0) {
-				killCount3_ += 1;
-				allKillCount_ += 1;
-				enemyHP3[i] = 5;
+			//配列にしましょう
+			//ん、はやくやるべき
+			if (!HPCoolFlag3_[i])
+			{
+				enemyHP3[i] -= 1;
+				HPCoolFlag3_[i] = true;
 			}
+			
 
+		}
+		if (enemyHP3[i] == 0) {
+			killCount1_ += 1;
+			allKillCount_ += 1;
+			enemyHP3[i] = 5;
+		}
+
+		if (HPCoolFlag3_[i])
+		{
+			HPCoolTimer3_[i]++;
+			if (HPCoolTimer3_[i] > 30)
+			{
+				HPCoolTimer3_[i] = 0;
+				HPCoolFlag3_[i] = false;
+			}
 		}
 
 	}

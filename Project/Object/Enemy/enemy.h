@@ -18,5 +18,5 @@ private:
 	//int32_t killCount_;
 	int32_t timCount_;
 	int32_t isLive_;
-	const float radius_ = 0.2f;
+	const float radius_ = 0.3f;
 };

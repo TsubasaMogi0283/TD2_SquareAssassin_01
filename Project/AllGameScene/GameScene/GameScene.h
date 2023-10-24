@@ -105,7 +105,14 @@ private:
 	int32_t killCount3_;
 	int32_t allKillCount_;
 
-	
+	uint32_t HPCoolTimer_[enemyCount] = {};
+	uint32_t HPCoolTimer2_[enemyCount2] = {};
+	uint32_t HPCoolTimer3_[enemyCount3] = {};
+
+
+	bool HPCoolFlag_[enemyCount]={ false };
+	bool HPCoolFlag2_[enemyCount2] = { false };
+	bool HPCoolFlag3_[enemyCount3] = { false };
 
 #pragma region 自機の動き
 	Player* player_;
