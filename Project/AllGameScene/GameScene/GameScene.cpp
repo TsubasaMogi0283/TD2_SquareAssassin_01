@@ -152,6 +152,39 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 
 #pragma endregion
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		timeTensPlane_[i] = new Sprite();
+		timeOnesPlane_[i] = new Sprite();
+	
+	}
+	
+	numberTextureHandle[0]=TextureManager::LoadTexture("Resources/Game/Number/0.png");
+	numberTextureHandle[1]=TextureManager::LoadTexture("Resources/Game/Number/1.png");
+	numberTextureHandle[2]=TextureManager::LoadTexture("Resources/Game/Number/2.png");
+	numberTextureHandle[3]=TextureManager::LoadTexture("Resources/Game/Number/3.png");
+	numberTextureHandle[4]=TextureManager::LoadTexture("Resources/Game/Number/4.png");
+	numberTextureHandle[5]=TextureManager::LoadTexture("Resources/Game/Number/5.png");
+	numberTextureHandle[6]=TextureManager::LoadTexture("Resources/Game/Number/6.png");
+	numberTextureHandle[7]=TextureManager::LoadTexture("Resources/Game/Number/7.png");
+	numberTextureHandle[8]=TextureManager::LoadTexture("Resources/Game/Number/8.png");
+	numberTextureHandle[9]=TextureManager::LoadTexture("Resources/Game/Number/9.png");
+	
+	timeTensPlaneTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{600.0f,30.0f,0.0f} };
+	timeOnesPlaneTransform_  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{680.0f,30.0f,0.0f} };
+
+	timeTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f} };
+	timeOnesPlaneAllPosition_ = { {0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f} };
+	
+	
+
+	for (int i=0; i < NUMBER_AMOUNT_; i++) {
+		timeOnesPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+		timeTensPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+
+		timeTensPlane_[i]->SetAllPosition(timeTensPlaneAllPosition_);
+		timeOnesPlane_[i]->SetAllPosition(timeOnesPlaneAllPosition_);
+	}
+	
 
 
 
@@ -197,6 +230,12 @@ void GameScene::ImGuiDebug() {
 	ImGui::SliderFloat3("Translate", &startTransform_.translate.x, 0.0f, 1280.0f);
 	ImGui::End();
 
+	ImGui::Begin("Time");
+	ImGui::InputInt("DisplayTime", &displayTime_);
+	ImGui::InputInt("TenPlace", &tensPlace_);
+	ImGui::InputInt("OnePlace", &onesPlace_);
+	ImGui::End();
+
 }
 
 void GameScene::Play() {
@@ -211,6 +250,20 @@ void GameScene::Play() {
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Update();
 	}
+
+
+}
+
+//カウントダウン
+void GameScene::CountDown() {
+	//仮で60秒
+	gameTime_ -= 1;
+
+	displayTime_ = gameTime_ / 60;
+
+	tensPlace_ = displayTime_ / 10;
+	onesPlace_ = displayTime_ % 10;
+
 
 
 }
@@ -230,9 +283,6 @@ void GameScene::Update(GameManager* gameManager) {
 			transparency_ = 1.0f;
 			isFadeIn_ = false;
 		}
-
-
-
 
 	}
 
@@ -274,9 +324,15 @@ void GameScene::Update(GameManager* gameManager) {
 
 	//ゲームプレイ
 	if (isGamePlay_ == true){
+		//主なゲームの動き
 		Play();
+
+		//ゲームの時間
+		CountDown();
+
 		//再生
 		bgmTime_ += 1;
+		//ループ
 		if (bgmTime_ == 1) {
 			gameBGM_->PlayWave(gameBGMHandle_ ,false);
 		}
@@ -313,7 +369,7 @@ void GameScene::Draw(GameManager* gameManager) {
 	}
 	
 	
-	//カウントダウン
+#pragma region カウントダウン
 	if (countDown_ < SECOND_ * 4 && countDown_ >= SECOND_ * 3) {
 		 count_[2]->DrawRect(countTransform_[2]);	
 	}
@@ -326,7 +382,31 @@ void GameScene::Draw(GameManager* gameManager) {
 	if (countDown_ < SECOND_ * 1 && countDown_ >= SECOND_ * 0) {
 		start_->DrawRect(startTransform_);
 	}
+
+#pragma endregion
+
+#pragma region 時間
+
+
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		if (tensPlace_ == i) {
+			timeTensPlane_[i]->DrawRect(timeTensPlaneTransform_);
+		}
+		if (onesPlace_ == i) {
+			timeOnesPlane_[i]->DrawRect(timeOnesPlaneTransform_);
+		}
+		
+
+
+	}
+
 	
+
+	
+#pragma endregion
+
+
+
 }
 
 

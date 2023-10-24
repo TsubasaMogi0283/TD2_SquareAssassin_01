@@ -8,7 +8,7 @@
 #include <Object/Enemy/enemy.h>
 
 
-class  GameScene  : public IGameScene{
+class  GameScene : public IGameScene {
 public:
 	//コンストラクタ
 	GameScene();
@@ -19,9 +19,17 @@ public:
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
 
+#pragma region Updateの中
+	//デバッグ
 	void ImGuiDebug();
 
+	//メインのゲーム
 	void Play();
+
+	//カウントダウン
+	void CountDown();
+
+#pragma endregion
 
 	/// 更新
 	void Update(GameManager* gameManager)override;
@@ -103,22 +111,21 @@ private:
 	Enemy* enemy2_[10];
 	Enemy* enemy3_[3];
 
+#pragma endregion
 
+
+#pragma region 床
 	Model* yuka_ = nullptr;
 	Transform transformyuka_ = {};
 
-
-
-
-	int countDown_ = SECOND_ * 4;
-
-
+#pragma endregion
 
 
 	//ゲーム開始
 	bool isGamePlay_ = false;
 
-
+#pragma region カウントダウン
+	int countDown_ = SECOND_ * 4;
 	//カウント
 	static const int COUNT_NUMBER_ = 3;
 	float COUNT_SIZE = 1.0f;
@@ -133,6 +140,32 @@ private:
 	Sprite* end_ = nullptr;
 	Transform endTransform_ = {};
 	SpritePosition endAllPosition_ = {};
+
+#pragma endregion
+
+	//ゲームの時間
+	int gameTime_ = SECOND_ * 60;
+
+	//表示されている時間
+	int displayTime_ = 0;
+	//1の位
+	int onesPlace_ = 0;
+	//10の位
+	int tensPlace_ = 0;
+	
+	uint32_t numberTextureHandle[10] = {};
+
+	//時間
+
+	static const int NUMBER_AMOUNT_ = 10;
+	Sprite* timeTensPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* timeOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+
+	Transform timeTensPlaneTransform_  = {};
+	Transform timeOnesPlaneTransform_  = {};
+	SpritePosition timeOnesPlaneAllPosition_ = {};
+	SpritePosition timeTensPlaneAllPosition_ = {};
+
 
 
 };
