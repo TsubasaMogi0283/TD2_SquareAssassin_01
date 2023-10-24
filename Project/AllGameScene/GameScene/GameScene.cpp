@@ -17,100 +17,100 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 	
 
-	move_[0] =  { -0.06f,  0.06f, 0 };
-	move_[1] =  {  0.06f,  0.06f, 0 };
-	move_[2] =  { -0.06f,  0.04f, 0 };
-	move_[3] =  { -0.06f, -0.04f, 0 };
-	move_[4] =  {  0.06f, -0.06f, 0 };
-	move_[5] =  { -0.06f, -0.06f, 0 };
-	move_[6] =  { -0.06f,  0.06f, 0 };
-	move_[7] =  {  0.06f,  0.06f, 0 };
-	move_[8] =  { -0.06f,  0.04f, 0 };
-	move_[9] =  { -0.06f, -0.04f, 0 };
-	move_[10] = {  0.06f, -0.06f, 0 };
-	move_[11] = { -0.06f, -0.06f, 0 };
-	move_[12] = { -0.06f,  0.06f, 0 };
-	move_[13] = {  0.06f,  0.06f, 0 };
-	move_[14] = { -0.06f,  0.04f, 0 };
-	move_[15] = { -0.06f, -0.04f, 0 };
-	move_[16] = {  0.09f, -0.03f, 0 };
-	move_[17] = { -0.06f, -0.06f, 0 };
-	move_[18] = { -0.06f, -0.06f, 0 };
-	move_[19] = { -0.06f, -0.06f, 0 };
+	enemyMove_[0] =  { -0.06f,  0.06f, 0 };
+	enemyMove_[1] =  {  0.06f,  0.06f, 0 };
+	enemyMove_[2] =  { -0.06f,  0.04f, 0 };
+	enemyMove_[3] =  { -0.06f, -0.04f, 0 };
+	enemyMove_[4] =  {  0.06f, -0.06f, 0 };
+	enemyMove_[5] =  { -0.06f, -0.06f, 0 };
+	enemyMove_[6] =  { -0.06f,  0.06f, 0 };
+	enemyMove_[7] =  {  0.06f,  0.06f, 0 };
+	enemyMove_[8] =  { -0.06f,  0.04f, 0 };
+	enemyMove_[9] =  { -0.06f, -0.04f, 0 };
+	enemyMove_[10] = {  0.06f, -0.06f, 0 };
+	enemyMove_[11] = { -0.06f, -0.06f, 0 };
+	enemyMove_[12] = { -0.06f,  0.06f, 0 };
+	enemyMove_[13] = {  0.06f,  0.06f, 0 };
+	enemyMove_[14] = { -0.06f,  0.04f, 0 };
+	enemyMove_[15] = { -0.06f, -0.04f, 0 };
+	enemyMove_[16] = {  0.09f, -0.03f, 0 };
+	enemyMove_[17] = { -0.06f, -0.06f, 0 };
+	enemyMove_[18] = { -0.06f, -0.06f, 0 };
+	enemyMove_[19] = { -0.06f, -0.06f, 0 };
 
 
-	transformModel_[0] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 1.0f,1.0f,0.0f} };
-	transformModel_[1] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-1.0f,1.5f,0.0f} };
-	transformModel_[2] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-1.0f,1.0f,0.0f} };
-	transformModel_[3] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 1.5f,1.5f,0.0f} };
-	transformModel_[4] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 1.5f,1.0f,0.0f} };
-	transformModel_[5] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-1.5f,1.5f,0.0f} };
-	transformModel_[6] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-2.0f,1.0f,0.0f} };
-	transformModel_[7] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 2.0f,1.5f,0.0f} };
-	transformModel_[8] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 2.0f,1.0f,0.0f} };
-	transformModel_[9] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-2.5f,1.5f,0.0f} };
-	transformModel_[10] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-2.5f,1.0f,0.0f} };
-	transformModel_[11] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 2.5f,1.5f,0.0f} };
-	transformModel_[12] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
-	transformModel_[13] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.5f,0.0f} };
-	transformModel_[14] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.0f,0.0f} };
-	transformModel_[15] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.0f,0.0f} };
-	transformModel_[16] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.5f,0.0f} };
-	transformModel_[17] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.0f,0.0f} };
-	transformModel_[18] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
-	transformModel_[19] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
-
-
-
+	enemyTransform_[0] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 1.0f,1.0f,0.0f} };
+	enemyTransform_[1] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-1.0f,1.5f,0.0f} };
+	enemyTransform_[2] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-1.0f,1.0f,0.0f} };
+	enemyTransform_[3] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 1.5f,1.5f,0.0f} };
+	enemyTransform_[4] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 1.5f,1.0f,0.0f} };
+	enemyTransform_[5] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-1.5f,1.5f,0.0f} };
+	enemyTransform_[6] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-2.0f,1.0f,0.0f} };
+	enemyTransform_[7] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 2.0f,1.5f,0.0f} };
+	enemyTransform_[8] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 2.0f,1.0f,0.0f} };
+	enemyTransform_[9] =  { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-2.5f,1.5f,0.0f} };
+	enemyTransform_[10] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-2.5f,1.0f,0.0f} };
+	enemyTransform_[11] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 2.5f,1.5f,0.0f} };
+	enemyTransform_[12] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
+	enemyTransform_[13] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.5f,0.0f} };
+	enemyTransform_[14] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.0f,0.0f} };
+	enemyTransform_[15] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.0f,0.0f} };
+	enemyTransform_[16] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.5f,0.0f} };
+	enemyTransform_[17] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{ 3.0f,1.0f,0.0f} };
+	enemyTransform_[18] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
+	enemyTransform_[19] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
 
 
 
-	move2_[0] = { -0.04f,  0.02f, 0 };
-	move2_[1] = {  0.03f,  0.03f, 0 };
-	move2_[2] = { -0.04f,  0.02f, 0 };
-	move2_[3] = { -0.03f, -0.03f, 0 };
-	move2_[4] = {  0.02f, -0.04f, 0 };
-	move2_[5] = { -0.03f, -0.03f, 0 };
-	move2_[6] = { -0.02f,  0.04f, 0 };
-	move2_[7] = {  0.03f,  0.03f, 0 };
-	move2_[8] = { -0.04f,  0.02f, 0 };
-	move2_[9] = { -0.03f, -0.03f, 0 };
-
-	transformModel2_[0] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-1.0f,-1.0f,0.0f} };
-	transformModel2_[1] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 1.0f,-1.5f,0.0f} };
-	transformModel2_[2] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-2.0f ,1.0f,0.0f} };
-	transformModel2_[3] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-2.0f ,1.5f,0.0f} };
-	transformModel2_[4] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 2.0f, 1.0f,0.0f} };
-	transformModel2_[5] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-3.0f,-1.2f,0.0f} };
-	transformModel2_[6] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-3.0f, 1.0f,0.0f} };
-	transformModel2_[7] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 3.0f,-1.5f,0.0f} };
-	transformModel2_[8] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 3.0f,-1.0f,0.0f} };
-	transformModel2_[9] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 3.0f, 1.5f,0.0f} };
 
 
 
-	transformModel3_[0] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{-1.0f,-1.0f,0.0f} };
-	transformModel3_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.5f,0.0f} };
-	transformModel3_[2] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{-2.0f,1.5f,0.0f} };
+	enemyMove2_[0] = { -0.04f,  0.02f, 0 };
+	enemyMove2_[1] = {  0.03f,  0.03f, 0 };
+	enemyMove2_[2] = { -0.04f,  0.02f, 0 };
+	enemyMove2_[3] = { -0.03f, -0.03f, 0 };
+	enemyMove2_[4] = {  0.02f, -0.04f, 0 };
+	enemyMove2_[5] = { -0.03f, -0.03f, 0 };
+	enemyMove2_[6] = { -0.02f,  0.04f, 0 };
+	enemyMove2_[7] = {  0.03f,  0.03f, 0 };
+	enemyMove2_[8] = { -0.04f,  0.02f, 0 };
+	enemyMove2_[9] = { -0.03f, -0.03f, 0 };
 
-	move3_[0] = { -0.02f,  0.02f, 0 };
-	move3_[1] = {  0.02f,  0.02f, 0 };
-	move3_[2] = { -0.02f,  0.02f, 0 };
+	enemyTransformModel2_[0] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-1.0f,-1.0f,0.0f} };
+	enemyTransformModel2_[1] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 1.0f,-1.5f,0.0f} };
+	enemyTransformModel2_[2] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-2.0f ,1.0f,0.0f} };
+	enemyTransformModel2_[3] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-2.0f ,1.5f,0.0f} };
+	enemyTransformModel2_[4] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 2.0f, 1.0f,0.0f} };
+	enemyTransformModel2_[5] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-3.0f,-1.2f,0.0f} };
+	enemyTransformModel2_[6] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{-3.0f, 1.0f,0.0f} };
+	enemyTransformModel2_[7] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 3.0f,-1.5f,0.0f} };
+	enemyTransformModel2_[8] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 3.0f,-1.0f,0.0f} };
+	enemyTransformModel2_[9] = { {0.2f,0.2f,0.2f},{0.0f,0.0f,0.0f},{ 3.0f, 1.5f,0.0f} };
+
+
+
+	enemyTransformModel3_[0] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{-1.0f,-1.0f,0.0f} };
+	enemyTransformModel3_[1] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{1.0f,-1.5f,0.0f} };
+	enemyTransformModel3_[2] = { {0.4f,0.4f,0.4f},{0.0f,0.0f,0.0f},{-2.0f,1.5f,0.0f} };
+
+	enemyMove3_[0] = { -0.02f,  0.02f, 0 };
+	enemyMove3_[1] = {  0.02f,  0.02f, 0 };
+	enemyMove3_[2] = { -0.02f,  0.02f, 0 };
 	for (int i = 0; i < enemyCount; i++) {
 
 		enemy_[i] = new Enemy;
-		enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", transformModel_[i], move_[i],enemyHP);
+		enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", enemyTransform_[i], enemyMove_[i],enemyHP);
 	}
 
 	for (int i = 0; i < enemyCount2; i++) {
 
 		enemy2_[i] = new Enemy;
-		enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", transformModel2_[i], move2_[i], enemyHP2);
+		enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", enemyTransformModel2_[i], enemyMove2_[i], enemyHP2);
 	}
 	for (int i = 0; i < enemyCount3; i++) {
 
 		enemy3_[i] = new Enemy;
-		enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", transformModel3_[i], move3_[i], enemyHP3);
+		enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", enemyTransformModel3_[i], enemyMove3_[i], enemyHP3);
 	}
 	yuka_ = new Model;
 	transformyuka_ = { {0.25f,0.25f,0.1f},{0.0f,0.0f,0.0f},{0.0f,-2.28f,0.0f} };

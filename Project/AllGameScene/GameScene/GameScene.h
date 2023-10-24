@@ -74,16 +74,16 @@ private:
 	const int enemyCount3 = 3;
 
 
-	Transform transformModel_[20] = {};
-	Vector3 move_[20];
+	Transform enemyTransform_[20] = {};
+	Vector3 enemyMove_[20];
 
 
 
-	Transform transformModel2_[10] = {};
-	Vector3 move2_[10];
+	Transform enemyTransformModel2_[10] = {};
+	Vector3 enemyMove2_[10];
 
-	Transform transformModel3_[3] = {};
-	Vector3 move3_[3];
+	Transform enemyTransformModel3_[3] = {};
+	Vector3 enemyMove3_[3];
 
 
 	Enemy* enemy_[20];
