@@ -362,8 +362,9 @@ void GameScene::Update(GameManager* gameManager) {
 		
 		endSETime_ += 1;
 		if (endSETime_==1) {
-			endSE_->ChangeVolume(endSEHandle_,1.5f);
+			
 			endSE_->PlayWave(endSEHandle_, false);
+			endSE_->ChangeVolume(endSEHandle_,1.5f);
 		
 		}
 
