@@ -659,7 +659,26 @@ GameScene::~GameScene() {
 	}
 	
 
+
+	delete yuka_;
+
+	for (int i = 0; i < COUNT_NUMBER_; i++) {
+		delete count_[i];
+
+	}
 	
+	delete start_ ;
+
+	delete end_;
+
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		delete timeTensPlane_[i];
+		delete timeOnesPlane_[i];
+
+	}
+	
+
+	delete player_;
 
 
 }
