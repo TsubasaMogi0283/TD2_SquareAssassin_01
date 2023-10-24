@@ -29,10 +29,10 @@ public:
 private:
 	//Audio
 	Audio* titleBGM_ = nullptr;
-	SoundData titleSoundData_ = {};
+	uint32_t titleSoundData_ = {};
 
 	Audio* startSE_ = nullptr;
-	SoundData startSESoundData_ = {};
+	uint32_t startSESoundData_ = {};
 
 	//Input
 	Input* input_ = nullptr;

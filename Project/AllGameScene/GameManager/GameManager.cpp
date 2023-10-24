@@ -73,7 +73,6 @@ void GameManager::EndFrame() {
 }
 
 void GameManager::Release() {
-	audio_->DeleteInstance();
 	camera_->DeleteInstance();
 	
 	textureManager_->Release();

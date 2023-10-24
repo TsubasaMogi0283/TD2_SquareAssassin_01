@@ -231,16 +231,15 @@ void SelectScene::Update(GameManager* gameManager) {
 
 		//決定
 		if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
+			decideSE_->PlayWave(decideSESoundData_, false);
 			
-			//selectBGM_->SetVolume(0.0f);
-			
-			
+			selectBGM_->StopWave(selectSoundData_);
 			
 			
 
 			//タイトルへ
 			if (characterTransform_.translate.x == 60.0f) {
-				selectBGM_->StopWave(selectSoundData_);
+				isFadeOut_ = true;
 				nextScene_ = Title;
 				
 			}
@@ -248,11 +247,13 @@ void SelectScene::Update(GameManager* gameManager) {
 			//今の所キーボードは仮置き
 			//1を押したらSelectになる
 			if (characterTransform_.translate.x == 460.0f) {
+
+				isFadeOut_ = true;
 				nextScene_ = Game;
 			}
 			//2を押したらTutorialになる
 			if (characterTransform_.translate.x == 860.0f) {
-				
+				isFadeOut_ = true;
 				nextScene_ = Tutorial;
 			}
 
@@ -267,8 +268,7 @@ void SelectScene::Update(GameManager* gameManager) {
 
 	//フェードアウト
 	if (isFadeOut_ == true) {
-		//decideSE_->SetVolume(0.0f);
-		selectBGM_->StopWave(selectSoundData_);
+		//selectBGM_->StopWave(selectSoundData_);
 
 		selectTextureTransparency_ -= 0.07f;
 		if (selectTextureTransparency_ < 0.0f) {
@@ -353,11 +353,11 @@ SelectScene::~SelectScene() {
 	delete tutorialtextSprite_;
 
 
-	decideSE_->SoundUnload(&decideSESoundData_);
-	selectBGM_->SoundUnload(&selectSoundData_);
+	decideSE_->SoundUnload(decideSESoundData_);
+	selectBGM_->SoundUnload(selectSoundData_);
 	
 	//移動
-	moveSE_->SoundUnload(&moveSESoundData_);
+	moveSE_->SoundUnload(moveSESoundData_);
 	
 
 }

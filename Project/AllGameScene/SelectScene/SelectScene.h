@@ -29,13 +29,13 @@ public:
 private:
 	//Audio
 	Audio* selectBGM_ = nullptr;
-	SoundData selectSoundData_ = {};
+	uint32_t selectSoundData_ = {};
 
 	Audio* decideSE_ = nullptr;
-	SoundData decideSESoundData_ = {};
+	uint32_t decideSESoundData_ = {};
 
 	Audio* moveSE_ = nullptr;
-	SoundData moveSESoundData_ = {};
+	uint32_t moveSESoundData_ = {};
 
 
 	//Input
