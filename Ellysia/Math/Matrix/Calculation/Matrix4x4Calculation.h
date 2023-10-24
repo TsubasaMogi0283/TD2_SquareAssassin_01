@@ -54,3 +54,5 @@ Matrix4x4 Inverse(const Matrix4x4 m);
 Matrix4x4 MakePerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip, float farClip);
 
 Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom, float neaClip, float farClip);
+float Length(const Vector3& v);
+float Dot(const Vector3& v1, const Vector3& v2);

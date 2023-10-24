@@ -9,6 +9,7 @@
 #include <Object/Player/Player.h>
 
 
+
 class  GameScene  : public IGameScene{
 public:
 	//コンストラクタ
@@ -27,7 +28,8 @@ public:
 
 	/// 描画
 	void Draw(GameManager* gameManager)override;
-
+	/// 当たり判定
+	void Collision();
 
 
 private:
@@ -69,38 +71,45 @@ private:
 
 	int32_t textureChangeTime_ = 0;
 
-	const int enemyCount = 20;
-	const int enemyCount2 = 10;
-	const int enemyCount3 = 3;
+	static const int enemyCount = 20;
+	static const int enemyCount2 = 10;
+	static const int enemyCount3 = 3;
 
 
-	Transform enemyTransform_[20] = {};
-	Vector3 enemyMove_[20];
+	Transform enemyTransform_[enemyCount] = {};
+	Vector3 enemyMove_[enemyCount];
 
 
 
-	Transform enemyTransformModel2_[10] = {};
-	Vector3 enemyMove2_[10];
+	Transform enemyTransformModel2_[enemyCount2] = {};
+	Vector3 enemyMove2_[enemyCount2];
 
-	Transform enemyTransformModel3_[3] = {};
-	Vector3 enemyMove3_[3];
+	Transform enemyTransformModel3_[enemyCount3] = {};
+	Vector3 enemyMove3_[enemyCount3];
 
 
-	Enemy* enemy_[20];
-	Enemy* enemy2_[10];
-	Enemy* enemy3_[3];
+	Enemy* enemy_[enemyCount];
+	Enemy* enemy2_[enemyCount2];
+	Enemy* enemy3_[enemyCount3];
 
 	
 	Model* yuka_ = nullptr;
 	Transform transformyuka_ = {};
 
-	int32_t enemyHP = 1;
-	int32_t enemyHP2 = 2;
-	int32_t enemyHP3 = 3;
+	int32_t  enemyHP[enemyCount] ;
+	int32_t enemyHP2[enemyCount2];
+	int32_t enemyHP3[enemyCount3];
+
+	int32_t killCount1_;
+	int32_t killCount2_;
+	int32_t killCount3_;
+	int32_t allKillCount_;
+
+	
 
 #pragma region 自機の動き
 	Player* player_;
-
+	Transform playerTransform_;
 
 
 };

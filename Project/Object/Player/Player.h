@@ -18,7 +18,7 @@ public:
 	/// 初期化
 	/// </summary>
 	void Initialize(const std::string& directoryPath,
-		const std::string& fileName);
+		const std::string& fileName, Transform transform);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -29,7 +29,7 @@ public:
 	/// 描画
 	/// </summary>
 	void Draw();
-
+	float GetRadius() { return radius_; }
 	/// <summary>
 	/// 描画
 	/// </summary>
@@ -48,7 +48,7 @@ public:
 	int nowPlayerSide = up; // 現在プレイヤーがどこの辺にいるか
 
 	Vector3 attackRangePos{};
-
+	Vector3 GetWorldPosition();
 
 private:
 	// ワールドトランスフォーム
@@ -66,5 +66,8 @@ private:
 	float fixedY;
 	float fixedX;
 	float move = 0;
+	const float radius_ = 0.2f;
+
+
 };
 

@@ -1,7 +1,7 @@
 #include "Player.h"
 
 void Player::Initialize(const std::string& directoryPath,
-	const std::string& fileName)
+	const std::string& fileName, Transform transform)
 {
 
 	model_ = new Model();
@@ -9,14 +9,10 @@ void Player::Initialize(const std::string& directoryPath,
 	input_ = Input::GetInstance();
 
 	// ワールドトランスフォームの初期化
-	transform_.scale.x = 0.2f;
-	transform_.scale.y = 0.2f;
-	transform_.scale.z = 0.2f;
 
-	transform_.translate.y = 2;
-	transform_.translate.x = 3.7f;
 	fixedX = 3.7f;
 	fixedY = 2;
+	transform_ = transform;
 }
 
 void Player::Update()
@@ -136,4 +132,13 @@ void Player::Update()
 void Player::Draw()
 {
 	model_->Draw(transform_);
+}
+Vector3 Player::GetWorldPosition() {
+	Vector3 worldPos;
+
+	worldPos.x = transform_.translate.x;
+	worldPos.y = transform_.translate.y;
+	worldPos.z = transform_.translate.z;
+
+	return worldPos;
 }
