@@ -118,8 +118,6 @@ private:
 	Enemy* enemy3_[enemyCount3];
 
 	
-	Model* yuka_ = nullptr;
-	Transform transformyuka_ = {};
 
 	int32_t  enemyHP[enemyCount] ;
 	int32_t enemyHP2[enemyCount2];

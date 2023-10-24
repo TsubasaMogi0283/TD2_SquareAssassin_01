@@ -188,6 +188,9 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 
 #pragma endregion
+
+#pragma region 数字
+
 	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
 		timeTensPlane_[i] = new Sprite();
 		timeOnesPlane_[i] = new Sprite();
@@ -221,7 +224,7 @@ void GameScene::Initialize(GameManager* gameManager) {
 		timeOnesPlane_[i]->SetAllPosition(timeOnesPlaneAllPosition_);
 	}
 	
-
+#pragma endregion
 
 
 	//BGM
@@ -620,17 +623,6 @@ void GameScene::Collision()
 
 	}
 
-
-	/*for (int i = 0; i < enemyCount; i++) {
-		double allX = enemyTransform_[i].translate.x - playerTransform_.translate.x;
-		double allY = enemyTransform_[i].translate.y - playerTransform_.translate.y;
-		double allXY = sqrt(allX * allX + allY * allY);
-		if (allXY < 0.2f) {
-			enemyHP[i] -= 1;
-			killCount1_ += 1;
-			allKillCount_ += 1;
-		}
-	}*/
 
 	
 #pragma endregion
