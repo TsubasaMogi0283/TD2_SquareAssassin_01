@@ -17,6 +17,8 @@ public:
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
 
+	void ImGui();
+
 	/// 更新
 	void Update(GameManager* gameManager)override;
 
@@ -27,7 +29,11 @@ public:
 private:
 	//Audio
 	Audio* titleBGM_ = nullptr;
-	SoundData titleSoundData_ = {};
+	uint32_t titleSoundData_ = {};
+
+	Audio* startSE_ = nullptr;
+	uint32_t startSESoundData_ = {};
+	int seTime_ = 0;
 
 	//Input
 	Input* input_ = nullptr;
@@ -76,5 +82,9 @@ private:
 
 	int startFlashTime_ = 0;
 	const int FLASH_INTERVAL = 3;
+
+	float volume_ = 1.0f;
+
+	int triggerButtonATime_ = 0;
 
 };

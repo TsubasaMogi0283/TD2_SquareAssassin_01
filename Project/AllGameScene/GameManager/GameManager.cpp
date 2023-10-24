@@ -4,6 +4,8 @@
 #include "AllGameScene/TitleScene/TitleScene.h"
 #include "AllGameScene/SelectScene/SelectScene.h"
 #include "AllGameScene/ResultScene/ResultScene.h"
+#include "AllGameScene/GameScene/GameScene.h"
+#include "AllGameScene/TutorialScene/TutorialScene.h"
 
 //コンストラクタ
 GameManager::GameManager() {
@@ -37,7 +39,7 @@ void GameManager::Initialize() {
 	audio_->Initialize();
 
 	//シーンごとに動作確認したいときはここを変えてね
-	currentGameScene_ = new ResultScene();
+	currentGameScene_ = new SelectScene();
 	currentGameScene_->Initialize(this);
 
 }
@@ -73,7 +75,6 @@ void GameManager::EndFrame() {
 }
 
 void GameManager::Release() {
-	audio_->DeleteInstance();
 	camera_->DeleteInstance();
 	
 	textureManager_->Release();

@@ -6,7 +6,7 @@ class Enemy {
 public:
 	void Initialize(const std::string& directoryPath, const std::string& fileName, Transform transformModel, Vector3 move);
 	void Update();
-	void Dorw();
+	void Draw();
 	void Release();
 private:
 	Model* enemy_ = nullptr;

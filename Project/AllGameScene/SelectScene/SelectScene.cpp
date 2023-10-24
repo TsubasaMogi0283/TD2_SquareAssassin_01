@@ -1,6 +1,7 @@
 #include "SelectScene.h"
 #include "AllGameScene/TutorialScene/TutorialScene.h"
 #include "AllGameScene/GameScene/GameScene.h"
+#include "AllGameScene/TitleScene/TitleScene.h"
 
 //コンストラクタ
 SelectScene::SelectScene() {
@@ -71,7 +72,6 @@ void SelectScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
-
 #pragma region キャラクター
 	characterSprite =  new Sprite();;
 	characterTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,5.870f},{460.0f,500.0f,0.0f}};
@@ -84,6 +84,24 @@ void SelectScene::Initialize(GameManager* gameManager) {
 #pragma endregion
 
 
+	
+	
+	//SE
+	//決定
+	decideSE_ = Audio::GetInstance();
+	decideSESoundData_ = decideSE_->LoadWave("Resources/Select/Music/DecideSE.wav");
+
+	//移動
+	moveSE_ = Audio::GetInstance();
+	moveSESoundData_ = moveSE_->LoadWave("Resources/Select/Music/Move.wav");
+
+	//BGM
+	//タイトルBGM
+	selectBGM_ = Audio::GetInstance();
+	selectSoundData_ = selectBGM_->LoadWave("Resources/Select/Music/SelectBGM.wav");
+
+	//再生
+	selectBGM_->PlayWave(selectSoundData_ ,true);
 }
 
 void SelectScene::ImGuiDebug() {
@@ -137,23 +155,30 @@ void SelectScene::ImGuiDebug() {
 
 
 
+
 }
 
 /// 更新
 void SelectScene::Update(GameManager* gameManager) {
 
+	
 
-
-	ImGuiDebug();
+	//ImGuiDebug();
 
 #pragma region 透明度
 	selectSprite->SetTransparency(selectTextureTransparency_);
 	for (int i = 0; i < STAGE_AMOUNT_; i++) {
 		stageSprite_[i]->SetTransparency(selectTextureTransparency_);
-		//textSprite_[i]->SetTransparency(selectTextureTransparency_);
 	}
 	characterSprite->SetTransparency(selectTextureTransparency_);
 	titleIconSprite->SetTransparency(selectTextureTransparency_);
+
+	
+	
+	gameTextSprite_->SetTransparency(selectTextureTransparency_);
+	tutorialtextSprite_->SetTransparency(selectTextureTransparency_);
+
+
 
 #pragma endregion
 
@@ -172,54 +197,127 @@ void SelectScene::Update(GameManager* gameManager) {
 
 	//選択画面
 	if (isFadeIn_ == false) {
-		//今の所キーボードは仮置き
-		//1を押したらSelectになる
-		if (input_->GetInstance()->IsTriggerKey(DIK_1) == true) {
-			nextScene_ = Game;
-			isFadeOut_ = true;
-		}
-		//2を押したらTutorialになる
-		if (input_->GetInstance()->IsTriggerKey(DIK_2) == true) {
-			
-			nextScene_ = Tutorial;
-			isFadeOut_ = true;
-		}
+		//selectBGM_->SetVolume(0.5f);
 
-		//キャラクターの動き
-		//右に動く
-		if ((input_->GetInstance()->IsTriggerKey(DIK_RIGHT) == true) ||
-			(input_->GetInstance()->IsTriggerKey(DIK_D) == true)) {
-			
-			
+		XINPUT_STATE joyState{};
 
+		if (Input::GetInstance()->GetJoystickState(joyState) ) {
+
+			//Aボタン
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+				triggerButtonATime_ += 1;
 			
-			if (characterTransform_.translate.x !=860.0f) {
-				characterTransform_.translate.x += MOVE_INTERVAL;
 			}
+
+			//falseの時押したとき
+			if (isTriggerRight_ == false) {
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT&&triggerRightTime_==0) {
+					triggerRightTime_ += 1;
+			
+				}
+			}
+
+			//falseの時押したとき
+			if (isTriggerLeft_ == false) {
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT&&triggerLeftTime_==0) {
+					triggerLeftTime_ += 1;
+			
+				}
+			}
+
+
+
+			//押していない時
+			if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)==0) {
+				isTriggerRight_ = false;
+				triggerRightTime_ = 0;
+			}
+			//押していない時
+			if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)==0) {
+				isTriggerLeft_ = false;
+				triggerLeftTime_ = 0;
+			}
+
+
+			//キャラクターの動き
+			//右に動く
+			if ((input_->GetInstance()->IsTriggerKey(DIK_RIGHT) == true) ||
+				(input_->GetInstance()->IsTriggerKey(DIK_D) == true)||(triggerRightTime_==1)){
+				isTriggerRight_ = true;
+				triggerRightTime_ = 0;
+				if (characterTransform_.translate.x !=860.0f) {
+					moveSE_->PlayWave(moveSESoundData_, false);
+					moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
+					characterTransform_.translate.x += MOVE_INTERVAL;
+				}
+				
+
+			}
+
+			//左に動く
+			if ((input_->GetInstance()->IsTriggerKey(DIK_LEFT) == true) ||
+				(input_->GetInstance()->IsTriggerKey(DIK_A) == true)||(triggerLeftTime_==1)) {
+				isTriggerLeft_ = true;
+				triggerLeftTime_ = 0;
 			
 
-		}
 
-		//左に動く
-		if ((input_->GetInstance()->IsTriggerKey(DIK_LEFT) == true) ||
-			(input_->GetInstance()->IsTriggerKey(DIK_A) == true)) {
-			
-			
+				if (characterTransform_.translate.x != 60.0) {
+					moveSE_->PlayWave(moveSESoundData_, false);
+					moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
+					characterTransform_.translate.x -= MOVE_INTERVAL;
+				}
+		
 
+			}
+			//決定
+			if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
+				decideSE_->PlayWave(decideSESoundData_, false);
+				
+				selectBGM_->StopWave(selectSoundData_);
+				
+				
 
-			if (characterTransform_.translate.x != 60.0) {
-				characterTransform_.translate.x -= MOVE_INTERVAL;
+				//タイトルへ
+				if (characterTransform_.translate.x == 60.0f) {
+					isFadeOut_ = true;
+					nextScene_ = Title;
+					
+				}
+
+				//今の所キーボードは仮置き
+				//1を押したらSelectになる
+				if (characterTransform_.translate.x == 460.0f) {
+
+					isFadeOut_ = true;
+					nextScene_ = Game;
+				}
+				//2を押したらTutorialになる
+				if (characterTransform_.translate.x == 860.0f) {
+					isFadeOut_ = true;
+					nextScene_ = Tutorial;
+				}
+
 			}
 		
 
+
 		}
 
-	}
 
+		
+
+
+
+		
+	}
+	
 
 
 	//フェードアウト
 	if (isFadeOut_ == true) {
+		//selectBGM_->StopWave(selectSoundData_);
+
 		selectTextureTransparency_ -= 0.07f;
 		if (selectTextureTransparency_ < 0.0f) {
 			selectTextureTransparency_ = 0.0f;
@@ -228,7 +326,11 @@ void SelectScene::Update(GameManager* gameManager) {
 			if (loadingTime_ > 100) {
 				//GameSceneへ
 				if (nextScene_ == Game) {
-					gameManager->ChangeScene(new GameScene());
+					waitingTime_ += 1;
+					if (waitingTime_ > SECOND_ * 2) {
+						gameManager->ChangeScene(new GameScene());
+					}
+					
 				}
 
 
@@ -236,8 +338,17 @@ void SelectScene::Update(GameManager* gameManager) {
 				if (nextScene_ == Tutorial) {
 					waitingTime_ += 1;
 
-					if (waitingTime_ > SECOND_ * 3) {
+					if (waitingTime_ > SECOND_ * 2) {
 						gameManager->ChangeScene(new TutorialScene());
+					}
+				}
+
+				//TitleSceneへ
+				if (nextScene_ == Title) {
+					waitingTime_ += 1;
+
+					if (waitingTime_ > SECOND_ * 2) {
+						gameManager->ChangeScene(new TitleScene());
 					}
 				}
 			
@@ -289,6 +400,12 @@ SelectScene::~SelectScene() {
 	delete gameTextSprite_;
 	delete tutorialtextSprite_;
 
+
+	decideSE_->SoundUnload(decideSESoundData_);
+	selectBGM_->SoundUnload(selectSoundData_);
+	
+	//移動
+	moveSE_->SoundUnload(moveSESoundData_);
 	
 
 }
