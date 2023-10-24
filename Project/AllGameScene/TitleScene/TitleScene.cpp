@@ -165,8 +165,6 @@ void TitleScene::Update(GameManager* gameManager) {
 			titleBGM_->StopWave(titleSoundData_);
 			startSE_->PlayWave(startSESoundData_, false);
 
-
-
 			isFadeout_ = true;
 		}
 
