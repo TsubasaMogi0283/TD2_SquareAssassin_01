@@ -121,10 +121,51 @@ private:
 
 
 
-	int smallScore_ = 0;
-	int normalScore_ = 0;
-	int bigScore_ = 0;
 
+
+	//スコア
+
+	static const int NUMBER_AMOUNT_ = 10;
+
+	int smallScore_ = 0;
+	Sprite* smallScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* smallScoreTimeOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+
+	Transform smallScoreOnesPlaneTransform_  = {};
+	Transform smallScoreTensPlaneTransform_  = {};
+
+	SpritePosition smallScoreOnesPlaneAllPosition_ = {};
+	SpritePosition smallScoreTensPlaneAllPosition_ = {};
+
+
+	
+	int normalScore_ = 0;
+	Sprite* normalScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* normalScoreTimeOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+
+	Transform normalScoreOnesPlaneTransform_  = {};
+	Transform normalScoreTensPlaneTransform_  = {};
+
+	SpritePosition normalScoreOnesPlaneAllPosition_ = {};
+	SpritePosition normalScoreTensPlaneAllPosition_ = {};
+
+
+	int bigScore_ = 0;
+	Sprite* bigScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* bigScoreTimeOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+
+	Transform bigScoreOnesPlaneTransform_  = {};
+	Transform bigScoreTensPlaneTransform_  = {};
+
+	SpritePosition bigScoreOnesPlaneAllPosition_ = {};
+	SpritePosition bigScoreTensPlaneAllPosition_ = {};
+
+
+	int allScore_ = 0;
+
+
+
+	bool isCalculation_ = true;
 
 };
 

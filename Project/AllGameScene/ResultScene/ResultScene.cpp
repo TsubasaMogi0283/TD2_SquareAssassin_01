@@ -12,7 +12,7 @@ ResultScene::ResultScene() {
 
 /// 初期化
 void ResultScene::Initialize(GameManager* gameManager) {
-	#pragma region 背景
+#pragma region 背景
 	
 	backSprite = new Sprite();
 	backTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -53,9 +53,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
-
-
-	//キャラクター
+#pragma region キャラクター
 	characterSprite_ = new Sprite() ;
 	characterSprite2_ = new Sprite();
 	characterTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,500.0f,0.0f} };
@@ -67,6 +65,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	characterSprite_->SetAllPosition(characterAllPosition_);
 	characterSprite2_->SetAllPosition(characterAllPosition_);
 
+#pragma endregion
 
 	//吹き出し
 	speechBubbleSprite_ = new Sprite() ;
@@ -78,7 +77,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 
 
-	//ランク
+#pragma region ランク
 	for (int i = 0; i < RANK_AMOUNT_; i++) {
 		rankSprite_[i] = new Sprite();
 		rankTransform_[i]  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
@@ -102,7 +101,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 		rankSprite_[i]->SetAllPosition(rankAllPosition_[i]);
 	}
 
-
+#pragma endregion
 
 	//コメント
 	for (int i = 0; i < RANK_AMOUNT_; i++) {
@@ -179,10 +178,61 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
+#pragma region スコア
+
+
 
 	smallScore_ = Record::GetInstance()->GetSmallEnemy();
 	normalScore_ = Record::GetInstance()->GetNormalEnemy();
 	bigScore_ = Record::GetInstance()->GetBigEnemy();
+
+
+	allScore_ = smallScore_ + normalScore_ + bigScore_;
+
+
+	//小さい敵のスコア
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		smallScoreTensPlane_[i] = {new Sprite()};
+		smallScoreTimeOnesPlane_[i] = { new Sprite()};
+
+	}
+	
+	smallScoreOnesPlaneTransform_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+	smallScoreTensPlaneTransform_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+
+	smallScoreOnesPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	smallScoreTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+
+	//普通サイズの敵のスコア
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		normalScoreTensPlane_[i] = new Sprite();
+		normalScoreTimeOnesPlane_[i] = new Sprite();
+
+
+	}
+	
+	normalScoreOnesPlaneTransform_  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+	normalScoreTensPlaneTransform_  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+
+	normalScoreOnesPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	normalScoreTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		bigScoreTensPlane_[i] =  new Sprite();
+		bigScoreTimeOnesPlane_[i] =  new Sprite();
+	}
+
+	//大きい敵スコア
+	bigScoreOnesPlaneTransform_  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+	bigScoreTensPlaneTransform_  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
+
+	bigScoreOnesPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	bigScoreTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+
+
+
+#pragma endregion
+
 
 
 	//BGM
@@ -254,7 +304,9 @@ void ResultScene::Update(GameManager* gameManager) {
 		commentSprite_[i]->SetTransparency(transparency_);
 	}
 
-	
+	if (isCalculation_ == true) {
+
+	}
 	
 
 
@@ -277,43 +329,46 @@ void ResultScene::Update(GameManager* gameManager) {
 
 #pragma endregion
 	
-	XINPUT_STATE joyState{};
+	if (isCalculation_ == false) {
+		XINPUT_STATE joyState{};
 
-	if (Input::GetInstance()->GetJoystickState(joyState)) {
-		//Aボタン
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-			triggerButtonATime_ += 1;
-		
-		}
-
-	}
-
-
-	if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
-
-		decideSE_->PlayWave(decideSEHandle_, false);
-		decideSE_->ChangeVolume(decideSEHandle_, 0.5f);
-		isFadeOut_ = true;
-		bgm_->StopWave(bgmHandle_);
-
-	}
-	if (isFadeOut_ == true) {
-		decideSETime_ = 0;
-
-		transparency_ -= 0.01f;
-		if (transparency_ < 0.0f) {
-			transparency_ = 0.0f;
-
-			//ローディング
-			loadingTime_ += 1;
-			if (loadingTime_ > 120) {
-				gameManager->ChangeScene(new TitleScene());
-
+		if (Input::GetInstance()->GetJoystickState(joyState)) {
+			//Aボタン
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+				triggerButtonATime_ += 1;
+			
 			}
 
 		}
 
+
+		if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
+
+			decideSE_->PlayWave(decideSEHandle_, false);
+			decideSE_->ChangeVolume(decideSEHandle_, 0.5f);
+			isFadeOut_ = true;
+			bgm_->StopWave(bgmHandle_);
+
+		}
+		if (isFadeOut_ == true) {
+			decideSETime_ = 0;
+
+			transparency_ -= 0.01f;
+			if (transparency_ < 0.0f) {
+				transparency_ = 0.0f;
+
+				//ローディング
+				loadingTime_ += 1;
+				if (loadingTime_ > 120) {
+					gameManager->ChangeScene(new TitleScene());
+
+				}
+
+			}
+
+		}
 	}
+	
 
 }
 
