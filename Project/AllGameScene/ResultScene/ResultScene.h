@@ -67,6 +67,7 @@ private:
 
 	//キャラクター
 	Sprite* characterSprite_ = nullptr ;
+	Sprite* characterSprite2_ = nullptr;
 	Transform characterTransform_ = {};
 	SpritePosition characterAllPosition_ = {};
 
@@ -86,7 +87,7 @@ private:
 	Sprite* rankSprite_[RANK_AMOUNT_] = { nullptr };
 	Transform rankTransform_[RANK_AMOUNT_]  = {};
 	SpritePosition rankAllPosition_ [RANK_AMOUNT_] = {};
-
+	int32_t noob = 0;
 
 	//コメント
 	Sprite* commentSprite_[RANK_AMOUNT_] = { nullptr };

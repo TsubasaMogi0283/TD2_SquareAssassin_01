@@ -133,6 +133,9 @@
     <Filter Include="Project\Enemy">
       <UniqueIdentifier>{0a3dec23-6b5b-4b61-a2c9-d093838cdf04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Project\Player">
+      <UniqueIdentifier>{49429ee1-ce63-47ad-ab93-babbc6636f1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -242,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="Project\Object\Enemy\enemy.cpp">
       <Filter>Project\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\Object\Player\Player.cpp">
+      <Filter>Project\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="Project\Object\Enemy\enemy.h">
       <Filter>Project\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Project\Object\Player\Player.h">
+      <Filter>Project\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

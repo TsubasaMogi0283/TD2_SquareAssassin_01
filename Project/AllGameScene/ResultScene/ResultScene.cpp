@@ -57,12 +57,15 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 	//キャラクター
 	characterSprite_ = new Sprite() ;
+	characterSprite2_ = new Sprite();
 	characterTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,500.0f,0.0f} };
 	uint32_t characterTextureHandle = TextureManager::LoadTexture("Resources/Result/Texture/Character.png");
+	uint32_t characterTextureHandle2 = TextureManager::LoadTexture("Resources/Result/Texture/Character2.png");
 	characterSprite_->LoadTextureHandle(characterTextureHandle);
+	characterSprite2_->LoadTextureHandle(characterTextureHandle2);
 	characterAllPosition_ = { {0.0f,0.0f},{0.0f,256.0f},{256.0f,0.0f},{256.0f,256.0f} };
 	characterSprite_->SetAllPosition(characterAllPosition_);
-
+	characterSprite2_->SetAllPosition(characterAllPosition_);
 
 
 	//吹き出し
@@ -229,6 +232,7 @@ void ResultScene::Update(GameManager* gameManager) {
 	ImGuiDebug();
 	backSprite->SetTransparency(transparency_);
 	characterSprite_->SetTransparency(transparency_);
+	characterSprite2_->SetTransparency(transparency_);
 	speechBubbleSprite_->SetTransparency(transparency_);
 
 
@@ -310,7 +314,14 @@ void ResultScene::Update(GameManager* gameManager) {
 /// 描画
 void ResultScene::Draw(GameManager* gameManager) {
 	backSprite->DrawRect(backTransform_);
-	characterSprite_->DrawRect(characterTransform_);
+	if (noob == 1) {
+		characterSprite_->DrawRect(characterTransform_);
+	}
+	if (noob==0) {
+	characterSprite2_->DrawRect(characterTransform_);
+
+	}
+	
 	speechBubbleSprite_->DrawRect(speechBubbleTransform_);
 
 	//敵
@@ -327,33 +338,33 @@ void ResultScene::Draw(GameManager* gameManager) {
 		case Noob:
 			rankSprite_[0]->DrawRect(rankTransform_[0]);
 			commentSprite_[0]->DrawRect(commentTransform_[0]);
-
+			noob = 0;
 			break;
 
 
 		case Beginner:
 			rankSprite_[1]->DrawRect(rankTransform_[1]);
 			commentSprite_[1]->DrawRect(commentTransform_[1]);
-
+			noob = 1;
 			break;
 
 		case Normal:
 			rankSprite_[2]->DrawRect(rankTransform_[2]);
 			commentSprite_[2]->DrawRect(commentTransform_[2]);
 
-
+			noob = 1;
 			break;
 
 		case Expert:
 			rankSprite_[3]->DrawRect(rankTransform_[3]);
 			commentSprite_[3]->DrawRect(commentTransform_[3]);
-
+			noob = 1;
 			break;
 
 		case Master:
 			rankSprite_[4]->DrawRect(rankTransform_[4]);
 			commentSprite_[4]->DrawRect(commentTransform_[4]);
-
+			noob = 1;
 			break;
 	}
 
