@@ -106,4 +106,16 @@ private:
 	const int SECOND_ = 60;
 
 
+
+	//コントローラー
+	int triggerButtonATime_ = 0;
+
+	//右
+	bool isTriggerRight_ = false;
+	int triggerRightTime_ = 0;
+	
+	//左
+	bool isTriggerLeft_ = false;
+	int triggerLeftTime_ = 0;
+
 };

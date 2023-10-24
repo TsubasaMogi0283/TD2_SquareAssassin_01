@@ -199,71 +199,117 @@ void SelectScene::Update(GameManager* gameManager) {
 	if (isFadeIn_ == false) {
 		//selectBGM_->SetVolume(0.5f);
 
-		//キャラクターの動き
-		//右に動く
-		if ((input_->GetInstance()->IsTriggerKey(DIK_RIGHT) == true) ||
-			(input_->GetInstance()->IsTriggerKey(DIK_D) == true)) {
+		XINPUT_STATE joyState{};
+
+		if (Input::GetInstance()->GetJoystickState(joyState) ) {
+
+			//Aボタン
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+				triggerButtonATime_ += 1;
 			
-			
-			if (characterTransform_.translate.x !=860.0f) {
-				moveSE_->PlayWave(moveSESoundData_, false);
-				moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
-				characterTransform_.translate.x += MOVE_INTERVAL;
 			}
+
+			//falseの時押したとき
+			if (isTriggerRight_ == false) {
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT&&triggerRightTime_==0) {
+					triggerRightTime_ += 1;
 			
-
-		}
-
-		//左に動く
-		if ((input_->GetInstance()->IsTriggerKey(DIK_LEFT) == true) ||
-			(input_->GetInstance()->IsTriggerKey(DIK_A) == true)) {
-			
-			
-
-
-			if (characterTransform_.translate.x != 60.0) {
-				moveSE_->PlayWave(moveSESoundData_, false);
-				moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
-				characterTransform_.translate.x -= MOVE_INTERVAL;
+				}
 			}
-		
 
-		}
-
-
-		//決定
-		if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
-			decideSE_->PlayWave(decideSESoundData_, false);
+			//falseの時押したとき
+			if (isTriggerLeft_ == false) {
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT&&triggerLeftTime_==0) {
+					triggerLeftTime_ += 1;
 			
-			selectBGM_->StopWave(selectSoundData_);
-			
-			
+				}
+			}
 
-			//タイトルへ
-			if (characterTransform_.translate.x == 60.0f) {
-				isFadeOut_ = true;
-				nextScene_ = Title;
+
+
+			//押していない時
+			if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)==0) {
+				isTriggerRight_ = false;
+				triggerRightTime_ = 0;
+			}
+			//押していない時
+			if ((joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)==0) {
+				isTriggerLeft_ = false;
+				triggerLeftTime_ = 0;
+			}
+
+
+			//キャラクターの動き
+			//右に動く
+			if ((input_->GetInstance()->IsTriggerKey(DIK_RIGHT) == true) ||
+				(input_->GetInstance()->IsTriggerKey(DIK_D) == true)||(triggerRightTime_==1)){
+				isTriggerRight_ = true;
+				triggerRightTime_ = 0;
+				if (characterTransform_.translate.x !=860.0f) {
+					moveSE_->PlayWave(moveSESoundData_, false);
+					moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
+					characterTransform_.translate.x += MOVE_INTERVAL;
+				}
 				
+
 			}
 
-			//今の所キーボードは仮置き
-			//1を押したらSelectになる
-			if (characterTransform_.translate.x == 460.0f) {
+			//左に動く
+			if ((input_->GetInstance()->IsTriggerKey(DIK_LEFT) == true) ||
+				(input_->GetInstance()->IsTriggerKey(DIK_A) == true)||(triggerLeftTime_==1)) {
+				isTriggerLeft_ = true;
+				triggerLeftTime_ = 0;
+			
 
-				isFadeOut_ = true;
-				nextScene_ = Game;
+
+				if (characterTransform_.translate.x != 60.0) {
+					moveSE_->PlayWave(moveSESoundData_, false);
+					moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
+					characterTransform_.translate.x -= MOVE_INTERVAL;
+				}
+		
+
 			}
-			//2を押したらTutorialになる
-			if (characterTransform_.translate.x == 860.0f) {
-				isFadeOut_ = true;
-				nextScene_ = Tutorial;
+			//決定
+			if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
+				decideSE_->PlayWave(decideSESoundData_, false);
+				
+				selectBGM_->StopWave(selectSoundData_);
+				
+				
+
+				//タイトルへ
+				if (characterTransform_.translate.x == 60.0f) {
+					isFadeOut_ = true;
+					nextScene_ = Title;
+					
+				}
+
+				//今の所キーボードは仮置き
+				//1を押したらSelectになる
+				if (characterTransform_.translate.x == 460.0f) {
+
+					isFadeOut_ = true;
+					nextScene_ = Game;
+				}
+				//2を押したらTutorialになる
+				if (characterTransform_.translate.x == 860.0f) {
+					isFadeOut_ = true;
+					nextScene_ = Tutorial;
+				}
+
 			}
+		
+
 
 		}
-		
+
+
 		
 
 
+
+		
 	}
 	
 
