@@ -7,6 +7,7 @@
 #include "AllGameScene/GameManager/IGameScene.h"
 #include "../../../Player.h"
 #include <memory>
+#include "../../../Enemy.h"
 
 class  GameScene  : public IGameScene{
 public:
@@ -52,6 +53,8 @@ private:
 
 	//プレイヤー
 	std::unique_ptr<Player> player_ = nullptr;
+
+	Enemy* enemy_[6];//敵
 
 
 	//UI

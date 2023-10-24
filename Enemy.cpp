@@ -1,12 +1,14 @@
 #include "Enemy.h"
 #include <Polygon/Model/Model.h>
 void Enemy::Initialize(
-	Model* model, uint32_t textureHandle, float x, float y, float kCharacterSpeedx,
+	float x, float y, float kCharacterSpeedx,
 	float kCharacterSpeedy) {
-	model_ = model;
-	textureHandle_ = textureHandle;
+	model_ = new Model();
+	model_->CreateObject("Resources/Sample", "enemy.obj");
 	transform_.translate.x = x;
 	transform_.translate.y = y;
+	transform_.translate.z = 70;
+	transform_.scale = { 1.0f, 1.0f, 1.0f };
 	kCharacterSpeedX_ = kCharacterSpeedx;
 	kCharacterSpeedY_ = kCharacterSpeedy;
 	move.x = kCharacterSpeedX_;

@@ -19,11 +19,28 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 	player_ = std::make_unique<Player>();
 	player_->Initialize();
+	//敵の初期化
+	enemy_[0] = new Enemy;
+	enemy_[1] = new Enemy;
+	enemy_[2] = new Enemy;
+	enemy_[3] = new Enemy;
+	enemy_[4] = new Enemy;
+	enemy_[5] = new Enemy;
+
+	enemy_[0]->Initialize( -22, 0, -0.5f, 0.05f);
+	enemy_[1]->Initialize( 10, -10, 0.5f, -0.5f);
+	enemy_[2]->Initialize( -23, -20, -0.5f, -0.5f);
+	enemy_[3]->Initialize( 0, 0, 0.5f, 0.5f);
+	enemy_[4]->Initialize( -30, -10, -0.5f, 0.5f);
+	enemy_[5]->Initialize( 20, 5, 0.5f, -0.5f);
 
 }
 
 void GameScene::Play() {
 	player_->Update();
+	for (int i = 0; i < 6; i++) {
+		enemy_[i]->Update();
+	}
 }
 
 /// 更新
@@ -70,6 +87,9 @@ void GameScene::Update(GameManager* gameManager) {
 void GameScene::Draw(GameManager* gameManager) {
 	//gameSprite_->DrawRect(selectSpriteTransform_);
 	player_->Draw();
+	for (int i = 0; i < 6; i++) {
+		enemy_[i]->Draw();
+	}
 }
 
 
