@@ -21,15 +21,20 @@ void Player::Initialize() {
 	input_ = Input::GetInstance();
 
 	// ワールドトランスフォームの初期化
-	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
-	transform_.translate.y = 15;
+	transform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{15.0f,15.0f,70.0f} };
+	transform_.translate.y = 0;
 }
 
 void Player::Update() {
 
 	ImGui::Begin("Player");
-	ImGui::SliderFloat3("Translation", reinterpret_cast<float*>(&transform_.translate), -15, 15);
+	ImGui::SliderFloat3("Translation", reinterpret_cast<float*>(&transform_.translate.x), -100, 100);
 	ImGui::End();
+
+	/*ImGui::Begin("Player");
+	ImGui::InputFloat3("translate", &transform_.translate.x);
+	ImGui::SliderFloat3("translate", &transform_.translate.x, -10.0f, 10.0f);
+	ImGui::End();*/
 
 	//今どこの辺にいるか
 	if (transform_.translate.y <= -15) {
