@@ -42,7 +42,6 @@ private:
 
 	Sprite* titleSprite_ = nullptr;
 	Sprite* startSprite_ = nullptr;
-	Sprite* selectSprite_ = nullptr;
 
 	Sprite* characterSprite_ = nullptr;
 

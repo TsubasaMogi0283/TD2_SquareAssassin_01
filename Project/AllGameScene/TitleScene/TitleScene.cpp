@@ -20,6 +20,11 @@ TitleScene::~TitleScene() {
 	//キャラクター
 	delete characterSprite_; 
 
+	
+
+
+
+
 }
 
 /// 初期化
