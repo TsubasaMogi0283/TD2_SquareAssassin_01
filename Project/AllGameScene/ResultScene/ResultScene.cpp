@@ -64,6 +64,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	characterSprite_->SetAllPosition(characterAllPosition_);
 
 
+
 	//吹き出し
 	speechBubbleSprite_ = new Sprite() ;
 	speechBubbleTransform_ = { {scaleSize_,scaleSize_,1.0f},{0.0f,0.0f,0.0f},{60.0f,300.0f,0.0f} };
@@ -71,6 +72,8 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	speechBubbleSprite_->LoadTextureHandle(speechBublleTextureHandle);
 	speechBubbleAllPosition_ = { {0.0f,0.0f},{0.0f,150.0f},{200.0f,0.0f},{200.0f,150.0f} };
 	speechBubbleSprite_->SetAllPosition(speechBubbleAllPosition_);
+
+
 
 	//ランク
 	for (int i = 0; i < RANK_AMOUNT_; i++) {
@@ -264,32 +267,49 @@ void ResultScene::Update(GameManager* gameManager) {
 
 #pragma endregion
 	
-	if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
-		
-		decideSE_->PlayWave(decideSEHandle_, false);
-		decideSE_->ChangeVolume(decideSEHandle_,0.5f);
-		isFadeOut_ = true;
-		bgm_->StopWave(bgmHandle_);
+	XINPUT_STATE joyState{};
 
-	}
-	if (isFadeOut_ == true) {
-		decideSETime_ = 0;
-		
-		transparency_ -= 0.01f;
-		if (transparency_ < 0.0f) {
-			transparency_ = 0.0f;
+	if (Input::GetInstance()->GetJoystickState(joyState)) {
 
-			//ローディング
-			loadingTime_ += 1;
-			if (loadingTime_ > 120) {
-				gameManager->ChangeScene(new TitleScene());
+
+		//Aボタン
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			triggerButtonATime_ += 1;
+		
+		}
+
+
+
+
+
+
+
+		if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
+
+			decideSE_->PlayWave(decideSEHandle_, false);
+			decideSE_->ChangeVolume(decideSEHandle_, 0.5f);
+			isFadeOut_ = true;
+			bgm_->StopWave(bgmHandle_);
+
+		}
+		if (isFadeOut_ == true) {
+			decideSETime_ = 0;
+
+			transparency_ -= 0.01f;
+			if (transparency_ < 0.0f) {
+				transparency_ = 0.0f;
+
+				//ローディング
+				loadingTime_ += 1;
+				if (loadingTime_ > 120) {
+					gameManager->ChangeScene(new TitleScene());
+
+				}
 
 			}
-			
-		}
-		
-	}
 
+		}
+	}
 }
 
 /// 描画

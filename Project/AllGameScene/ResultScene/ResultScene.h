@@ -112,6 +112,14 @@ private:
 	bool isFadeOut_ = false;
 	int loadingTime_ = 0;
 	float transparency_ = 1.0f;
+
+
+
+	//コントローラー
+	int triggerButtonATime_ = 0;
+
+
+
 };
 
 
