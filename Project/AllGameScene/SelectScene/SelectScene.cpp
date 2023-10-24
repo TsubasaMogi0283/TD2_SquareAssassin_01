@@ -84,14 +84,7 @@ void SelectScene::Initialize(GameManager* gameManager) {
 #pragma endregion
 
 
-	//BGM
-	//タイトルBGM
-	selectBGM_ = Audio::GetInstance();
-	selectSoundData_ = selectBGM_->LoadWave("Resources/Select/Music/SelectBGM.wav");
-
 	
-	//再生
-	selectBGM_->PlayWave(selectSoundData_ ,true);
 	
 	//SE
 	//決定
@@ -102,7 +95,13 @@ void SelectScene::Initialize(GameManager* gameManager) {
 	moveSE_ = Audio::GetInstance();
 	moveSESoundData_ = moveSE_->LoadWave("Resources/Select/Music/Move.wav");
 
+	//BGM
+	//タイトルBGM
+	selectBGM_ = Audio::GetInstance();
+	selectSoundData_ = selectBGM_->LoadWave("Resources/Select/Music/SelectBGM.wav");
 
+	//再生
+	selectBGM_->PlayWave(selectSoundData_ ,true);
 }
 
 void SelectScene::ImGuiDebug() {
@@ -156,6 +155,7 @@ void SelectScene::ImGuiDebug() {
 
 
 
+
 }
 
 /// 更新
@@ -163,7 +163,7 @@ void SelectScene::Update(GameManager* gameManager) {
 
 	
 
-	//ImGuiDebug();
+	ImGuiDebug();
 
 #pragma region 透明度
 	selectSprite->SetTransparency(selectTextureTransparency_);
@@ -197,7 +197,7 @@ void SelectScene::Update(GameManager* gameManager) {
 
 	//選択画面
 	if (isFadeIn_ == false) {
-		selectBGM_->SetVolume(0.5f);
+		//selectBGM_->SetVolume(0.5f);
 
 		//キャラクターの動き
 		//右に動く
@@ -231,45 +231,44 @@ void SelectScene::Update(GameManager* gameManager) {
 
 		//決定
 		if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
-			selectBGM_->StopWave(selectSoundData_);
-			selectBGM_->SetVolume(0.0f);
-
-			decideSE_->PlayWave(decideSESoundData_, false);
+			
+			//selectBGM_->SetVolume(0.0f);
+			
+			
 			
 			
 
 			//タイトルへ
 			if (characterTransform_.translate.x == 60.0f) {
+				selectBGM_->StopWave(selectSoundData_);
 				nextScene_ = Title;
-				isFadeOut_ = true;
+				
 			}
 
 			//今の所キーボードは仮置き
 			//1を押したらSelectになる
 			if (characterTransform_.translate.x == 460.0f) {
 				nextScene_ = Game;
-				isFadeOut_ = true;
 			}
 			//2を押したらTutorialになる
 			if (characterTransform_.translate.x == 860.0f) {
 				
 				nextScene_ = Tutorial;
-				isFadeOut_ = true;
 			}
 
 		}
-
+		
 		
 
 
 	}
-
+	
 
 
 	//フェードアウト
 	if (isFadeOut_ == true) {
-		//selectBGM_->StopWave(selectSoundData_);
-		
+		//decideSE_->SetVolume(0.0f);
+		selectBGM_->StopWave(selectSoundData_);
 
 		selectTextureTransparency_ -= 0.07f;
 		if (selectTextureTransparency_ < 0.0f) {

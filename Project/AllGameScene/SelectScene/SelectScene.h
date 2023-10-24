@@ -105,4 +105,5 @@ private:
 	int waitingTime_ = 0;
 	const int SECOND_ = 60;
 
+
 };
