@@ -39,7 +39,7 @@ void Enemy::Update()
 
 }
 
-void Enemy::Dorw()
+void Enemy::Draw()
 {
 	enemy_->Draw(transformModel_);
 }

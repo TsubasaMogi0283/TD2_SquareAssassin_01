@@ -19,6 +19,8 @@ public:
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
 
+	void ImGuiDebug();
+
 	void Play();
 
 	/// 更新
@@ -31,7 +33,19 @@ public:
 
 private:
 	//Audio
+	//BGM
 	Audio* gameBGM_ = nullptr;
+	uint32_t gameBGMHandle_ = 0u;
+	int bgmTime_ = 0;
+
+	Audio* countSE_ = nullptr;
+	uint32_t countSEHandle_ = 0u;
+
+	Audio* startSE_ = nullptr;
+	uint32_t startSEHandle_ = 0u;
+
+
+
 	//Input
 	Input* input_ = nullptr;
 	//TextureManager
@@ -96,10 +110,29 @@ private:
 
 
 
+	int countDown_ = SECOND_ * 4;
 
 
 
 
+	//ゲーム開始
+	bool isGamePlay_ = false;
+
+
+	//カウント
+	static const int COUNT_NUMBER_ = 3;
+	float COUNT_SIZE = 1.0f;
+	Sprite* count_[COUNT_NUMBER_] = { nullptr };
+	Transform countTransform_[COUNT_NUMBER_] = {};
+	SpritePosition countAllPosition_ = {};
+
+	Sprite* start_ = nullptr;
+	Transform startTransform_ = {};
+	SpritePosition startAllPosition_ = {};
+
+	Sprite* end_ = nullptr;
+	Transform endTransform_ = {};
+	SpritePosition endAllPosition_ = {};
 
 
 };

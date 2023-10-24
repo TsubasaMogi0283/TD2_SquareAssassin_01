@@ -18,7 +18,7 @@ TitleScene::~TitleScene() {
 	}
 	
 	//キャラクター
-	delete characterSprite_;
+	delete characterSprite_; 
 
 }
 

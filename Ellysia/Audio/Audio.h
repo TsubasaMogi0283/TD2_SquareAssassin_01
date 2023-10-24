@@ -58,7 +58,9 @@ public:
 	//音声停止
 	void StopWave(uint32_t audioHandle);
 
-
+	
+	//音量調節
+	void SetVolume(float volume);
 
 
 	//音声データの開放
@@ -78,6 +80,9 @@ private:
 
 	//波形フォーマットを基にSourceVoiceの生成
 	IXAudio2SourceVoice* pSourceVoice_[SOUND_DATE_MAX_] = {nullptr};
+
+
+	XAUDIO2_BUFFER buf_{};
 
 	SoundData soundData[SOUND_DATE_MAX_] = {};
 

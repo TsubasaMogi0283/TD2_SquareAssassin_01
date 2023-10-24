@@ -124,21 +124,26 @@ void Audio::PlayWave(uint32_t audioHandle,bool isLoop) {
 	assert(SUCCEEDED(hr));
 
 	//再生する波形データの設定
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData[audioHandle].pBuffer;
-	buf.AudioBytes = soundData[audioHandle].bufferSize;
-	buf.Flags = XAUDIO2_END_OF_STREAM;
+	
+	buf_.pAudioData = soundData[audioHandle].pBuffer;
+	buf_.AudioBytes = soundData[audioHandle].bufferSize;
+	buf_.Flags = XAUDIO2_END_OF_STREAM;
 	if (isLoop == true) {
 		//ずっとループさせたいならLoopCountにXAUDIO2_LOOP_INFINITEをいれよう
-		buf.LoopCount = XAUDIO2_LOOP_INFINITE;
+		buf_.LoopCount = XAUDIO2_LOOP_INFINITE;
 	}
 
 	//波形データの再生
-	hr = pSourceVoice_[audioHandle]->SubmitSourceBuffer(&buf);
+	hr = pSourceVoice_[audioHandle]->SubmitSourceBuffer(&buf_);
 	hr = pSourceVoice_[audioHandle]->Start();
 
 
 	
+}
+
+void Audio::SetVolume(float volume) {
+	HRESULT hr = {};
+	hr = pSourceVoice_[audioHandle_]->SetVolume(volume);
 }
 
 //音声停止
