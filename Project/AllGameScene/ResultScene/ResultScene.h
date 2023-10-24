@@ -30,8 +30,12 @@ public:
 
 private:
 	//Audio
-	Audio* titleBGM_ = nullptr;
-	//SoundData titleSoundData_ = {};
+	Audio* bgm_ = nullptr;
+	uint32_t bgmHandle_ = 0u;
+
+	Audio* decideSE_ = nullptr;
+	uint32_t decideSEHandle_ = 0u;
+	int decideSETime_ = 0;
 
 	//Input
 	Input* input_ = nullptr;

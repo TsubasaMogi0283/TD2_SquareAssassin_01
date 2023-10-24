@@ -33,6 +33,7 @@ private:
 
 	Audio* startSE_ = nullptr;
 	uint32_t startSESoundData_ = {};
+	int seTime_ = 0;
 
 	//Input
 	Input* input_ = nullptr;

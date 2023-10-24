@@ -87,7 +87,7 @@ void TitleScene::Initialize(GameManager* gameManager) {
 	//SE
 	startSE_ = Audio::GetInstance();
 	//startSE_->Initialize();
-	startSESoundData_ = titleBGM_->LoadWave("Resources/Title/Music/StartSE.wav");
+	startSESoundData_ = startSE_->LoadWave("Resources/Title/Music/StartSE.wav");
 
 
 }
@@ -165,6 +165,8 @@ void TitleScene::Update(GameManager* gameManager) {
 			titleBGM_->StopWave(titleSoundData_);
 			startSE_->PlayWave(startSESoundData_, false);
 
+
+
 			isFadeout_ = true;
 		}
 
@@ -174,7 +176,7 @@ void TitleScene::Update(GameManager* gameManager) {
 	
 
 	if (isFadeout_ == true) {
-
+		
 		startFlashTime_ += 1;
 		//点滅処理
 		if (startFlashTime_ > FLASH_INTERVAL * 0) {
@@ -208,14 +210,17 @@ void TitleScene::Update(GameManager* gameManager) {
 
 
 			if (startFlashTime_ > FLASH_INTERVAL * 9 ) {
+
+				
 				//フェードアウト
 				textureTransparency -= 0.01f;
 				if (textureTransparency < 0.0f) {
 					waitingTime_ += 1;
 					textureTransparency = 0.0f;
 					startTransparency = 0.0f;
-
+					
 					if (waitingTime_ > SECOND_ * 3) {
+						
 						gameManager->ChangeScene(new SelectScene());
 					}
 					

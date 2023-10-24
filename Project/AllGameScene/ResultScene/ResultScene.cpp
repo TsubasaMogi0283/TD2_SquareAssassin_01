@@ -8,10 +8,7 @@ ResultScene::ResultScene() {
 
 }
 
-/// デストラクタ
-ResultScene::~ResultScene() {
 
-}
 
 /// 初期化
 void ResultScene::Initialize(GameManager* gameManager) {
@@ -176,10 +173,19 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
-	
+	//BGM
+	bgm_ = Audio::GetInstance();
+	bgmHandle_ = bgm_->LoadWave("Resources/Result/Music/ResultBGM.wav");
+
+
+	bgm_->PlayWave(bgmHandle_, true);
+	bgm_->ChangeVolume(bgmHandle_,0.7f);
 
 
 
+	//SE
+	decideSE_ =  Audio::GetInstance();
+	decideSEHandle_ = decideSE_->LoadWave("Resources/Result/Music/Decide.wav");;
 
 }
 
@@ -207,6 +213,11 @@ void ResultScene::ImGuiDebug() {
 	
 	ImGui::End();
 	
+	ImGui::Begin("time");
+
+	ImGui::InputInt("decideSE", &decideSETime_);
+	ImGui::End();
+
 }
 
 /// 更新
@@ -254,11 +265,20 @@ void ResultScene::Update(GameManager* gameManager) {
 #pragma endregion
 	
 	if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
-
-		isFadeOut_ = true;
 		
+		decideSETime_ += 1;
+		if (decideSETime_ == 1) {
+			decideSE_->PlayWave(decideSEHandle_, true);
+			
+		}
+		
+		isFadeOut_ = true;
+		bgm_->StopWave(bgmHandle_);
+
 	}
 	if (isFadeOut_ == true) {
+		decideSETime_ = 0;
+		
 		transparency_ -= 0.01f;
 		if (transparency_ < 0.0f) {
 			transparency_ = 0.0f;
@@ -329,6 +349,10 @@ void ResultScene::Draw(GameManager* gameManager) {
 
 }
 
-
+/// デストラクタ
+ResultScene::~ResultScene() {
+	decideSE_->Release();
+		
+}
 
 

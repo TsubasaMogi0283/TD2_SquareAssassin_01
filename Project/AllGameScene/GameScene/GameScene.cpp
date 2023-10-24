@@ -366,6 +366,8 @@ void GameScene::Update(GameManager* gameManager) {
 			endSE_->PlayWave(endSEHandle_, false);
 			endSE_->ChangeVolume(endSEHandle_,1.5f);
 		
+			gameBGM_->ChangeVolume(gameBGMHandle_,0.5f);
+
 		}
 
 
