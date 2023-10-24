@@ -84,4 +84,7 @@ private:
 	const int FLASH_INTERVAL = 3;
 
 	float volume_ = 1.0f;
+
+	int triggerButtonATime_ = 0;
+
 };

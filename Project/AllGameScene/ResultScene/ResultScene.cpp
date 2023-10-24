@@ -266,12 +266,8 @@ void ResultScene::Update(GameManager* gameManager) {
 	
 	if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
 		
-		decideSETime_ += 1;
-		if (decideSETime_ == 1) {
-			decideSE_->PlayWave(decideSEHandle_, true);
-			
-		}
-		
+		decideSE_->PlayWave(decideSEHandle_, false);
+		decideSE_->ChangeVolume(decideSEHandle_,0.5f);
 		isFadeOut_ = true;
 		bgm_->StopWave(bgmHandle_);
 

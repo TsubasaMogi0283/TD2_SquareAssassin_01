@@ -170,6 +170,27 @@ void TitleScene::Update(GameManager* gameManager) {
 			isFadeout_ = true;
 		}
 
+		XINPUT_STATE joyState{};
+
+		if (Input::GetInstance()->GetJoystickState(joyState)) {
+
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+				triggerButtonATime_ += 1;
+			
+			}
+
+		}
+
+		if (triggerButtonATime_ == 1) {
+			titleBGM_->StopWave(titleSoundData_);
+			startSE_->PlayWave(startSESoundData_, false);
+
+
+
+			isFadeout_ = true;
+		}
+
+
 	}
 	
 

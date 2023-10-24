@@ -163,7 +163,7 @@ void SelectScene::Update(GameManager* gameManager) {
 
 	
 
-	ImGuiDebug();
+	//ImGuiDebug();
 
 #pragma region 透明度
 	selectSprite->SetTransparency(selectTextureTransparency_);
@@ -207,6 +207,7 @@ void SelectScene::Update(GameManager* gameManager) {
 			
 			if (characterTransform_.translate.x !=860.0f) {
 				moveSE_->PlayWave(moveSESoundData_, false);
+				moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
 				characterTransform_.translate.x += MOVE_INTERVAL;
 			}
 			
@@ -222,6 +223,7 @@ void SelectScene::Update(GameManager* gameManager) {
 
 			if (characterTransform_.translate.x != 60.0) {
 				moveSE_->PlayWave(moveSESoundData_, false);
+				moveSE_->ChangeVolume(moveSESoundData_, 0.5f);
 				characterTransform_.translate.x -= MOVE_INTERVAL;
 			}
 		
