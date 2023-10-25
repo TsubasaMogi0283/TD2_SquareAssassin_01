@@ -352,7 +352,7 @@ void GameScene::CountDown() {
 /// 更新
 void GameScene::Update(GameManager* gameManager) {
 
-	ImGuiDebug();
+	//ImGuiDebug();
 
 
 	yuka_->SetTransparency(transparency_);
@@ -545,16 +545,6 @@ void GameScene::Draw(GameManager* gameManager) {
 
 void GameScene::Collision()
 {
-
-	ImGui::Begin("killCount");
-	ImGui::SliderInt("allKillCount_ ", &allKillCount_, -15, 15);
-	ImGui::SliderInt("enemykill1", &killCount_, -15, 15);
-	ImGui::SliderInt("enemykill2", &killCount2_, -15, 15);
-	ImGui::SliderInt("enemykill3", &killCount3_, -15, 15);
-	ImGui::SliderInt("enemyHP1", &enemyHP[0], -15, 15);
-	ImGui::SliderInt("enemyHP2", &enemyHP2[0], -15, 15);
-	ImGui::SliderInt("enemyHP3", &enemyHP3[0], -15, 15);
-	ImGui::End();
 	Vector3 posA, posB;
 
 	//小敵

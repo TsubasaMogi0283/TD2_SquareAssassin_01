@@ -15,12 +15,7 @@ void Player::Initialize(const std::string& directoryPath,
 	transform_ = transform;
 }
 
-void Player::Update()
-{
-	ImGui::Begin("Player");
-	ImGui::SliderFloat3(
-		"Translation", reinterpret_cast<float*>(&transform_.translate), -15, 15);
-	ImGui::End();
+void Player::Update(){
 
 	XINPUT_STATE joyState{};
 

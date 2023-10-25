@@ -377,7 +377,7 @@ void ResultScene::ImGuiDebug() {
 /// 更新
 void ResultScene::Update(GameManager* gameManager) {
 
-	ImGuiDebug();
+	//ImGuiDebug();
 	backSprite->SetTransparency(transparency_);
 	characterSprite_->SetTransparency(transparency_);
 	characterSprite2_->SetTransparency(transparency_);
@@ -497,12 +497,6 @@ void ResultScene::Update(GameManager* gameManager) {
 
 	}
 	
-	/*
-	if (isCalculation_ == false) {
-
-		
-
-	}*/
 	
 
 }

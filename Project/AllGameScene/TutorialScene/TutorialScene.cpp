@@ -186,11 +186,7 @@ void TutorialScene::Explanation() {
 
 /// 更新
 void TutorialScene::Update(GameManager* gameManager) {
-	ImGui::Begin("Tutorial");
-	ImGui::SliderInt("blinkingTime_", &blinkingTime_, -15, 15);
-	ImGui::SliderInt("blinkingCount_", &blinkingCount_, -15, 15);
-	ImGui::InputInt("pushTime", &pushTime_);
-	ImGui::End();
+	
 
 	tutorialSprite->SetTransparency(tutorialTextureTransparency_);
 
