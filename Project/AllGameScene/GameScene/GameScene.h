@@ -123,7 +123,7 @@ private:
 	int32_t enemyHP2[enemyCount2];
 	int32_t enemyHP3[enemyCount3];
 
-	int32_t killCount1_;
+	int32_t killCount_;
 	int32_t killCount2_;
 	int32_t killCount3_;
 	int32_t allKillCount_;
@@ -163,6 +163,11 @@ private:
 	Transform endTransform_ = {};
 	SpritePosition endAllPosition_ = {};
 
+
+
+	int32_t recoveryTime[enemyCount];
+	int32_t recoveryTime2[enemyCount2];
+	int32_t recoveryTime3[enemyCount3];
 #pragma endregion
 
 	//ゲームの時間
