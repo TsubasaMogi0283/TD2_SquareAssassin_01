@@ -351,8 +351,6 @@ void GameScene::Update(GameManager* gameManager) {
 	}
 
 
-
-
 	//フェード終わり
 	//カウントダウン
 	if (isFadeIn_ == false) {
@@ -412,14 +410,16 @@ void GameScene::Update(GameManager* gameManager) {
 
 
 	if (isStopGame_ == true) {
-		
+		isGamePlay_ = false;
+
+
 		endSETime_ += 1;
 		if (endSETime_==1) {
 			
 			endSE_->PlayWave(endSEHandle_, false);
 			endSE_->ChangeVolume(endSEHandle_,1.5f);
 		
-			gameBGM_->ChangeVolume(gameBGMHandle_,0.5f);
+			gameBGM_->ChangeVolume(gameBGMHandle_,0.4f);
 
 		}
 
@@ -433,7 +433,13 @@ void GameScene::Update(GameManager* gameManager) {
 		if (displayStopTime_ > SECOND_ * 3) {
 			//BGM止める
 			gameBGM_->StopWave(gameBGMHandle_);
-			gameManager->ChangeScene(new ResultScene());
+
+			transparency_ -= 0.05f;
+			if (transparency_ < 0.0f) {
+				transparency_ = 0.0f;
+				gameManager->ChangeScene(new ResultScene());
+			}
+			
 		}
 	}
 

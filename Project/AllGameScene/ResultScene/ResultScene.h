@@ -45,6 +45,14 @@ private:
 	uint32_t decideSEHandle_ = 0u;
 	int decideSETime_ = 0;
 
+#pragma region CV
+	static const int COMMENT_AMOUNT_ = 5;
+	Audio* characterComment_[COMMENT_AMOUNT_] = { nullptr };
+	uint32_t characterCommentHandle_[COMMENT_AMOUNT_] = { 0u };
+#pragma endregion
+
+
+
 	//Input
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;

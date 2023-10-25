@@ -165,10 +165,25 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 	allScore_ = smallScore_ + normalScore_ + bigScore_;
 
-
+	//格付け
 	//ここは仮
+	if (allScore_ == 0) {
+		rankName_ = Noob;
+	}
+	if (allScore_ > 0 && allScore_<=10) {
+		rankName_ = Beginner;
+	}
+	if (allScore_ > 10 && allScore_<=40) {
+		rankName_ = Normal;
+	}
+	if (allScore_ > 40 && allScore_<=80) {
+		rankName_ = Expert;
+	}
+	if (allScore_ >80) {
+		rankName_ = Master;
+	}
 
-	//rankName_
+
 
 
 	const float NUMBER_SIZE_ = 1.5f;
@@ -302,6 +317,24 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 
 
+	for (int i = 0; i < COMMENT_AMOUNT_; i++) {
+		characterComment_[i] = Audio::GetInstance();;
+		
+
+	}
+	//Noob
+	characterCommentHandle_[0] = characterComment_[0]->LoadWave("Resources/Result/Music/CV/Noob.wav");
+	characterCommentHandle_[1] = characterComment_[1]->LoadWave("Resources/Result/Music/CV/Beginner.wav");
+	characterCommentHandle_[2] = characterComment_[2]->LoadWave("Resources/Result/Music/CV/Normal.wav");
+	characterCommentHandle_[3] = characterComment_[3]->LoadWave("Resources/Result/Music/CV/Expert.wav");
+	characterCommentHandle_[4] = characterComment_[4]->LoadWave("Resources/Result/Music/CV/Master.wav");
+
+
+
+
+
+
+
 	//SE
 	decideSE_ =  Audio::GetInstance();
 	decideSEHandle_ = decideSE_->LoadWave("Resources/Result/Music/Decide.wav");;
@@ -387,7 +420,12 @@ void ResultScene::Update(GameManager* gameManager) {
 	}
 
 #pragma endregion
-	
+	characterCommentHandle_[0] = characterComment_[0]->LoadWave("Resources/Result/Music/CV/Noob.wav");
+	characterCommentHandle_[1] = characterComment_[1]->LoadWave("Resources/Result/Music/CV/Beginner.wav");
+	characterCommentHandle_[2] = characterComment_[2]->LoadWave("Resources/Result/Music/CV/Normal.wav");
+	characterCommentHandle_[3] = characterComment_[3]->LoadWave("Resources/Result/Music/CV/Expert.wav");
+	characterCommentHandle_[4] = characterComment_[4]->LoadWave("Resources/Result/Music/CV/Master.wav");
+
 	if (isCalculation_ == false) {
 		XINPUT_STATE joyState{};
 
@@ -399,6 +437,7 @@ void ResultScene::Update(GameManager* gameManager) {
 			}
 
 		}
+
 
 
 		if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
@@ -426,6 +465,7 @@ void ResultScene::Update(GameManager* gameManager) {
 			}
 
 		}
+
 	}
 	
 
@@ -433,7 +473,10 @@ void ResultScene::Update(GameManager* gameManager) {
 
 /// 描画
 void ResultScene::Draw(GameManager* gameManager) {
+	//背景
 	backSprite->DrawRect(backTransform_);
+
+	//キャラクター表情差分
 	if (noob == 1) {
 		characterSprite_->DrawRect(characterTransform_);
 	}
@@ -442,6 +485,7 @@ void ResultScene::Draw(GameManager* gameManager) {
 
 	}
 	
+	//吹き出し
 	speechBubbleSprite_->DrawRect(speechBubbleTransform_);
 
 	//敵
@@ -502,20 +546,20 @@ void ResultScene::Draw(GameManager* gameManager) {
 	smallScorePlace_.one = smallScore_ % 10;
 
 
-	smallScoreHundredsPlane_[0]->DrawRect(smallScoreHundredsPlaneTransform_);
-	smallScoreTensPlane_[0]->DrawRect(smallScoreTensPlaneTransform_);
-	smallScoreOnesPlane_[0]->DrawRect(smallScoreOnesPlaneTransform_);
+	smallScoreHundredsPlane_[smallScorePlace_.hundred]->DrawRect(smallScoreHundredsPlaneTransform_);
+	smallScoreTensPlane_[smallScorePlace_.ten]->DrawRect(smallScoreTensPlaneTransform_);
+	smallScoreOnesPlane_[smallScorePlace_.one]->DrawRect(smallScoreOnesPlaneTransform_);
 
 
 	//普通の敵
 	normalScorePlace_.hundred = normalScore_ / 100;
 	normalScorePlace_.ten = (normalScore_ %100)/10;
-	normalScorePlace_.one = bigScore_ % 10;
+	normalScorePlace_.one = normalScore_ % 10;
 
 
-	normalScoreHundredsPlane_[0]->DrawRect(normalScoreHundredsPlaneTransform_);
-	normalScoreTensPlane_[0]->DrawRect(normalScoreTensPlaneTransform_);
-	normalScoreOnesPlane_[0]->DrawRect(normalScoreOnesPlaneTransform_);
+	normalScoreHundredsPlane_[normalScorePlace_.hundred]->DrawRect(normalScoreHundredsPlaneTransform_);
+	normalScoreTensPlane_[normalScorePlace_.ten]->DrawRect(normalScoreTensPlaneTransform_);
+	normalScoreOnesPlane_[normalScorePlace_.one]->DrawRect(normalScoreOnesPlaneTransform_);
 
 
 
@@ -527,9 +571,9 @@ void ResultScene::Draw(GameManager* gameManager) {
 	bigScorePlace_.one = bigScore_ % 10;
 
 
-	bigScoreHundredsPlane_[0]->DrawRect(bigScoreHundredsPlaneTransform_);
-	bigScoreTensPlane_[0]->DrawRect(bigScoreTensPlaneTransform_);
-	bigScoreOnesPlane_[0]->DrawRect(bigScoreOnesPlaneTransform_);
+	bigScoreHundredsPlane_[bigScorePlace_.hundred ]->DrawRect(bigScoreHundredsPlaneTransform_);
+	bigScoreTensPlane_[bigScorePlace_.ten ]->DrawRect(bigScoreTensPlaneTransform_);
+	bigScoreOnesPlane_[bigScorePlace_.one ]->DrawRect(bigScoreOnesPlaneTransform_);
 
 
 
