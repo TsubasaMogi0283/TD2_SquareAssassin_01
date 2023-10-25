@@ -178,14 +178,14 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 
 	for (int i = 0; i < enemyCount; i++) {
-		HPCoolTimer_[i] = 10;
+		recoveryTime[i] = 10;
 	}
 	for (int i = 0; i < enemyCount2; i++) {
-		HPCoolTimer2_[i] = 10;
+		recoveryTime2[i] = 10;
 
 	}
 	for (int i = 0; i < enemyCount3; i++) {
-		HPCoolTimer3_[i] = 10;
+		recoveryTime3[i] = 10;
 	}
 
 
