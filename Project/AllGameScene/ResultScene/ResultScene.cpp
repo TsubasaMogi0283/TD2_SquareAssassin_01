@@ -155,7 +155,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 #pragma endregion
 
 #pragma region スコア
-
+	
 
 
 	smallScore_ = Record::GetInstance()->GetSmallEnemy();
@@ -163,7 +163,10 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	bigScore_ = Record::GetInstance()->GetBigEnemy();
 
 
-	allScore_ = smallScore_ + normalScore_ + bigScore_;
+	allScore_ = smallScore_ + normalScore_*2 + bigScore_*3;
+
+
+
 
 	//格付け
 	//ここは仮
@@ -307,6 +310,23 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 
 
+
+#pragma region シークレット
+	//シークレット
+	konKon_ = new Sprite();
+	uint32_t konHandle=TextureManager::LoadTexture("Resources/Result/Texture/Kon.png");
+	konKonTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,100.0f,0.0f} };
+	konKonAllPosition_ = { {0.0f,0.0f},{0.0f,200.0f},{260.0f,0.0f},{260.0f,200.0f} };
+
+	konKon_->LoadTextureHandle(konHandle);
+	konKon_->SetAllPosition(konKonAllPosition_);
+	
+
+
+#pragma endregion
+
+
+
 	//BGM
 	bgm_ = Audio::GetInstance();
 	bgmHandle_ = bgm_->LoadWave("Resources/Result/Music/ResultBGM.wav");
@@ -372,11 +392,17 @@ void ResultScene::ImGuiDebug() {
 
 	ImGui::End();
 
+
+	
 }
 
 /// 更新
 void ResultScene::Update(GameManager* gameManager) {
-
+	//ImGui::Begin("j");
+	//ImGui::InputInt("all", &allScore_);
+	//ImGui::InputInt("nom", &normalScore_);
+	//ImGui::InputInt("big", &bigScore_);
+	//ImGui::End();
 	//ImGuiDebug();
 	backSprite->SetTransparency(transparency_);
 	characterSprite_->SetTransparency(transparency_);
@@ -533,6 +559,7 @@ void ResultScene::Draw(GameManager* gameManager) {
 			rankSprite_[0]->DrawRect(rankTransform_[0]);
 			commentSprite_[0]->DrawRect(commentTransform_[0]);
 			noob = 0;
+			
 			break;
 
 
@@ -558,6 +585,7 @@ void ResultScene::Draw(GameManager* gameManager) {
 		case Master:
 			rankSprite_[4]->DrawRect(rankTransform_[4]);
 			commentSprite_[4]->DrawRect(commentTransform_[4]);
+			konKon_->DrawRect(konKonTransform_);
 			noob = 1;
 			break;
 	}
