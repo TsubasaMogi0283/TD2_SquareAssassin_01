@@ -17,3 +17,4 @@ Vector3 Subtract(Vector3 v1, Vector3 v2) {
 	result.z = v1.z - v2.z;
 	return result;
 }
+

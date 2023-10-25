@@ -1,6 +1,7 @@
 #include "Model.h"
 #include <Camera/Camera.h>
 #include <TextureManager/TextureManager.h>
+#include <PipelineManager/PipelineManager.h>
 
 
 Model::Model() {
@@ -339,6 +340,10 @@ void Model::Draw(Transform transform) {
 
 
 	//コマンドを積む
+
+	directXSetup_->GetCommandList()->SetGraphicsRootSignature(PipelineManager::GetInstance()->GetModelRootSignature());
+	directXSetup_->GetCommandList()->SetPipelineState(PipelineManager::GetInstance()->GetModelGraphicsPipelineState());
+
 
 	//RootSignatureを設定。PSOに設定しているけど別途設定が必要
 	directXSetup_->GetCommandList()->IASetVertexBuffers(0, 1, &vertexBufferView_);

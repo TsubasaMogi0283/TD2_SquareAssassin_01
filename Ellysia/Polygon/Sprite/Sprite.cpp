@@ -8,7 +8,6 @@
 
 
 
-
 //コンストラクタ
 Sprite::Sprite(){
 
@@ -122,15 +121,64 @@ void Sprite::LoadTextureHandle(uint32_t textureHandle) {
 
 }
 
+void Sprite::AssertInformation() {
+
+	//leftTop,LeftBottom,RightTop,RightBottom
+	//{ {0.0f,0.0f},{512.0f,0.0f}
+	// {0.1f,512.0f},{512.0f,512.0f} };
+	
+	//座標を入れるとき値が違っていると面倒なので
+	//Assertで止めたい
+
+	//左側2つのX座標が一致していない
+	if (leftBottom_.x != leftTop_.x) {
+		Log("Please Set Same Value LeftBottom.x And LeftTop.x !!!\n\n");
+
+		assert(leftBottom_.x == leftTop_.x);
+	}
+
+	//上側2つのY座標が一致していない
+	if (leftTop_.y != rightTop_.y) {
+		Log("Please Set Same Value LeftTop.y And RightTop.y !!!\n\n");
+
+		assert(leftTop_.y == rightTop_.y);
+	}
+
+
+
+	//右側2つのX座標が一致していない
+	if (rightTop_.x != rightBottom_.x) {
+		Log("Please Set Same Value RightTop.x And RightBottom.x !!!\n\n");
+
+		assert(rightTop_.x == rightBottom_.x);
+	}
+
+	//下側2つのY座標が一致していない
+	if (rightBottom_.y != leftBottom_.y) {
+		Log("Please Set Same Value RightBottom.y And LeftBottom.y !!!\n\n");
+
+		assert(rightBottom_.y == leftBottom_.y);
+	}
+	
+}
+
 //描画
 void Sprite::DrawRect(Transform transform) {
 	
+	//参考
+	//assert(device_ != nullptr);
+
+
 	//SetAllPosition
 	leftBottom_ = {position_.leftBottom.x,position_.leftBottom.y,0.0f,1.0f};
 	leftTop_ = {position_.leftTop.x,position_.leftTop.y,0.0f,1.0f};
 	rightBottom_ = {position_.rightBottom.x,position_.rightBottom.y,0.0f,1.0f};
 	rightTop_ = {position_.rightTop.x,position_.rightTop.y,0.0f,1.0f};
 
+	
+	//AssertInformation();
+
+	
 
 	//TextureCoordinate(テクスチャ座標系)
 	//TexCoord,UV座標系とも呼ばれている
@@ -228,6 +276,12 @@ void Sprite::DrawRect(Transform transform) {
 
 	//コマンドを積む
 	//パイプラインはここに引っ越したい
+
+	//参考
+	//commands.m_pList->SetGraphicsRootSignature(PSO.rootSignature.Get());
+	//commands.m_pList->SetPipelineState(PSO.GraphicsPipelineState.Get());
+	directXSetup_->GetCommandList()->SetGraphicsRootSignature(PipelineManager::GetInstance()->GetSpriteRootSignature());
+	directXSetup_->GetCommandList()->SetPipelineState(PipelineManager::GetInstance()->GetSpriteGraphicsPipelineState());
 
 
 	//RootSignatureを設定。PSOに設定しているけど別途設定が必要

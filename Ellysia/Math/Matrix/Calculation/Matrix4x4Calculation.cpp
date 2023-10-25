@@ -503,3 +503,15 @@ Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float botto
 
 	return result;
 }
+
+float Dot(const Vector3& v1, const Vector3& v2) {
+	float result{};
+	result = v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+
+	return result;
+}
+float Length(const Vector3& v) {
+	float result{};
+	result = sqrt(Dot(v, v));
+	return result;
+}

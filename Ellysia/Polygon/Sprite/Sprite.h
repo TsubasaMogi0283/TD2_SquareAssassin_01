@@ -4,7 +4,7 @@
 
 #include "ConvertFunction/ConvertLog/LogConvert.h"
 #include "externals/DirectXTex/DirectXTex.h"
-#include <TextureManager/TextureManager.h>
+#include "PipelineManager/PipelineManager.h"
 
 #include "Math/Vector/Vector4.h"
 #include "Math/Matrix/Matrix/Matrix4x4.h"
@@ -15,6 +15,7 @@
 #include <Math/Vector/Material.h>
 
 #include <string>
+#include <format>
 #include <Math/Vector/DirectionalLight.h>
 #include <Math/Matrix/Matrix/TransformationMatrix.h>
 #include "Math/Vector/SpritePosition.h"
@@ -50,6 +51,10 @@ public:
 	void SetTransparency(float transparency) {
 		this->color_.w = transparency;
 	}
+	void SetColor(Vector4 color) {
+		this->color_ = color;
+	}
+
 
 
 #pragma endregion
@@ -68,6 +73,9 @@ private:
 	//Index
 	void CreateIndexBufferView();
 
+
+	//
+	void AssertInformation();
 
 private:
 	DirectXSetup* directXSetup_ = nullptr;
@@ -102,7 +110,7 @@ private:
 
 
 	//頂点バッファビューを作成する
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_;
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 
 	
 
@@ -121,8 +129,8 @@ private:
 	ID3D12Resource* textureResource_ = nullptr;
 	ID3D12Resource* resource_ = nullptr;
 
-	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_;
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_;
+	D3D12_CPU_DESCRIPTOR_HANDLE textureSrvHandleCPU_ = {};
+	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU_ = {};
 
 	ID3D12Resource* intermediateResource_= nullptr ;
 

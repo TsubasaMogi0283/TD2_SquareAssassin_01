@@ -12,9 +12,14 @@ SampleScene::SampleScene() {
 /// デストラクタ
 /// </summary>
 SampleScene::~SampleScene() {
-	//sprite_->Release();
-	audio_->SoundUnload(&soundData_);
-	delete sprite_;
+	sprite_->Release();
+	audio_->SoundUnload(soundData_);
+	//delete sprite_;
+	//delete sprite2_;
+	//delete sprite3_;
+	//plane_->Release();
+	//delete plane_;
+
 }
 
 /// <summary>
@@ -28,8 +33,6 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	 
 	 
 	 
-
-	//TextureHandleはそれぞれ違う値になっているのに何故
 	uint32_t textureHandle_ = TextureManager::LoadTexture("Resources/uvChecker.png");
 	uint32_t textureHandle2_= TextureManager::LoadTexture("Resources/monsterBall.png");
 	uint32_t textureHandle3_= TextureManager::LoadTexture("Resources/bullet.png");
@@ -42,7 +45,7 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	spriteAllPosition_ = { {0.0f,0.0f},{0.0f,512.0f},{512.0f,0.0f},{512.0f,512.0f} };
 	sprite_->SetAllPosition(spriteAllPosition_);
 
-	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{500.0f,0.0f,0.0f} };
+	transformSprite2_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{300.0f,0.0f,0.0f} };
 	
 	sprite2_ = new Sprite();
 	sprite2_->LoadTextureHandle(textureHandle2_);
@@ -51,12 +54,12 @@ void SampleScene::Initialize(GameManager* gameManager) {
 
 	
 
-	transformSprite3_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{1000.0f,0.0f,0.0f} };
+	transformSprite3_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{800.0f,0.0f,0.0f} };
 	
-	sprite3_ = new Sprite();
-	sprite3_->LoadTextureHandle(textureHandle3_);
-	spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,16.0f},{16.0f,0.0f},{16.0f,16.0f} };
-	sprite3_->SetAllPosition(spriteAllPosition3_);
+	//sprite3_ = new Sprite();
+	//sprite3_->LoadTextureHandle(textureHandle3_);
+	//spriteAllPosition3_ = { {0.0f,0.0f},{0.0f,16.0f},{16.0f,0.0f},{16.0f,16.0f} };
+	//sprite3_->SetAllPosition(spriteAllPosition3_);
 
 
 
@@ -68,7 +71,7 @@ void SampleScene::Initialize(GameManager* gameManager) {
 	
 
 	audio_ = Audio::GetInstance();
-	audio_->Initialize();
+	//audio_->Initialize();
 	soundData_ = audio_->LoadWave("Resources/Audio/Sample/Hit.wav");
 
 
@@ -88,9 +91,13 @@ void SampleScene::Update(GameManager* gameManager) {
 		//audio_->StopWave(soundData_);
 	}
 	if (sampleTimer_ > 120) {
-		gameManager->ChangeScene(new SampleScene2());
+		//gameManager->ChangeScene(new SampleScene2());
 	}
 	
+	sprite_->SetTransparency(transparency1);
+	sprite2_->SetTransparency(transparency2);
+
+
 	ImGui::Begin("SampleScene1");
 	ImGui::Text("Time",sampleTimer_);
 	ImGui::End();
@@ -99,7 +106,16 @@ void SampleScene::Update(GameManager* gameManager) {
 	ImGui::Begin("Sprite");
 	ImGui::InputFloat3("scale", &transformSprite_.scale.x);
 	ImGui::SliderFloat3("scale", &transformSprite_.scale.x,0.0f,10.0f);
+	
+	ImGui::InputFloat("transparency", &transparency1);
+	ImGui::SliderFloat("transparency", &transparency1, 0.0f, 1.0f);
 	ImGui::End();
+
+	ImGui::Begin("Sprite2");
+	ImGui::InputFloat("transparency", &transparency2);
+	ImGui::SliderFloat("transparency", &transparency2, 0.0f, 1.0f);
+	ImGui::End();
+
 
 	ImGui::Begin("Model");
 	ImGui::InputFloat3("translate", &transformModel_.translate.x);
@@ -113,7 +129,7 @@ void SampleScene::Update(GameManager* gameManager) {
 void SampleScene::Draw(GameManager* gameManager) {
 	plane_->Draw(transformModel_);
 	sprite_->DrawRect(transformSprite_);
-	//sprite2_->DrawRect(transformSprite2_);
-	sprite3_->DrawRect(transformSprite3_);
+	sprite2_->DrawRect(transformSprite2_);
+	//sprite3_->DrawRect(transformSprite3_);
 
 }

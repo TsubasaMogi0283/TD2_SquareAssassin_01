@@ -36,10 +36,10 @@ private:
 
 	Sprite* sprite_ = nullptr;
 	Sprite* sprite2_ = nullptr;
-	Sprite* sprite3_ = nullptr;
+	//Sprite* sprite3_ = nullptr;
 
 
-	SoundData soundData_ = {};
+	uint32_t soundData_ = {};
 
 	Transform transformSprite_ = {};
 	Transform transformSprite2_ = {};
@@ -55,9 +55,11 @@ private:
 	Model* plane_ = nullptr;
 	Transform transformModel_ = {};
 
-	Model* plane2_ = nullptr;
-	Transform transformModel2_ = {};
+	float transparency1 = 1.0f;
+	float transparency2 = 1.0f;
 
+
+	
 
 };
 

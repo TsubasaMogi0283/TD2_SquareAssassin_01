@@ -1,4 +1,4 @@
-#include "Object3d.hlsli"
+#include "Object2d.hlsli"
 
 ///PixelShader
 //ここからの出力は色で、OutputManagerに送られて

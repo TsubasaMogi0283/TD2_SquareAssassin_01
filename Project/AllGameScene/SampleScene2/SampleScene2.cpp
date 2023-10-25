@@ -12,8 +12,7 @@ SampleScene2::SampleScene2() {
 /// </summary>
 SampleScene2::~SampleScene2() {
 	//sprite_->Release();
-	audio_->SoundUnload(&soundData_);
-	audio_->DeleteInstance();
+	audio_->SoundUnload(soundData_);
 
 	delete sprite_;
 }

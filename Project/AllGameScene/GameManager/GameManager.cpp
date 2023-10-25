@@ -1,17 +1,14 @@
 #include "GameManager.h"
 
 #include "AllGameScene/SampleScene/SampleScene.h"
+#include "AllGameScene/TitleScene/TitleScene.h"
+#include "AllGameScene/SelectScene/SelectScene.h"
+#include "AllGameScene/ResultScene/ResultScene.h"
+#include "AllGameScene/GameScene/GameScene.h"
+#include "AllGameScene/TutorialScene/TutorialScene.h"
 
 //コンストラクタ
 GameManager::GameManager() {
-	//COMの初期化
-	//COM...ComponentObjectModel、Microsoftの提唱する設計技術の１つ
-	//		DirectX12も簡略化されたCOM(Nano-COM)という設計で作られている
-	
-	//COMを使用して開発されたソフトウェア部品をCOMコンポーネントと呼ぶ
-	//Textureを読むにあたって、COMコンポーネントの１つを利用する
-	//CoInitializeEx(0, COINIT_MULTITHREADED);
-
 	
 	
 	//コンストラクタ
@@ -23,6 +20,9 @@ GameManager::GameManager() {
 	input_ = Input::GetInstance();
 	camera_ = Camera::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
+	audio_ = Audio::GetInstance();
+	pipelineManager_ = PipelineManager::GetInstance();
+	record_ = Record::GetInstance();
 }
 	
 void GameManager::Initialize() {
@@ -32,13 +32,16 @@ void GameManager::Initialize() {
 	//初期化
 	winApp_->Initialize(titleBarName,WINDOW_SIZE_WIDTH_,WINDOW_SIZE_HEIGHT_);
 	directXSetup_->Initialize();
+	pipelineManager_->GenerateSpritePSO();
+	pipelineManager_->GenerateModelPSO();
 	imGuiManager_->Initialize();
 	input_->Initialize();
-	TextureManager::Initilalize();
+	textureManager_->Initilalize();
+	audio_->Initialize();
 
 	//シーンごとに動作確認したいときはここを変えてね
-	currentGamaScene_ = new SampleScene();
-	currentGamaScene_->Initialize(this);
+	currentGameScene_ = new TitleScene();
+	currentGameScene_->Initialize(this);
 
 }
 
@@ -54,14 +57,14 @@ void GameManager::Update() {
 
 	//入力の更新
 	input_->Update();
-	currentGamaScene_->Update(this);
+	currentGameScene_->Update(this);
 }
 
 void GameManager::Draw() {
 	imGuiManager_->PreDraw();	
 	imGuiManager_->Draw();
 	
-	currentGamaScene_->Draw(this);
+	currentGameScene_->Draw(this);
 
 }
 
@@ -74,8 +77,13 @@ void GameManager::EndFrame() {
 
 void GameManager::Release() {
 	camera_->DeleteInstance();
+	
 	textureManager_->Release();
 	textureManager_->DeleteInstance();
+
+	pipelineManager_->Release();
+	pipelineManager_->DeleteInstance();
+
 	imGuiManager_->Release();
 	directXSetup_->Release();
 	directXSetup_->DeleteInstance();
@@ -84,11 +92,11 @@ void GameManager::Release() {
 
 void GameManager::ChangeScene(IGameScene* newGameScene) {
 	//一度消してから次のシーンにいく
-	delete currentGamaScene_;
+	delete currentGameScene_;
 
-	currentGamaScene_ = newGameScene;
+	currentGameScene_ = newGameScene;
 	//今は言っているシーンが引数
-	currentGamaScene_->Initialize(this);
+	currentGameScene_->Initialize(this);
 
 
 }
