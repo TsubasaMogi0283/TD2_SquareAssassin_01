@@ -75,6 +75,14 @@ private:
 	SpritePosition characterAllPosition_ = {};
 
 
+
+	//シークレット
+	Sprite* konKon_ = nullptr;
+	Transform konKonTransform_ = {};
+	SpritePosition konKonAllPosition_ = {};
+
+
+
 	//吹き出し
 	Sprite* speechBubbleSprite_ = nullptr ;
 	Transform speechBubbleTransform_ = {};

@@ -165,6 +165,9 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 	allScore_ = smallScore_ + normalScore_*2 + bigScore_*3;
 
+
+
+
 	//格付け
 	//ここは仮
 	if (allScore_ == 0) {
@@ -301,6 +304,23 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
+
+
+#pragma endregion
+
+
+
+
+#pragma region シークレット
+	//シークレット
+	konKon_ = new Sprite();
+	uint32_t konHandle=TextureManager::LoadTexture("Resources/Result/Texture/Kon.png");
+	konKonTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,100.0f,0.0f} };
+	konKonAllPosition_ = { {0.0f,0.0f},{0.0f,200.0f},{260.0f,0.0f},{260.0f,200.0f} };
+
+	konKon_->LoadTextureHandle(konHandle);
+	konKon_->SetAllPosition(konKonAllPosition_);
+	
 
 
 #pragma endregion
@@ -539,6 +559,7 @@ void ResultScene::Draw(GameManager* gameManager) {
 			rankSprite_[0]->DrawRect(rankTransform_[0]);
 			commentSprite_[0]->DrawRect(commentTransform_[0]);
 			noob = 0;
+			
 			break;
 
 
@@ -564,6 +585,7 @@ void ResultScene::Draw(GameManager* gameManager) {
 		case Master:
 			rankSprite_[4]->DrawRect(rankTransform_[4]);
 			commentSprite_[4]->DrawRect(commentTransform_[4]);
+			konKon_->DrawRect(konKonTransform_);
 			noob = 1;
 			break;
 	}
