@@ -12,34 +12,34 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 #pragma region  カウントと終了
 	for (int i = 0; i < COUNT_NUMBER_; i++) {
-		count_[i] = { new Sprite()};
-		
-		countTransform_[i] = {{COUNT_SIZE,COUNT_SIZE,COUNT_SIZE},{0.0f,0.0f,0.0f},{490.0f,210.0f,0.0f}};
-		countAllPosition_ = { {0.0f,0.0f},{0.0f,300.0f},{300.0f,0.0f},{300.0f,300.0f}};
+		count_[i] = { new Sprite() };
+
+		countTransform_[i] = { {COUNT_SIZE,COUNT_SIZE,COUNT_SIZE},{0.0f,0.0f,0.0f},{490.0f,210.0f,0.0f} };
+		countAllPosition_ = { {0.0f,0.0f},{0.0f,300.0f},{300.0f,0.0f},{300.0f,300.0f} };
 
 
 	}
-	
+
 
 	for (int i = 0; i < COUNT_NUMBER_; i++) {
 		uint32_t counDownTextureHandle[COUNT_NUMBER_] = {};
-		counDownTextureHandle[0]=TextureManager::LoadTexture("Resources/Game/CountDown/1.png");
-		counDownTextureHandle[1]=TextureManager::LoadTexture("Resources/Game/CountDown/2.png");
-		counDownTextureHandle[2]=TextureManager::LoadTexture("Resources/Game/CountDown/3.png");
+		counDownTextureHandle[0] = TextureManager::LoadTexture("Resources/Game/CountDown/1.png");
+		counDownTextureHandle[1] = TextureManager::LoadTexture("Resources/Game/CountDown/2.png");
+		counDownTextureHandle[2] = TextureManager::LoadTexture("Resources/Game/CountDown/3.png");
 		count_[i]->LoadTextureHandle(counDownTextureHandle[i]);
 		count_[i]->SetAllPosition(countAllPosition_);
 	}
 
 	start_ = new Sprite();
-	startTransform_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{190.0f,210.0f,0.0f}};
-	startAllPosition_ = { {0.0f,0.0f},{0.0f,300.0f},{900.0f,0.0f},{900.0f,300.0f}};
+	startTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{190.0f,210.0f,0.0f} };
+	startAllPosition_ = { {0.0f,0.0f},{0.0f,300.0f},{900.0f,0.0f},{900.0f,300.0f} };
 	uint32_t startTextureHandle = TextureManager::LoadTexture("Resources/Game/CountDown/Start.png");
 	start_->LoadTextureHandle(startTextureHandle);
 	start_->SetAllPosition(startAllPosition_);
 
 	end_ = new Sprite();
-	endTransform_ = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{190.0f,210.0f,0.0f}};
-	endAllPosition_ = {{0.0f,0.0f},{0.0f,300.0f},{900.0f,0.0f},{900.0f,300.0f}};
+	endTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{190.0f,210.0f,0.0f} };
+	endAllPosition_ = { {0.0f,0.0f},{0.0f,300.0f},{900.0f,0.0f},{900.0f,300.0f} };
 	uint32_t endTextureHandle = TextureManager::LoadTexture("Resources/Game/CountDown/End.png");
 	end_->LoadTextureHandle(endTextureHandle);
 	end_->SetAllPosition(startAllPosition_);
@@ -170,7 +170,7 @@ void GameScene::Initialize(GameManager* gameManager) {
 	enemyMove3_[0] = { -0.02f,  0.02f, 0 };
 	enemyMove3_[1] = { 0.02f,  0.02f, 0 };
 	enemyMove3_[2] = { -0.02f,  0.02f, 0 };
-	
+
 
 	enemyHP3[0] = 3;
 	enemyHP3[1] = 3;
@@ -178,32 +178,32 @@ void GameScene::Initialize(GameManager* gameManager) {
 
 
 	for (int i = 0; i < enemyCount; i++) {
-		HPCoolTimer_[i] = 10;
+		recoveryTime[i] = 10;
 	}
 	for (int i = 0; i < enemyCount2; i++) {
-		HPCoolTimer2_[i] = 10;
+		recoveryTime2[i] = 10;
 
 	}
 	for (int i = 0; i < enemyCount3; i++) {
-		HPCoolTimer3_[i] = 10;
+		recoveryTime3[i] = 10;
 	}
 
 
 
 
 	for (int i = 0; i < enemyCount; i++) {
-	
+
 		enemy_[i] = new Enemy;
 		enemy_[i]->Initialize("Resources/Game/Enemy/Enemy", "enemy.obj", enemyTransform_[i], enemyMove_[i]);
 	}
-	
+
 	for (int i = 0; i < enemyCount2; i++) {
-	
+
 		enemy2_[i] = new Enemy;
 		enemy2_[i]->Initialize("Resources/Game/Enemy/Enemy2", "enemy2.obj", enemyTransformModel2_[i], enemyMove2_[i]);
 	}
 	for (int i = 0; i < enemyCount3; i++) {
-	
+
 		enemy3_[i] = new Enemy;
 		enemy3_[i]->Initialize("Resources/Game/Enemy/Enemy3", "enemy3.obj", enemyTransformModel3_[i], enemyMove3_[i]);
 	}
@@ -220,36 +220,36 @@ void GameScene::Initialize(GameManager* gameManager) {
 	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
 		timeTensPlane_[i] = new Sprite();
 		timeOnesPlane_[i] = new Sprite();
-	
+
 	}
-	
-	numberTextureHandle[0]=TextureManager::LoadTexture("Resources/Game/Number/0.png");
-	numberTextureHandle[1]=TextureManager::LoadTexture("Resources/Game/Number/1.png");
-	numberTextureHandle[2]=TextureManager::LoadTexture("Resources/Game/Number/2.png");
-	numberTextureHandle[3]=TextureManager::LoadTexture("Resources/Game/Number/3.png");
-	numberTextureHandle[4]=TextureManager::LoadTexture("Resources/Game/Number/4.png");
-	numberTextureHandle[5]=TextureManager::LoadTexture("Resources/Game/Number/5.png");
-	numberTextureHandle[6]=TextureManager::LoadTexture("Resources/Game/Number/6.png");
-	numberTextureHandle[7]=TextureManager::LoadTexture("Resources/Game/Number/7.png");
-	numberTextureHandle[8]=TextureManager::LoadTexture("Resources/Game/Number/8.png");
-	numberTextureHandle[9]=TextureManager::LoadTexture("Resources/Game/Number/9.png");
-	
+
+	numberTextureHandle[0] = TextureManager::LoadTexture("Resources/Game/Number/0.png");
+	numberTextureHandle[1] = TextureManager::LoadTexture("Resources/Game/Number/1.png");
+	numberTextureHandle[2] = TextureManager::LoadTexture("Resources/Game/Number/2.png");
+	numberTextureHandle[3] = TextureManager::LoadTexture("Resources/Game/Number/3.png");
+	numberTextureHandle[4] = TextureManager::LoadTexture("Resources/Game/Number/4.png");
+	numberTextureHandle[5] = TextureManager::LoadTexture("Resources/Game/Number/5.png");
+	numberTextureHandle[6] = TextureManager::LoadTexture("Resources/Game/Number/6.png");
+	numberTextureHandle[7] = TextureManager::LoadTexture("Resources/Game/Number/7.png");
+	numberTextureHandle[8] = TextureManager::LoadTexture("Resources/Game/Number/8.png");
+	numberTextureHandle[9] = TextureManager::LoadTexture("Resources/Game/Number/9.png");
+
 	timeTensPlaneTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{600.0f,30.0f,0.0f} };
-	timeOnesPlaneTransform_  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{680.0f,30.0f,0.0f} };
+	timeOnesPlaneTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{680.0f,30.0f,0.0f} };
 
-	timeTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f} };
+	timeTensPlaneAllPosition_ = { {0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f} };
 	timeOnesPlaneAllPosition_ = { {0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f} };
-	
-	
 
-	for (int i=0; i < NUMBER_AMOUNT_; i++) {
+
+
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
 		timeOnesPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
 		timeTensPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
 
 		timeTensPlane_[i]->SetAllPosition(timeTensPlaneAllPosition_);
 		timeOnesPlane_[i]->SetAllPosition(timeOnesPlaneAllPosition_);
 	}
-	
+
 #pragma endregion
 
 
@@ -257,18 +257,18 @@ void GameScene::Initialize(GameManager* gameManager) {
 	//タイトルBGM
 	gameBGM_ = Audio::GetInstance();
 	gameBGMHandle_ = gameBGM_->LoadWave("Resources/Game/Music/Game.wav");
-	
-	
-	
+
+
+
 	//カウントダウン
-	countSE_ =  Audio::GetInstance();
+	countSE_ = Audio::GetInstance();
 	countSEHandle_ = countSE_->LoadWave("Resources/Game/Music/Count.wav");
-	
+
 	//開始
 	startSE_ = Audio::GetInstance();
 	startSEHandle_ = startSE_->LoadWave("Resources/Game/Music/Start.wav");
-	
-	
+
+
 	//終了
 	endSE_ = Audio::GetInstance();
 	endSEHandle_ = endSE_->LoadWave("Resources/Game/Music/End.wav");
@@ -323,7 +323,7 @@ void GameScene::Play() {
 		enemy_[i]->Update(enemyHP[i]);
 	}
 	for (int i = 0; i < enemyCount2; i++) {
-		enemy2_[i]->Update( enemyHP2[i]);
+		enemy2_[i]->Update(enemyHP2[i]);
 	}
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Update(enemyHP3[i]);
@@ -407,17 +407,17 @@ void GameScene::Update(GameManager* gameManager) {
 	}
 
 	//ゲームプレイ
-	if (isGamePlay_ == true && isStopGame_==false){
-		
+	if (isGamePlay_ == true && isStopGame_ == false) {
+
 
 		//再生
 		bgmTime_ += 1;
 		//ループ
 		if (bgmTime_ == 1) {
-			gameBGM_->PlayWave(gameBGMHandle_ ,false);
+			gameBGM_->PlayWave(gameBGMHandle_, false);
 		}
 		if (bgmTime_ > SECOND_ * 30) {
-			
+
 			bgmTime_ = 0;
 		}
 		//主なゲームの動き
@@ -430,16 +430,16 @@ void GameScene::Update(GameManager* gameManager) {
 
 
 	if (isStopGame_ == true) {
-		
+
 
 
 		endSETime_ += 1;
-		if (endSETime_==1) {
-			
+		if (endSETime_ == 1) {
+
 			endSE_->PlayWave(endSEHandle_, false);
-			endSE_->ChangeVolume(endSEHandle_,1.5f);
-		
-			gameBGM_->ChangeVolume(gameBGMHandle_,0.4f);
+			endSE_->ChangeVolume(endSEHandle_, 1.5f);
+
+			gameBGM_->ChangeVolume(gameBGMHandle_, 0.4f);
 
 		}
 
@@ -459,7 +459,7 @@ void GameScene::Update(GameManager* gameManager) {
 				transparency_ = 0.0f;
 				gameManager->ChangeScene(new ResultScene());
 			}
-			
+
 		}
 	}
 
@@ -474,7 +474,7 @@ void GameScene::Draw(GameManager* gameManager) {
 
 	if (isGamePlay_ == true && isStopGame_ == false) {
 
-		#pragma region 敵
+#pragma region 敵
 		if (isGamePlay_ == true) {
 			for (int i = 0; i < enemyCount; i++) {
 				enemy_[i]->Draw();
@@ -485,10 +485,10 @@ void GameScene::Draw(GameManager* gameManager) {
 			for (int i = 0; i < enemyCount3; i++) {
 				enemy3_[i]->Draw();
 			}
-	
-			
+
+
 		}
-	
+
 #pragma endregion
 
 		player_->Draw();
@@ -521,11 +521,11 @@ void GameScene::Draw(GameManager* gameManager) {
 			if (onesPlace_ == i) {
 				timeOnesPlane_[i]->DrawRect(timeOnesPlaneTransform_);
 			}
-	
-	
-	
+
+
+
 		}
-	
+
 	}
 
 #pragma endregion
@@ -535,7 +535,7 @@ void GameScene::Draw(GameManager* gameManager) {
 
 	}
 
-	
+
 
 }
 
@@ -543,7 +543,7 @@ void GameScene::Collision()
 {
 
 	ImGui::Begin("killCount");
-	ImGui::SliderInt("allKillCount_ ", &allKillCount_ , -15, 15);
+	ImGui::SliderInt("allKillCount_ ", &allKillCount_, -15, 15);
 	ImGui::SliderInt("enemykill1", &killCount_, -15, 15);
 	ImGui::SliderInt("enemykill2", &killCount2_, -15, 15);
 	ImGui::SliderInt("enemykill3", &killCount3_, -15, 15);
@@ -575,6 +575,7 @@ void GameScene::Collision()
 
 		if (recoveryTime[i] == 0) {
 			killCount_ += 1;
+			Record::GetInstance()->SetAttackedSmallEnemy(killCount_);
 			allKillCount_ += 1;
 			enemyHP[i] = 1;
 			recoveryTime[i] = 20;
@@ -597,10 +598,10 @@ void GameScene::Collision()
 		posA = enemy2_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
 		float distanceAB = Length(Subtract(posA, posB));
-	
+
 		if (distanceAB <= enemy2_[i]->GetRadius() + player_->GetRadius()) {
-	
-	
+
+
 			//配列にしましょう
 			//ん、はやくやるべき
 			if (!HPCoolFlag2_[i])
@@ -608,8 +609,8 @@ void GameScene::Collision()
 				enemyHP2[i] -= 1;
 				HPCoolFlag2_[i] = true;
 			}
-	
-	
+
+
 		}
 		if (enemyHP2[i] == 0) {
 			recoveryTime2[i]--;
@@ -617,6 +618,7 @@ void GameScene::Collision()
 
 		if (recoveryTime2[i] == 0) {
 			killCount2_ += 1;
+			Record::GetInstance()->SetAttackedSmallEnemy(killCount2_);
 			allKillCount_ += 1;
 			enemyHP2[i] = 3;
 			recoveryTime2[i] = 20;
@@ -627,22 +629,23 @@ void GameScene::Collision()
 			HPCoolTimer2_[i]++;
 			if (HPCoolTimer2_[i] > 30)
 			{
+
 				HPCoolTimer2_[i] = 0;
 				HPCoolFlag2_[i] = false;
 			}
 		}
-	
+
 	}
-	
+
 	//大敵
 	for (int i = 0; i < enemyCount3; i++) {
 		posA = enemy3_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
 		float distanceAB = Length(Subtract(posA, posB));
-	
+
 		if (distanceAB <= enemy3_[i]->GetRadius() + player_->GetRadius()) {
-	
-	
+
+
 			//配列にしましょう
 			//ん、はやくやるべき
 			if (!HPCoolFlag3_[i])
@@ -650,8 +653,8 @@ void GameScene::Collision()
 				enemyHP3[i] -= 1;
 				HPCoolFlag3_[i] = true;
 			}
-			
-	
+
+
 		}
 		if (enemyHP3[i] == 0) {
 			recoveryTime3[i]--;
@@ -659,12 +662,13 @@ void GameScene::Collision()
 
 		if (recoveryTime3[i] == 0) {
 			killCount3_ += 1;
+			Record::GetInstance()->SetAttackedNormalEnemy(killCount3_);
 			allKillCount_ += 1;
 			enemyHP3[i] = 5;
 			recoveryTime3[i] = 20;
 		}
 
-	
+
 		if (HPCoolFlag3_[i])
 		{
 			HPCoolTimer3_[i]++;
@@ -674,14 +678,14 @@ void GameScene::Collision()
 				HPCoolFlag3_[i] = false;
 			}
 		}
-	
-	}
-	
 
-	
+	}
+
+
+
 #pragma endregion
 
-	
+
 
 }
 
@@ -695,13 +699,13 @@ GameScene::~GameScene() {
 	for (int i = 0; i < enemyCount2; i++) {
 		enemy2_[i]->Release();
 		delete enemy2_[i];
-	
+
 	}
 	for (int i = 0; i < enemyCount3; i++) {
 		enemy3_[i]->Release();
 		delete enemy3_[i];
 	}
-	
+
 
 
 	delete yuka_;
@@ -710,8 +714,8 @@ GameScene::~GameScene() {
 		delete count_[i];
 
 	}
-	
-	delete start_ ;
+
+	delete start_;
 
 	delete end_;
 
@@ -720,7 +724,7 @@ GameScene::~GameScene() {
 		delete timeOnesPlane_[i];
 
 	}
-	
+
 
 	delete player_;
 
