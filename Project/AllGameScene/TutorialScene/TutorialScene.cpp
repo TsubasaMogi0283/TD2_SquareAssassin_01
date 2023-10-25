@@ -81,6 +81,19 @@ void TutorialScene::Initialize(GameManager* gameManager) {
 
 	stateMove = 5;
 	pushTime_ = 0;
+
+
+
+	bgm_ = Audio::GetInstance();
+	bgmHandle_ = bgm_->LoadWave("Resources/Tutorial/Music/SelectBGM.wav");
+
+	bgm_->PlayWave(bgmHandle_, true);
+
+	se_ = Audio::GetInstance();
+	seHandle_ = se_->LoadWave("Resources/Tutorial/Music/Decide.wav");
+	seTime_ = 0;
+
+
 }
 
 
@@ -155,7 +168,11 @@ void TutorialScene::Explanation() {
 			}
 
 			if (pushTime_>SECOND_*3) {
-				isFadeOut_ = true;
+				if (pushTime_ == SECOND_ * 3 + 1) {
+					se_->PlayWave(seHandle_,false);
+					isFadeOut_ = true;
+				}
+				
 				
 			}
 		}
@@ -199,9 +216,11 @@ void TutorialScene::Update(GameManager* gameManager) {
 
 	
 	if (isExplanation_ == false) {
+		
 		//フェードアウト
 		if (isFadeOut_ == true) {
 			tutorialTextureTransparency_ -= 0.1f;
+			bgm_->StopWave(bgmHandle_);
 			if (tutorialTextureTransparency_ < 0.0f) {
 				tutorialTextureTransparency_ = 0.0f;
 

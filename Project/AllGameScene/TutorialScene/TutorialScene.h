@@ -33,9 +33,7 @@ public:
 
 
 private:
-	//Audio
-	Audio* bgm_ = nullptr;
-	uint32_t bgmHandle_ = 0u;
+	
 
 	//Input
 	Input* input_ = nullptr;
@@ -115,5 +113,15 @@ private:
 	bool isThatAllExplanation_ = false;
 
 	bool isExplanation_ = true;
+
+
+
+	Audio* bgm_ = nullptr;
+	uint32_t bgmHandle_ = 0u;
+
+
+	Audio* se_ = nullptr;
+	uint32_t seHandle_ = 0u;
+	int seTime_ = 0;
 
 };
