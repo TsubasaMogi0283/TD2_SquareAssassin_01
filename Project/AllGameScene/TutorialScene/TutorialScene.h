@@ -110,8 +110,10 @@ private:
 
 
 	Sprite* explanationOverSprite_;
-	Transform explanationOverTransform;
+	Transform explanationOverTransform_;
 	SpritePosition explanationOverAll_ = {};
 	bool isThatAllExplanation_ = false;
+
+	bool isExplanation_ = true;
 
 };

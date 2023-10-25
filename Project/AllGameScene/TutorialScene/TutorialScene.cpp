@@ -67,9 +67,9 @@ void TutorialScene::Initialize(GameManager* gameManager) {
 
 
 #pragma region 説明以上
-	uint32_t explanationOverHandle = TextureManager::LoadTexture("Resources/Tutorial/Texture/space.png");
+	uint32_t explanationOverHandle = TextureManager::LoadTexture("Resources/Tutorial/Texture/ThatIsAll.png");
 	explanationOverSprite_=new Sprite();
-	explanationOverTransform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	explanationOverTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
 	explanationOverAll_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f}};
 	explanationOverSprite_->LoadTextureHandle(explanationOverHandle);
 	explanationOverSprite_->SetAllPosition(explanationOverAll_);
@@ -80,56 +80,88 @@ void TutorialScene::Initialize(GameManager* gameManager) {
 
 
 	stateMove = 5;
-	pushTime_ = -120;
+	pushTime_ = 0;
 }
 
 
 void TutorialScene::Explanation() {
 	
-	player_->Update();
 
-	flashTime_ += 1;
+
+	if (isExplanation_ == true) {
+		player_->Update();
+
+		flashTime_ += 1;
+		
+		//点滅と移動の説明
+		int flashInterval = SECOND_ - 20;
+		if (flashTime_ > 0&& flashTime_ <=flashInterval*6) {
+			isMoveExplanation_ = true;
+			if (flashTime_ > flashInterval*0 && flashTime_ <=flashInterval) {
+				blinking_ = 1;
+			}
+			if (flashTime_ > flashInterval && flashTime_ <=flashInterval*2) {
+				blinking_ = 0;
+			}
+			if (flashTime_ > flashInterval*2 && flashTime_ <=flashInterval*3) {
+				blinking_ = 1;
+			}
+			if (flashTime_ > flashInterval *3 && flashTime_ <=flashInterval*4) {
+				blinking_ = 0;
+			}
+			if (flashTime_ > flashInterval*4 && flashTime_ <=flashInterval*5) {
+				blinking_ = 1;
+			}
+			if (flashTime_ > flashInterval *5 && flashTime_ <=flashInterval*6) {
+				blinking_ = 0;
+			}
+		}
+		if (flashTime_ >flashInterval*6) {
+			isMoveExplanation_ = false;
+			isSpaceExplanation_ = 1;
+		}
+
+		//攻撃
+		if (isSpaceExplanation_ == 1) {
+			spaceExplanationTime_ += 1;
+
+			if (spaceExplanationTime_>SECOND_ * 3) {
+				isSpaceExplanation_ = 0;
+				isThatAllExplanation_ = true;
+				isExplanation_ = false;
+			}
+
+		}
+	}
 	
-	//点滅と移動の説明
-	int flashInterval = SECOND_ - 20;
-	if (flashTime_ > 0&& flashTime_ <=flashInterval*6) {
-		isMoveExplanation_ = true;
-		if (flashTime_ > flashInterval*0 && flashTime_ <=flashInterval) {
-			blinking_ = 1;
-		}
-		if (flashTime_ > flashInterval && flashTime_ <=flashInterval*2) {
-			blinking_ = 0;
-		}
-		if (flashTime_ > flashInterval*2 && flashTime_ <=flashInterval*3) {
-			blinking_ = 1;
-		}
-		if (flashTime_ > flashInterval *3 && flashTime_ <=flashInterval*4) {
-			blinking_ = 0;
-		}
-		if (flashTime_ > flashInterval*4 && flashTime_ <=flashInterval*5) {
-			blinking_ = 1;
-		}
-		if (flashTime_ > flashInterval *5 && flashTime_ <=flashInterval*6) {
-			blinking_ = 0;
-		}
-	}
-	if (flashTime_ >flashInterval*6) {
-		isMoveExplanation_ = false;
-		isSpaceExplanation_ = 1;
-	}
+	
+	if (isExplanation_ == false) {
+		XINPUT_STATE joyState{};
 
-	if (isSpaceExplanation_ == 1) {
-		spaceExplanationTime_ += 1;
+		//説明は以上
+		if (isThatAllExplanation_ == true) {
+			if (input_->GetInstance()->IsPushKey(DIK_SPACE) == true) {
+				
+				pushTime_ += 1;
+			}
+			//コントローラー版
+			if (Input::GetInstance()->GetJoystickState(joyState)) {
 
-		if (spaceExplanationTime_>SECOND_ * 3) {
-			isSpaceExplanation_ = 0;
-			isThatAllExplanation_ = true;
+				//左
+				if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+					pushTime_ += 1;
+				}
+
+			}
+
+			if (pushTime_>SECOND_*3) {
+				isFadeOut_ = true;
+				
+			}
 		}
-
 	}
 	
-
-
+	
 	
 
 
@@ -161,35 +193,31 @@ void TutorialScene::Update(GameManager* gameManager) {
 		//説明自体はExplanation関数内に書いてほしいです
 		Explanation();
 
-		if (pushTime_>120) {
-			//今の所キーボードは仮置き
-			//1を押したらSelectになる
-			if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
-				isFadeOut_ = true;
-			}
-		}
+		
 		
 	}
 
 	
+	if (isExplanation_ == false) {
+		//フェードアウト
+		if (isFadeOut_ == true) {
+			tutorialTextureTransparency_ -= 0.1f;
+			if (tutorialTextureTransparency_ < 0.0f) {
+				tutorialTextureTransparency_ = 0.0f;
 
+				
+				
+				waitingTime_ += 1;
 
-	//フェードアウト
-	if (isFadeOut_ == true) {
-		tutorialTextureTransparency_ -= 0.01f;
-		if (tutorialTextureTransparency_ < 0.0f) {
-			tutorialTextureTransparency_ = 0.0f;
+				if (waitingTime_ > SECOND_ * 3) {
+					gameManager->ChangeScene(new SelectScene());
+				}
 
-			
-			
-			waitingTime_ += 1;
-
-			if (waitingTime_ > SECOND_ * 3) {
-				gameManager->ChangeScene(new SelectScene());
 			}
-
 		}
 	}
+
+	
 
 
 
@@ -198,27 +226,31 @@ void TutorialScene::Update(GameManager* gameManager) {
 /// 描画
 void TutorialScene::Draw(GameManager* gameManager) {
 	yuka_->Draw(transformyuka_);
-	player_->Draw();
+	
+	if (isThatAllExplanation_ == false) {
+		player_->Draw();
+		//移動説明
+		if (isMoveExplanation_==true) {
+			wasdSprite->DrawRect(wasdPos);
+			keySprite->DrawRect(kiPos);
+			
+		}
+		if (blinking_ == 1) {
+			//点滅する画像
+			redSprite->DrawRect(redPos);
+		}
 
-	//移動説明
-	if (isMoveExplanation_==true) {
-		wasdSprite->DrawRect(wasdPos);
-		keySprite->DrawRect(kiPos);
-		
-	}
-	if (blinking_ == 1) {
-		//点滅する画像
-		redSprite->DrawRect(redPos);
+		if (isSpaceExplanation_==1) {
+
+			spaceSprite->DrawRect(spacePos);
+		}
 	}
 
-	if (isSpaceExplanation_==1) {
-
-		spaceSprite->DrawRect(spacePos);
-	}
+	
 
 	//説明は以上
 	if (isThatAllExplanation_ == true) {
-
+		explanationOverSprite_->DrawRect(explanationOverTransform_);
 	}
 }
 
