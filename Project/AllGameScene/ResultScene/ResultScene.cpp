@@ -170,16 +170,16 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	if (allScore_ == 0) {
 		rankName_ = Noob;
 	}
-	if (allScore_ > 0 && allScore_<=10) {
+	if (allScore_ > 0 && allScore_<=80) {
 		rankName_ = Beginner;
 	}
-	if (allScore_ > 10 && allScore_<=40) {
+	if (allScore_ > 80 && allScore_<=160) {
 		rankName_ = Normal;
 	}
-	if (allScore_ > 40 && allScore_<=80) {
+	if (allScore_ > 160 && allScore_<=200) {
 		rankName_ = Expert;
 	}
-	if (allScore_ >80) {
+	if (allScore_ >200) {
 		rankName_ = Master;
 	}
 
@@ -410,7 +410,7 @@ void ResultScene::Update(GameManager* gameManager) {
 			cvTime_ += 1;
 			if (cvTime_ == 1) {
 				characterComment_[0]->PlayWave(characterCommentHandle_[0], false);
-
+				characterComment_[0]->ChangeVolume(characterCommentHandle_[0],1.5f);
 			}
 			
 
