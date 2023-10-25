@@ -12,7 +12,7 @@ ResultScene::ResultScene() {
 
 /// 初期化
 void ResultScene::Initialize(GameManager* gameManager) {
-	#pragma region 背景
+#pragma region 背景
 	
 	backSprite = new Sprite();
 	backTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
@@ -23,39 +23,9 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
-#pragma region 数字
-	//32x64
-	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
-		numberSprite_[i] =new Sprite();
-		numberAllPosition_[i] = { {0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f} };
-	
-	}
-
-	uint32_t numberTextureHandle[NUMBER_AMOUNT_];
-	numberTextureHandle[0]=TextureManager::LoadTexture("Resources/Result/Texture/Number/0.png");
-	numberTextureHandle[1]=TextureManager::LoadTexture("Resources/Result/Texture/Number/1.png");
-	numberTextureHandle[2]=TextureManager::LoadTexture("Resources/Result/Texture/Number/2.png");
-	numberTextureHandle[3]=TextureManager::LoadTexture("Resources/Result/Texture/Number/3.png");
-	numberTextureHandle[4]=TextureManager::LoadTexture("Resources/Result/Texture/Number/4.png");
-	numberTextureHandle[5]=TextureManager::LoadTexture("Resources/Result/Texture/Number/5.png");
-	numberTextureHandle[6]=TextureManager::LoadTexture("Resources/Result/Texture/Number/6.png");
-	numberTextureHandle[7]=TextureManager::LoadTexture("Resources/Result/Texture/Number/7.png");
-	numberTextureHandle[8]=TextureManager::LoadTexture("Resources/Result/Texture/Number/8.png");
-	numberTextureHandle[9]=TextureManager::LoadTexture("Resources/Result/Texture/Number/9.png");
 
 
-
-	Transform numberTransform_ = {};
-
-
-	//スコア
-
-
-#pragma endregion
-
-
-
-	//キャラクター
+#pragma region キャラクター
 	characterSprite_ = new Sprite() ;
 	characterSprite2_ = new Sprite();
 	characterTransform_ = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,500.0f,0.0f} };
@@ -67,6 +37,9 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	characterSprite_->SetAllPosition(characterAllPosition_);
 	characterSprite2_->SetAllPosition(characterAllPosition_);
 
+#pragma endregion
+
+#pragma region 吹き出し
 
 	//吹き出し
 	speechBubbleSprite_ = new Sprite() ;
@@ -76,9 +49,9 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	speechBubbleAllPosition_ = { {0.0f,0.0f},{0.0f,150.0f},{200.0f,0.0f},{200.0f,150.0f} };
 	speechBubbleSprite_->SetAllPosition(speechBubbleAllPosition_);
 
+#pragma endregion
 
-
-	//ランク
+#pragma region ランク
 	for (int i = 0; i < RANK_AMOUNT_; i++) {
 		rankSprite_[i] = new Sprite();
 		rankTransform_[i]  = {{1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f}};
@@ -102,8 +75,9 @@ void ResultScene::Initialize(GameManager* gameManager) {
 		rankSprite_[i]->SetAllPosition(rankAllPosition_[i]);
 	}
 
+#pragma endregion
 
-
+#pragma region コメント
 	//コメント
 	for (int i = 0; i < RANK_AMOUNT_; i++) {
 		commentSprite_[i] = new Sprite();
@@ -129,6 +103,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 		commentSprite_[i]->SetAllPosition(commentAllPosition_[i]);
 	}
 	
+#pragma endregion
 
 #pragma region 敵
 
@@ -179,13 +154,184 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 #pragma endregion
 
+#pragma region スコア
+
+
+
+	smallScore_ = Record::GetInstance()->GetSmallEnemy();
+	normalScore_ = Record::GetInstance()->GetNormalEnemy();
+	bigScore_ = Record::GetInstance()->GetBigEnemy();
+
+
+	allScore_ = smallScore_ + normalScore_ + bigScore_;
+
+	//格付け
+	//ここは仮
+	if (allScore_ == 0) {
+		rankName_ = Noob;
+	}
+	if (allScore_ > 0 && allScore_<=10) {
+		rankName_ = Beginner;
+	}
+	if (allScore_ > 10 && allScore_<=40) {
+		rankName_ = Normal;
+	}
+	if (allScore_ > 40 && allScore_<=80) {
+		rankName_ = Expert;
+	}
+	if (allScore_ >80) {
+		rankName_ = Master;
+	}
+
+
+
+
+	const float NUMBER_SIZE_ = 1.5f;
+
+#pragma region 読み込み
+	
+
+	uint32_t numberTextureHandle[NUMBER_AMOUNT_];
+	numberTextureHandle[0]=TextureManager::LoadTexture("Resources/Result/Texture/Number/0.png");
+	numberTextureHandle[1]=TextureManager::LoadTexture("Resources/Result/Texture/Number/1.png");
+	numberTextureHandle[2]=TextureManager::LoadTexture("Resources/Result/Texture/Number/2.png");
+	numberTextureHandle[3]=TextureManager::LoadTexture("Resources/Result/Texture/Number/3.png");
+	numberTextureHandle[4]=TextureManager::LoadTexture("Resources/Result/Texture/Number/4.png");
+	numberTextureHandle[5]=TextureManager::LoadTexture("Resources/Result/Texture/Number/5.png");
+	numberTextureHandle[6]=TextureManager::LoadTexture("Resources/Result/Texture/Number/6.png");
+	numberTextureHandle[7]=TextureManager::LoadTexture("Resources/Result/Texture/Number/7.png");
+	numberTextureHandle[8]=TextureManager::LoadTexture("Resources/Result/Texture/Number/8.png");
+	numberTextureHandle[9]=TextureManager::LoadTexture("Resources/Result/Texture/Number/9.png");
+
+
+
+
+#pragma endregion
+
+
+#pragma region 小さい敵のスコア
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		smallScoreHundredsPlane_[i] = new Sprite();
+		smallScoreTensPlane_[i] = new Sprite();
+		smallScoreOnesPlane_[i] = new Sprite();
+
+	}
+	
+	smallScoreHundredsPlaneTransform_ = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{830.0f,300.0f,0.0f}};
+	smallScoreTensPlaneTransform_ = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{900.0f,300.0f,0.0f}};
+	smallScoreOnesPlaneTransform_ = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{970.0f,300.0f,0.0f}};
+
+	smallScoreHundredsPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	smallScoreTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	smallScoreOnesPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	
+
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		smallScoreHundredsPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+		smallScoreTensPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+		smallScoreOnesPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+
+		smallScoreHundredsPlane_[i]->SetAllPosition(smallScoreHundredsPlaneAllPosition_);
+		smallScoreTensPlane_[i]->SetAllPosition(smallScoreOnesPlaneAllPosition_);
+		smallScoreOnesPlane_[i]->SetAllPosition(smallScoreTensPlaneAllPosition_);
+
+	}
+
+#pragma endregion
+
+#pragma region 普通サイズの敵のスコア
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		normalScoreHundredsPlane_[i] = new Sprite();
+		normalScoreTensPlane_[i] = new Sprite();
+		normalScoreOnesPlane_[i] = new Sprite();
+
+
+	}
+	
+	normalScoreHundredsPlaneTransform_  = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{830.0f,430.0f,0.0f}};
+	normalScoreTensPlaneTransform_  = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{900.0f,430.0f,0.0f}};
+	normalScoreOnesPlaneTransform_  = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{970.0f,430.0f,0.0f}};
+	
+
+	normalScoreHundredsPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	normalScoreTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	normalScoreOnesPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		normalScoreHundredsPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+		normalScoreTensPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+		normalScoreOnesPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+
+		normalScoreHundredsPlane_[i]->SetAllPosition(normalScoreHundredsPlaneAllPosition_);
+		normalScoreTensPlane_[i]->SetAllPosition(normalScoreTensPlaneAllPosition_);
+		normalScoreOnesPlane_[i]->SetAllPosition(normalScoreOnesPlaneAllPosition_);
+
+	}
+
+	#pragma endregion
+
+#pragma region 大きい敵スコア 
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		bigScoreHundredsPlane_[i] = new Sprite();
+		bigScoreTensPlane_[i] =  new Sprite();
+		bigScoreOnesPlane_[i] =  new Sprite();
+	}
+
+
+
+	
+	bigScoreHundredsPlaneTransform_  = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{830.0f,560.0f,0.0f}};
+	bigScoreTensPlaneTransform_  = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{900.0f,560.0f,0.0f}};
+	bigScoreOnesPlaneTransform_  = {{NUMBER_SIZE_,NUMBER_SIZE_,NUMBER_SIZE_},{0.0f,0.0f,0.0f},{970.0f,560.0f,0.0f}};
+
+	bigScoreHundredsPlaneAllPosition_ = { {0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f} };
+	bigScoreTensPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+	bigScoreOnesPlaneAllPosition_ = {{0.0f,0.0f},{0.0f,64.0f},{32.0f,0.0f},{32.0f,64.0f}};
+
+	for (int i = 0; i < NUMBER_AMOUNT_; i++) {
+		bigScoreHundredsPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+		bigScoreTensPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+		bigScoreOnesPlane_[i]->LoadTextureHandle(numberTextureHandle[i]);
+
+		bigScoreHundredsPlane_[i]->SetAllPosition(bigScoreHundredsPlaneAllPosition_);
+		bigScoreTensPlane_[i]->SetAllPosition(bigScoreTensPlaneAllPosition_);
+		bigScoreOnesPlane_[i]->SetAllPosition(bigScoreOnesPlaneAllPosition_);
+
+	}
+
+#pragma endregion
+
+
+
+#pragma endregion
+
+
+
 	//BGM
 	bgm_ = Audio::GetInstance();
 	bgmHandle_ = bgm_->LoadWave("Resources/Result/Music/ResultBGM.wav");
 
 
 	bgm_->PlayWave(bgmHandle_, true);
-	bgm_->ChangeVolume(bgmHandle_,0.7f);
+	bgm_->ChangeVolume(bgmHandle_,0.4f);
+
+
+
+	for (int i = 0; i < COMMENT_AMOUNT_; i++) {
+		characterComment_[i] = Audio::GetInstance();;
+		
+
+	}
+	//Noob
+	characterCommentHandle_[0] = characterComment_[0]->LoadWave("Resources/Result/Music/CV/Noob.wav");
+	characterCommentHandle_[1] = characterComment_[1]->LoadWave("Resources/Result/Music/CV/Beginner.wav");
+	characterCommentHandle_[2] = characterComment_[2]->LoadWave("Resources/Result/Music/CV/Normal.wav");
+	characterCommentHandle_[3] = characterComment_[3]->LoadWave("Resources/Result/Music/CV/Expert.wav");
+	characterCommentHandle_[4] = characterComment_[4]->LoadWave("Resources/Result/Music/CV/Master.wav");
+
+
+
+
 
 
 
@@ -196,15 +342,15 @@ void ResultScene::Initialize(GameManager* gameManager) {
 }
 
 void ResultScene::ImGuiDebug() {
-	ImGui::Begin("Character");
 
-	ImGui::SliderFloat3("Translate", &characterTransform_.translate.x, 0.0f, 1280.0f);
+	ImGui::Begin("Record");
+
+	ImGui::InputInt("Small", &smallScore_);
+	ImGui::InputInt("Normal", &normalScore_);
+	ImGui::InputInt("Big", &bigScore_);
+
 	ImGui::End();
 
-	ImGui::Begin("SpeechBubble");
-	ImGui::SliderFloat3("Rotate", &speechBubbleTransform_.scale.x, 0.0f, 5.0f);
-	ImGui::SliderFloat3("Translate", &speechBubbleTransform_.translate.x, 0.0f, 1280.0f);
-	ImGui::End();
 
 	ImGui::Begin("Rank");
 	ImGui::SliderInt("rank", &rankName_, 0, 4);
@@ -215,13 +361,15 @@ void ResultScene::ImGuiDebug() {
 	ImGui::SliderFloat3("enemy1",&enemyTransform_[0].translate.x,0.0f,1280.0f);
 	ImGui::SliderFloat3("enemy2",&enemyTransform_[1].translate.x,0.0f,1280.0f);
 	ImGui::SliderFloat3("enemy3",&enemyTransform_[2].translate.x,0.0f,1280.0f);
-	
-	
 	ImGui::End();
+
 	
 	ImGui::Begin("time");
 
-	ImGui::InputInt("decideSE", &decideSETime_);
+	ImGui::SliderFloat3("SmallHundred", &smallScoreHundredsPlaneTransform_.translate.x,0.0f,1280.0f);
+	ImGui::SliderFloat3("SmallTen", &smallScoreTensPlaneTransform_.translate.x,0.0f,1280.0f);
+	ImGui::SliderFloat3("SmallOne", &smallScoreOnesPlaneTransform_.translate.x,0.0f,1280.0f);
+
 	ImGui::End();
 
 }
@@ -248,29 +396,68 @@ void ResultScene::Update(GameManager* gameManager) {
 		commentSprite_[i]->SetTransparency(transparency_);
 	}
 
-	
-	
 
 
-#pragma region デバッグ
-	if (input_->GetInstance()->IsTriggerKey(DIK_0) == true) {
-		rankName_ = 0;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_1) == true) {
-		rankName_ = 1;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_2) == true) {
-		rankName_ = 2;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_3) == true) {
-		rankName_ = 3;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_4) == true) {
-		rankName_ = 4;
+	//演出
+	//ピスタチオですっ
+
+	
+	
+		
+	switch (rankName_){
+		case Noob:
+			//何やってんだ
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[0]->PlayWave(characterCommentHandle_[0], false);
+
+			}
+			
+
+			break;
+
+
+		case Beginner:
+			//Are You OK?
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[1]->PlayWave(characterCommentHandle_[1], false);
+
+			}
+
+
+			break;
+
+		case Normal:
+			//一人前
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[2]->PlayWave(characterCommentHandle_[2], false);
+			}
+
+			break;
+
+		case Expert:
+			//あと一歩
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[3]->PlayWave(characterCommentHandle_[3], false);
+			}
+
+			break;
+
+		case Master:
+			//伝説
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[4]->PlayWave(characterCommentHandle_[4], false);
+			}
+
+			break;
 	}
 
-#pragma endregion
-	
+
+
 	XINPUT_STATE joyState{};
 
 	if (Input::GetInstance()->GetJoystickState(joyState)) {
@@ -281,6 +468,7 @@ void ResultScene::Update(GameManager* gameManager) {
 		}
 
 	}
+
 
 
 	if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
@@ -308,12 +496,23 @@ void ResultScene::Update(GameManager* gameManager) {
 		}
 
 	}
+	
+	/*
+	if (isCalculation_ == false) {
+
+		
+
+	}*/
+	
 
 }
 
 /// 描画
 void ResultScene::Draw(GameManager* gameManager) {
+	//背景
 	backSprite->DrawRect(backTransform_);
+
+	//キャラクター表情差分
 	if (noob == 1) {
 		characterSprite_->DrawRect(characterTransform_);
 	}
@@ -322,6 +521,7 @@ void ResultScene::Draw(GameManager* gameManager) {
 
 	}
 	
+	//吹き出し
 	speechBubbleSprite_->DrawRect(speechBubbleTransform_);
 
 	//敵
@@ -367,6 +567,50 @@ void ResultScene::Draw(GameManager* gameManager) {
 			noob = 1;
 			break;
 	}
+
+
+	//128
+	//128/100=1
+	//28/10=2
+	//128%10=8
+
+
+	//スコア
+	//小さな敵
+	smallScorePlace_.hundred = smallScore_ / 100;
+	smallScorePlace_.ten = (smallScore_ %100)/10;
+	smallScorePlace_.one = smallScore_ % 10;
+
+
+	smallScoreHundredsPlane_[smallScorePlace_.hundred]->DrawRect(smallScoreHundredsPlaneTransform_);
+	smallScoreTensPlane_[smallScorePlace_.ten]->DrawRect(smallScoreTensPlaneTransform_);
+	smallScoreOnesPlane_[smallScorePlace_.one]->DrawRect(smallScoreOnesPlaneTransform_);
+
+
+	//普通の敵
+	normalScorePlace_.hundred = normalScore_ / 100;
+	normalScorePlace_.ten = (normalScore_ %100)/10;
+	normalScorePlace_.one = normalScore_ % 10;
+
+
+	normalScoreHundredsPlane_[normalScorePlace_.hundred]->DrawRect(normalScoreHundredsPlaneTransform_);
+	normalScoreTensPlane_[normalScorePlace_.ten]->DrawRect(normalScoreTensPlaneTransform_);
+	normalScoreOnesPlane_[normalScorePlace_.one]->DrawRect(normalScoreOnesPlaneTransform_);
+
+
+
+
+
+	//大きい敵
+	bigScorePlace_.hundred = bigScore_ / 100;
+	bigScorePlace_.ten = (bigScore_ %100)/10;
+	bigScorePlace_.one = bigScore_ % 10;
+
+
+	bigScoreHundredsPlane_[bigScorePlace_.hundred ]->DrawRect(bigScoreHundredsPlaneTransform_);
+	bigScoreTensPlane_[bigScorePlace_.ten ]->DrawRect(bigScoreTensPlaneTransform_);
+	bigScoreOnesPlane_[bigScorePlace_.one ]->DrawRect(bigScoreOnesPlaneTransform_);
+
 
 
 }

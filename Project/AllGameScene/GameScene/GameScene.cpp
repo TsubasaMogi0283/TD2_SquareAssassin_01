@@ -289,7 +289,9 @@ void GameScene::ImGuiDebug() {
 
 	ImGui::End();
 
-	
+	ImGui::Begin("DisplayTime");
+	ImGui::InputInt("a", &displayStopTime_);
+	ImGui::End();
 
 
 
@@ -351,8 +353,6 @@ void GameScene::Update(GameManager* gameManager) {
 	}
 
 
-
-
 	//フェード終わり
 	//カウントダウン
 	if (isFadeIn_ == false) {
@@ -389,7 +389,7 @@ void GameScene::Update(GameManager* gameManager) {
 	}
 
 	//ゲームプレイ
-	if (isGamePlay_ == true){
+	if (isGamePlay_ == true && isStopGame_==false){
 		
 
 		//再生
@@ -413,13 +413,15 @@ void GameScene::Update(GameManager* gameManager) {
 
 	if (isStopGame_ == true) {
 		
+
+
 		endSETime_ += 1;
 		if (endSETime_==1) {
 			
 			endSE_->PlayWave(endSEHandle_, false);
 			endSE_->ChangeVolume(endSEHandle_,1.5f);
 		
-			gameBGM_->ChangeVolume(gameBGMHandle_,0.5f);
+			gameBGM_->ChangeVolume(gameBGMHandle_,0.4f);
 
 		}
 
@@ -433,7 +435,13 @@ void GameScene::Update(GameManager* gameManager) {
 		if (displayStopTime_ > SECOND_ * 3) {
 			//BGM止める
 			gameBGM_->StopWave(gameBGMHandle_);
-			gameManager->ChangeScene(new ResultScene());
+
+			transparency_ -= 0.01f;
+			if (transparency_ < 0.0f) {
+				transparency_ = 0.0f;
+				gameManager->ChangeScene(new ResultScene());
+			}
+			
 		}
 	}
 
@@ -446,23 +454,28 @@ void GameScene::Draw(GameManager* gameManager) {
 	//地面
 	yuka_->Draw(transformyuka_);
 
+	if (isGamePlay_ == true && isStopGame_ == false) {
 
-#pragma region 敵
-	if (isGamePlay_ == true) {
-		for (int i = 0; i < enemyCount; i++) {
-			enemy_[i]->Draw();
-		}
-		for (int i = 0; i < enemyCount2; i++) {
-			enemy2_[i]->Draw();
-		}
-		for (int i = 0; i < enemyCount3; i++) {
-			enemy3_[i]->Draw();
-		}
-	}
+		#pragma region 敵
+		if (isGamePlay_ == true) {
+			for (int i = 0; i < enemyCount; i++) {
+				enemy_[i]->Draw();
+			}
+			for (int i = 0; i < enemyCount2; i++) {
+				enemy2_[i]->Draw();
+			}
+			for (int i = 0; i < enemyCount3; i++) {
+				enemy3_[i]->Draw();
+			}
 	
-
-
+			
+		}
+	
 #pragma endregion
+
+		player_->Draw();
+	}
+
 
 #pragma region カウントダウン
 	if (countDown_ < SECOND_ * 4 && countDown_ >= SECOND_ * 3) {
@@ -504,7 +517,7 @@ void GameScene::Draw(GameManager* gameManager) {
 
 	}
 
-	player_->Draw();
+	
 
 }
 
@@ -543,6 +556,7 @@ void GameScene::Collision()
 		}
 		if (enemyHP[i] ==0) {
 			killCount1_ += 1;
+			Record::GetInstance()->SetAttackedSmallEnemy(killCount1_);
 			allKillCount_ += 1;
 			enemyHP[i] = 5;
 		}
@@ -580,6 +594,7 @@ void GameScene::Collision()
 		}
 		if (enemyHP2[i] == 0) {
 			killCount2_ += 1;
+			Record::GetInstance()->SetAttackedNormalEnemy(killCount2_);
 			allKillCount_ += 1;
 			enemyHP2[i] = 5;
 		}
@@ -616,7 +631,8 @@ void GameScene::Collision()
 	
 		}
 		if (enemyHP3[i] == 0) {
-			killCount1_ += 1;
+			killCount3_ += 1;
+			Record::GetInstance()->SetAttackedBigEnemy(killCount3_);
 			allKillCount_ += 1;
 			enemyHP3[i] = 5;
 		}

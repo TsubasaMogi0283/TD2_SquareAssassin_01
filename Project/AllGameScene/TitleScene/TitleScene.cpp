@@ -169,6 +169,7 @@ void TitleScene::Update(GameManager* gameManager) {
 		if (input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) {
 			titleBGM_->StopWave(titleSoundData_);
 			startSE_->PlayWave(startSESoundData_, false);
+			startSE_->ChangeVolume(startSESoundData_,0.6f);
 
 			isFadeout_ = true;
 		}

@@ -22,6 +22,7 @@ GameManager::GameManager() {
 	textureManager_ = TextureManager::GetInstance();
 	audio_ = Audio::GetInstance();
 	pipelineManager_ = PipelineManager::GetInstance();
+	record_ = Record::GetInstance();
 }
 	
 void GameManager::Initialize() {
@@ -39,7 +40,7 @@ void GameManager::Initialize() {
 	audio_->Initialize();
 
 	//シーンごとに動作確認したいときはここを変えてね
-	currentGameScene_ = new GameScene();
+	currentGameScene_ = new TitleScene();
 	currentGameScene_->Initialize(this);
 
 }

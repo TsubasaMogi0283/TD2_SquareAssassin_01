@@ -6,6 +6,14 @@
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 
+struct ValuePlace {
+	int hundred;
+	int ten;
+	int one;
+
+
+};
+
 class ResultScene : public IGameScene{
 public:
 
@@ -37,6 +45,14 @@ private:
 	uint32_t decideSEHandle_ = 0u;
 	int decideSETime_ = 0;
 
+#pragma region CV
+	static const int COMMENT_AMOUNT_ = 5;
+	Audio* characterComment_[COMMENT_AMOUNT_] = { nullptr };
+	uint32_t characterCommentHandle_[COMMENT_AMOUNT_] = { 0u };
+#pragma endregion
+
+
+
 	//Input
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
@@ -48,19 +64,6 @@ private:
 	SpritePosition backAllPosition_ = {};
 	float backTransparency_ = 0.0f;
 
-
-	//数
-	static const int NUMBER_AMOUNT_ = 10;
-	Sprite* numberSprite_[NUMBER_AMOUNT_] = { nullptr };
-	Transform numberTransform_ = {};
-	SpritePosition numberAllPosition_[NUMBER_AMOUNT_] = {};
-
-
-	//倒した数
-	static const int SMALL_SCORE_ = 2;
-	Sprite* smallScoreSprite_[NUMBER_AMOUNT_] = { nullptr };
-	Transform smallScoreTransform_[NUMBER_AMOUNT_] = {};
-	SpritePosition smallScoreAllPosition_[NUMBER_AMOUNT_] = {};
 
 
 
@@ -119,6 +122,73 @@ private:
 	//コントローラー
 	int triggerButtonATime_ = 0;
 
+
+
+
+
+	//スコア
+
+	static const int NUMBER_AMOUNT_ = 10;
+
+	int smallScore_ = 0;
+
+	ValuePlace smallScorePlace_ = {};
+
+	Sprite* smallScoreHundredsPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* smallScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* smallScoreOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+
+	Transform smallScoreHundredsPlaneTransform_  = {};
+	Transform smallScoreTensPlaneTransform_  = {};
+	Transform smallScoreOnesPlaneTransform_  = {};
+	
+
+	SpritePosition smallScoreHundredsPlaneAllPosition_ = {};
+	SpritePosition smallScoreTensPlaneAllPosition_ = {};
+	SpritePosition smallScoreOnesPlaneAllPosition_ = {};
+	
+
+
+	
+	int normalScore_ = 0;
+	ValuePlace normalScorePlace_ = {};
+
+	Sprite* normalScoreHundredsPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* normalScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* normalScoreOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+
+	Transform normalScoreHundredsPlaneTransform_  = {};
+	Transform normalScoreTensPlaneTransform_  = {};
+	Transform normalScoreOnesPlaneTransform_  = {};
+	
+	SpritePosition normalScoreHundredsPlaneAllPosition_ = {};
+	SpritePosition normalScoreTensPlaneAllPosition_ = {};
+	SpritePosition normalScoreOnesPlaneAllPosition_ = {};
+	
+
+
+	int bigScore_ = 0;
+	ValuePlace bigScorePlace_ = {};
+
+	Sprite* bigScoreHundredsPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* bigScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
+	Sprite* bigScoreOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+
+	Transform bigScoreHundredsPlaneTransform_  = {};
+	Transform bigScoreTensPlaneTransform_  = {};
+	Transform bigScoreOnesPlaneTransform_  = {};
+
+	SpritePosition bigScoreHundredsPlaneAllPosition_ = {};
+	SpritePosition bigScoreTensPlaneAllPosition_ = {};
+	SpritePosition bigScoreOnesPlaneAllPosition_ = {};
+
+
+	int allScore_ = 0;
+
+
+
+	bool isCalculation_ = true;
+	int cvTime_ = 0;
 
 
 };
