@@ -155,7 +155,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 #pragma endregion
 
 #pragma region スコア
-
+	
 
 
 	smallScore_ = Record::GetInstance()->GetSmallEnemy();
@@ -163,7 +163,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 	bigScore_ = Record::GetInstance()->GetBigEnemy();
 
 
-	allScore_ = smallScore_ + normalScore_ + bigScore_;
+	allScore_ = smallScore_ + normalScore_*2 + bigScore_*3;
 
 	//格付け
 	//ここは仮
@@ -376,7 +376,11 @@ void ResultScene::ImGuiDebug() {
 
 /// 更新
 void ResultScene::Update(GameManager* gameManager) {
-
+	ImGui::Begin("j");
+	ImGui::InputInt("all", &allScore_);
+	ImGui::InputInt("nom", &normalScore_);
+	ImGui::InputInt("big", &bigScore_);
+	ImGui::End();
 	//ImGuiDebug();
 	backSprite->SetTransparency(transparency_);
 	characterSprite_->SetTransparency(transparency_);
