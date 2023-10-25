@@ -5,9 +5,10 @@
 #include "TextureManager/TextureManager.h"
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
+#include <Object/Enemy/enemy.h>
+#include <Object/Player/Player.h>
 
-
-class  TutorialScene  : public IGameScene{
+class  TutorialScene : public IGameScene {
 public:
 	//コンストラクタ
 	TutorialScene();
@@ -64,6 +65,37 @@ private:
 	//ロード時間
 	int waitingTime_ = 0;
 	const int SECOND_ = 60;
+	//
+	Model* yuka_ = nullptr;
+	Transform transformyuka_ = {};
+	//
+	Player* player_;
+	Transform playerTransform_;
+	//
+	Sprite* wasdSprite;
 
+	Transform wasdPos;
+	SpritePosition wasdAll_ = {};
+	//
+	Sprite* kiSprite;
+	Transform kiPos;
+	SpritePosition kiAll_ = {};
+	//
+	Sprite* redSprite;
+	Transform redPos;
+	SpritePosition redAll_ = {};
+	//
+	Sprite* spaceSprite;
+	Transform spacePos;
+	SpritePosition spaceAll_ = {};
+	//
+	int blinking_;
+	int blinkingTime_;
 
+	int blinkingCount_;
+
+	 int stateMove;
+
+	 int pushTime_;
+	 int spaceFrigu_;
 };
