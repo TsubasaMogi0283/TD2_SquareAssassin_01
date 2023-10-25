@@ -29,21 +29,21 @@ void TutorialScene::Initialize(GameManager* gameManager) {
 
 	player_->Initialize("Resources/Game/Player", "playre.obj", playerTransform_);
 	//
-	uint32_t wasdHandle = TextureManager::LoadTexture("Resources/wasd.png");
+	uint32_t wasdHandle = TextureManager::LoadTexture("Resources/Tutorial/Texture/wasd.png");
 	wasdSprite = new Sprite();
 	wasdSprite->LoadTextureHandle(wasdHandle);
 	wasdAll_ = { {0.0f,0.0f},{0.0f,20.0f},{300.0f,0.0f},{300.0f,20.0f} };
 	wasdSprite->SetAllPosition(wasdAll_);
 	wasdPos = { {3.0f,3.0f,3.0f},{0.0f,0.0f,0.0f},{100.0f,130.0f,0.0f} };
 
-	uint32_t kiHandle = TextureManager::LoadTexture("Resources/ki.png");
-	kiSprite = new Sprite();
-	kiSprite->LoadTextureHandle(kiHandle);
+	uint32_t kiHandle = TextureManager::LoadTexture("Resources/Tutorial/Texture/Key.png");
+	keySprite = new Sprite();
+	keySprite->LoadTextureHandle(kiHandle);
 	kiAll_ = { {0.0f,0.0f},{0.0f,20.0f},{300.0f,0.0f},{300.0f,20.0f} };
-	kiSprite->SetAllPosition(kiAll_);
+	keySprite->SetAllPosition(kiAll_);
 	kiPos = { {3.0f,3.0f,3.0f},{0.0f,0.0f,0.0f},{100.0f,200.0f,0.0f} };
 
-	uint32_t redHandle = TextureManager::LoadTexture("Resources/red.png");
+	uint32_t redHandle = TextureManager::LoadTexture("Resources/Tutorial/Texture/red.png");
 	redSprite = new Sprite();
 	redSprite->LoadTextureHandle(redHandle);
 	redAll_ = { {0.0f,0.0f},{0.0f,240.0f},{425.0f,0.0f},{425.0f,240.0f} };
@@ -52,12 +52,32 @@ void TutorialScene::Initialize(GameManager* gameManager) {
 
 
 
-	uint32_t spaceHandle = TextureManager::LoadTexture("Resources/space.png");
+	uint32_t spaceHandle = TextureManager::LoadTexture("Resources/Tutorial/Texture/space.png");
 	spaceSprite = new Sprite();
 	spaceSprite->LoadTextureHandle(spaceHandle);
 	spaceAll_ = { {0.0f,0.0f},{0.0f,20.0f},{300.0f,0.0f},{300.0f,20.0f} };
 	spaceSprite->SetAllPosition(spaceAll_);
-	spacePos = { {3.0f,3.0f,3.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	spacePos = { {3.0f,3.0f,3.0f},{0.0f,0.0f,0.0f},{100.0f,200.0f,0.0f} };
+
+
+
+
+
+
+
+
+#pragma region 説明以上
+	uint32_t explanationOverHandle = TextureManager::LoadTexture("Resources/Tutorial/Texture/space.png");
+	explanationOverSprite_=new Sprite();
+	explanationOverTransform = { {1.0f,1.0f,1.0f},{0.0f,0.0f,0.0f},{0.0f,0.0f,0.0f} };
+	explanationOverAll_ = { {0.0f,0.0f},{0.0f,720.0f},{1280.0f,0.0f},{1280.0f,720.0f}};
+	explanationOverSprite_->LoadTextureHandle(explanationOverHandle);
+	explanationOverSprite_->SetAllPosition(explanationOverAll_);
+
+
+#pragma endregion
+
+
 
 	stateMove = 5;
 	pushTime_ = -120;
@@ -65,10 +85,54 @@ void TutorialScene::Initialize(GameManager* gameManager) {
 
 
 void TutorialScene::Explanation() {
-	if (blinkingCount_ == stateMove) {
+	
 	player_->Update();
 
+	flashTime_ += 1;
+	
+	//点滅と移動の説明
+	int flashInterval = SECOND_ - 20;
+	if (flashTime_ > 0&& flashTime_ <=flashInterval*6) {
+		isMoveExplanation_ = true;
+		if (flashTime_ > flashInterval*0 && flashTime_ <=flashInterval) {
+			blinking_ = 1;
+		}
+		if (flashTime_ > flashInterval && flashTime_ <=flashInterval*2) {
+			blinking_ = 0;
+		}
+		if (flashTime_ > flashInterval*2 && flashTime_ <=flashInterval*3) {
+			blinking_ = 1;
+		}
+		if (flashTime_ > flashInterval *3 && flashTime_ <=flashInterval*4) {
+			blinking_ = 0;
+		}
+		if (flashTime_ > flashInterval*4 && flashTime_ <=flashInterval*5) {
+			blinking_ = 1;
+		}
+		if (flashTime_ > flashInterval *5 && flashTime_ <=flashInterval*6) {
+			blinking_ = 0;
+		}
 	}
+	if (flashTime_ >flashInterval*6) {
+		isMoveExplanation_ = false;
+		isSpaceExplanation_ = 1;
+	}
+
+	if (isSpaceExplanation_ == 1) {
+		spaceExplanationTime_ += 1;
+
+		if (spaceExplanationTime_>SECOND_ * 3) {
+			isSpaceExplanation_ = 0;
+			isThatAllExplanation_ = true;
+		}
+
+	}
+	
+
+
+	
+
+
 }
 
 /// 更新
@@ -76,6 +140,7 @@ void TutorialScene::Update(GameManager* gameManager) {
 	ImGui::Begin("Tutorial");
 	ImGui::SliderInt("blinkingTime_", &blinkingTime_, -15, 15);
 	ImGui::SliderInt("blinkingCount_", &blinkingCount_, -15, 15);
+	ImGui::InputInt("pushTime", &pushTime_);
 	ImGui::End();
 
 	tutorialSprite->SetTransparency(tutorialTextureTransparency_);
@@ -90,8 +155,6 @@ void TutorialScene::Update(GameManager* gameManager) {
 	
 	}
 	
-
-
 	//今の所
 	if (isFadeIn_ == false) {
 
@@ -108,37 +171,7 @@ void TutorialScene::Update(GameManager* gameManager) {
 		
 	}
 
-	if (blinkingCount_ < stateMove) {
-		blinkingTime_++;
-		if (blinkingTime_ > 0) {
-
-			blinking_ = 1;
-
-		}
-
-		if (blinkingTime_ > 10) {
-
-			blinkingTime_ = -30;
-			blinkingCount_ += 1;
-		}
-
-
-		if (blinkingTime_ < 0) {
-
-
-			blinking_ = 0;
-		}
-	}
-	if (blinkingCount_ == stateMove) {
-		pushTime_++;
-		spaceFrigu_ = 1;
-		if (pushTime_ >120) {
-			spaceFrigu_ = 0;
-		}
-
-
-
-	}
+	
 
 
 	//フェードアウト
@@ -151,9 +184,9 @@ void TutorialScene::Update(GameManager* gameManager) {
 			
 			waitingTime_ += 1;
 
-				if (waitingTime_ > SECOND_ * 3) {
-					gameManager->ChangeScene(new SelectScene());
-				}
+			if (waitingTime_ > SECOND_ * 3) {
+				gameManager->ChangeScene(new SelectScene());
+			}
 
 		}
 	}
@@ -166,18 +199,26 @@ void TutorialScene::Update(GameManager* gameManager) {
 void TutorialScene::Draw(GameManager* gameManager) {
 	yuka_->Draw(transformyuka_);
 	player_->Draw();
-	if (blinkingCount_ < stateMove) {
-		wasdSprite->DrawRect(wasdPos);
-		kiSprite->DrawRect(kiPos);
-		if (blinking_ == 1) {
 
-			redSprite->DrawRect(redPos);
-		}
+	//移動説明
+	if (isMoveExplanation_==true) {
+		wasdSprite->DrawRect(wasdPos);
+		keySprite->DrawRect(kiPos);
+		
+	}
+	if (blinking_ == 1) {
+		//点滅する画像
+		redSprite->DrawRect(redPos);
 	}
 
-	if (spaceFrigu_==1) {
+	if (isSpaceExplanation_==1) {
 
-	spaceSprite->DrawRect(spacePos);
+		spaceSprite->DrawRect(spacePos);
+	}
+
+	//説明は以上
+	if (isThatAllExplanation_ == true) {
+
 	}
 }
 

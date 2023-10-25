@@ -77,7 +77,7 @@ private:
 	Transform wasdPos;
 	SpritePosition wasdAll_ = {};
 	//
-	Sprite* kiSprite;
+	Sprite* keySprite;
 	Transform kiPos;
 	SpritePosition kiAll_ = {};
 	//
@@ -92,10 +92,26 @@ private:
 	int blinking_;
 	int blinkingTime_;
 
+	//点滅
 	int blinkingCount_;
 
 	 int stateMove;
 
 	 int pushTime_;
-	 int spaceFrigu_;
+	 int isSpaceExplanation_;
+
+
+	 int flashTime_ = 0;
+	 bool isMoveExplanation_ = false;
+
+	 int spaceExplanationTime_ = 0;
+
+
+
+
+	Sprite* explanationOverSprite_;
+	Transform explanationOverTransform;
+	SpritePosition explanationOverAll_ = {};
+	bool isThatAllExplanation_ = false;
+
 };
