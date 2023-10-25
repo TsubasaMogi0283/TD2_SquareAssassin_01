@@ -372,15 +372,17 @@ void ResultScene::ImGuiDebug() {
 
 	ImGui::End();
 
+
+	
 }
 
 /// 更新
 void ResultScene::Update(GameManager* gameManager) {
-	ImGui::Begin("j");
-	ImGui::InputInt("all", &allScore_);
-	ImGui::InputInt("nom", &normalScore_);
-	ImGui::InputInt("big", &bigScore_);
-	ImGui::End();
+	//ImGui::Begin("j");
+	//ImGui::InputInt("all", &allScore_);
+	//ImGui::InputInt("nom", &normalScore_);
+	//ImGui::InputInt("big", &bigScore_);
+	//ImGui::End();
 	//ImGuiDebug();
 	backSprite->SetTransparency(transparency_);
 	characterSprite_->SetTransparency(transparency_);
