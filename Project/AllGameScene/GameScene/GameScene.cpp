@@ -618,7 +618,7 @@ void GameScene::Collision()
 
 		if (recoveryTime2[i] == 0) {
 			killCount2_ += 1;
-			Record::GetInstance()->SetAttackedSmallEnemy(killCount2_);
+			Record::GetInstance()->SetAttackedNormalEnemy(killCount2_);
 			allKillCount_ += 1;
 			enemyHP2[i] = 3;
 			recoveryTime2[i] = 20;
@@ -662,7 +662,7 @@ void GameScene::Collision()
 
 		if (recoveryTime3[i] == 0) {
 			killCount3_ += 1;
-			Record::GetInstance()->SetAttackedNormalEnemy(killCount3_);
+			Record::GetInstance()->SetAttackedBigEnemy(killCount3_);
 			allKillCount_ += 1;
 			enemyHP3[i] = 5;
 			recoveryTime3[i] = 20;
