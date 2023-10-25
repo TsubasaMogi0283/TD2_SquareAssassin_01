@@ -415,6 +415,7 @@ void GameScene::Update(GameManager* gameManager) {
 		//ループ
 		if (bgmTime_ == 1) {
 			gameBGM_->PlayWave(gameBGMHandle_, false);
+			gameBGM_->ChangeVolume(gameBGMHandle_, bgmVolume_);
 		}
 		if (bgmTime_ > SECOND_ * 30) {
 
@@ -439,7 +440,8 @@ void GameScene::Update(GameManager* gameManager) {
 			endSE_->PlayWave(endSEHandle_, false);
 			endSE_->ChangeVolume(endSEHandle_, 1.5f);
 
-			gameBGM_->ChangeVolume(gameBGMHandle_, 0.4f);
+			bgmVolume_ = 0.4f;
+			gameBGM_->ChangeVolume(gameBGMHandle_, bgmVolume_);
 
 		}
 
@@ -451,11 +453,13 @@ void GameScene::Update(GameManager* gameManager) {
 		displayStopTime_ += 1;
 
 		if (displayStopTime_ > SECOND_ * 3) {
-			//BGM止める
-			gameBGM_->StopWave(gameBGMHandle_);
+			
 
 			transparency_ -= 0.01f;
 			if (transparency_ < 0.0f) {
+				//BGM止める
+				gameBGM_->StopWave(gameBGMHandle_);
+
 				transparency_ = 0.0f;
 				gameManager->ChangeScene(new ResultScene());
 			}

@@ -69,5 +69,10 @@ private:
 	const float radius_ = 0.2f;
 
 
+
+	//ボタン
+	int triggerButtonATime_ = 0;
+
+
 };
 
