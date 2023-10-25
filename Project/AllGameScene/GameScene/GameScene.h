@@ -52,7 +52,7 @@ private:
 	//BGM
 	Audio* gameBGM_ = nullptr;
 	uint32_t gameBGMHandle_ = 0u;
-	float volume_ = 1.0f;
+	float bgmVolume_ = 1.0f;
 	int bgmTime_ = 0;
 
 	Audio* countSE_ = nullptr;

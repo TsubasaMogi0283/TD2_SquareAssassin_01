@@ -22,6 +22,10 @@ void Player::Update()
 		"Translation", reinterpret_cast<float*>(&transform_.translate), -15, 15);
 	ImGui::End();
 
+	XINPUT_STATE joyState{};
+
+		
+
 	// 今どこの辺にいるか
 	if (transform_.translate.y <= -fixedY) {
 		nowPlayerSide = up;
@@ -38,23 +42,61 @@ void Player::Update()
 
 	// 横移動
 	if (transform_.translate.y >= fixedY || transform_.translate.y <= -fixedY) {
-		if (input_->GetInstance()->IsPushKey(DIK_A)) {
+		if (input_->GetInstance()->IsPushKey(DIK_A) || input_->GetInstance()->IsPushKey(DIK_LEFT)) {
 			transform_.translate.x -= kPlayerSpeed;
 		}
-		if (input_->GetInstance()->IsPushKey(DIK_D)) {
+		if (input_->GetInstance()->IsPushKey(DIK_D) || input_->GetInstance()->IsPushKey(DIK_RIGHT)) {
 			transform_.translate.x += kPlayerSpeed;
 		}
+
+
+		//コントローラー版
+		if (Input::GetInstance()->GetJoystickState(joyState)) {
+
+			//右
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) {
+				transform_.translate.x += kPlayerSpeed;
+			}
+			//左
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) {
+				transform_.translate.x -= kPlayerSpeed;
+			}
+
+		}
+
+
 	}
 
 	// 縦移動
 	if (transform_.translate.x >= fixedX || transform_.translate.x <= -fixedX) {
-		if (input_->GetInstance()->IsPushKey(DIK_W)) {
+		if ((input_->GetInstance()->IsPushKey(DIK_W)) || 
+			(input_->GetInstance()->IsPushKey(DIK_UP))){
 			transform_.translate.y += kPlayerSpeed;
 		}
-		if (input_->GetInstance()->IsPushKey(DIK_S)) {
+		if ((input_->GetInstance()->IsPushKey(DIK_S)) ||
+			(input_->GetInstance()->IsPushKey(DIK_DOWN))){
 			transform_.translate.y -= kPlayerSpeed;
 		}
+
+		//コントローラー版
+		if (Input::GetInstance()->GetJoystickState(joyState)) {
+
+			//右
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
+				transform_.translate.y -= kPlayerSpeed;
+			}
+			//左
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) {
+				transform_.translate.y += kPlayerSpeed;
+			}
+
+		}
+
 	}
+
+
+
+
 
 
 	// チャージ処理
@@ -62,9 +104,27 @@ void Player::Update()
 		playerChageFrame++;
 		isPlayerChage = true;
 	}
+	
+
+	if (Input::GetInstance()->GetJoystickState(joyState)) {
+
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			triggerButtonATime_ += 1;
+			
+		}
+
+		if (triggerButtonATime_ == 1) {
+			triggerButtonATime_ = 0;
+			playerChageFrame++;
+			isPlayerChage = true;
+		}
+		
+
+	}
+
 
 	// ボタンを離したとき
-	if (isPlayerChage && !input_->GetInstance()->IsTriggerKey(DIK_SPACE)) {
+	if ((isPlayerChage && !input_->GetInstance()->IsTriggerKey(DIK_SPACE))) {
 		if (playerChageFrame >= 90) {
 			isPlayerAttack = 2; // 強攻撃
 			move =0.2f;
