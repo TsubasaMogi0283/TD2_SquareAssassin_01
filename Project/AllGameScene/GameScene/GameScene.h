@@ -21,6 +21,8 @@ public:
 	/// 初期化
 	void Initialize(GameManager* gameManager)override;
 
+
+private:
 #pragma region Updateの中
 	//デバッグ
 	void ImGuiDebug();
@@ -33,6 +35,9 @@ public:
 
 #pragma endregion
 
+
+
+public:
 	/// 更新
 	void Update(GameManager* gameManager)override;
 

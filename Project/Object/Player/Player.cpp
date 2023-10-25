@@ -126,7 +126,6 @@ void Player::Update()
 	transform_.translate.x = min(max(-fixedX, transform_.translate.x), fixedX);
 
 
-
 }
 
 void Player::Draw()

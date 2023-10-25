@@ -289,7 +289,9 @@ void GameScene::ImGuiDebug() {
 
 	ImGui::End();
 
-	
+	ImGui::Begin("DisplayTime");
+	ImGui::InputInt("a", &displayStopTime_);
+	ImGui::End();
 
 
 
@@ -387,7 +389,7 @@ void GameScene::Update(GameManager* gameManager) {
 	}
 
 	//ゲームプレイ
-	if (isGamePlay_ == true){
+	if (isGamePlay_ == true && isStopGame_==false){
 		
 
 		//再生
@@ -410,7 +412,7 @@ void GameScene::Update(GameManager* gameManager) {
 
 
 	if (isStopGame_ == true) {
-		isGamePlay_ = false;
+		
 
 
 		endSETime_ += 1;
@@ -434,7 +436,7 @@ void GameScene::Update(GameManager* gameManager) {
 			//BGM止める
 			gameBGM_->StopWave(gameBGMHandle_);
 
-			transparency_ -= 0.05f;
+			transparency_ -= 0.01f;
 			if (transparency_ < 0.0f) {
 				transparency_ = 0.0f;
 				gameManager->ChangeScene(new ResultScene());
@@ -452,23 +454,28 @@ void GameScene::Draw(GameManager* gameManager) {
 	//地面
 	yuka_->Draw(transformyuka_);
 
+	if (isGamePlay_ == true && isStopGame_ == false) {
 
-#pragma region 敵
-	if (isGamePlay_ == true) {
-		for (int i = 0; i < enemyCount; i++) {
-			enemy_[i]->Draw();
-		}
-		for (int i = 0; i < enemyCount2; i++) {
-			enemy2_[i]->Draw();
-		}
-		for (int i = 0; i < enemyCount3; i++) {
-			enemy3_[i]->Draw();
-		}
-	}
+		#pragma region 敵
+		if (isGamePlay_ == true) {
+			for (int i = 0; i < enemyCount; i++) {
+				enemy_[i]->Draw();
+			}
+			for (int i = 0; i < enemyCount2; i++) {
+				enemy2_[i]->Draw();
+			}
+			for (int i = 0; i < enemyCount3; i++) {
+				enemy3_[i]->Draw();
+			}
 	
-
-
+			
+		}
+	
 #pragma endregion
+
+		player_->Draw();
+	}
+
 
 #pragma region カウントダウン
 	if (countDown_ < SECOND_ * 4 && countDown_ >= SECOND_ * 3) {
@@ -510,7 +517,7 @@ void GameScene::Draw(GameManager* gameManager) {
 
 	}
 
-	player_->Draw();
+	
 
 }
 
