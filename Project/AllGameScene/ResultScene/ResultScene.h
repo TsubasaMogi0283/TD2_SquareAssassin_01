@@ -188,6 +188,8 @@ private:
 
 
 	bool isCalculation_ = true;
+	int cvTime_ = 0;
+
 
 };
 

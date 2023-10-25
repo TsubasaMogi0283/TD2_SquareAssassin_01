@@ -166,7 +166,7 @@ private:
 #pragma endregion
 
 	//ゲームの時間
-	const int timer_ = 20;
+	const int timer_ = 10;
 	int gameTime_ = SECOND_ * timer_;
 
 	//表示されている時間

@@ -313,7 +313,7 @@ void ResultScene::Initialize(GameManager* gameManager) {
 
 
 	bgm_->PlayWave(bgmHandle_, true);
-	bgm_->ChangeVolume(bgmHandle_,0.7f);
+	bgm_->ChangeVolume(bgmHandle_,0.4f);
 
 
 
@@ -396,77 +396,113 @@ void ResultScene::Update(GameManager* gameManager) {
 		commentSprite_[i]->SetTransparency(transparency_);
 	}
 
-	if (isCalculation_ == true) {
+
+
+	//演出
+	//ピスタチオですっ
+
+	
+	
+		
+	switch (rankName_){
+		case Noob:
+			//何やってんだ
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[0]->PlayWave(characterCommentHandle_[0], false);
+
+			}
+			
+
+			break;
+
+
+		case Beginner:
+			//Are You OK?
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[1]->PlayWave(characterCommentHandle_[1], false);
+
+			}
+
+
+			break;
+
+		case Normal:
+			//一人前
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[2]->PlayWave(characterCommentHandle_[2], false);
+			}
+
+			break;
+
+		case Expert:
+			//あと一歩
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[3]->PlayWave(characterCommentHandle_[3], false);
+			}
+
+			break;
+
+		case Master:
+			//伝説
+			cvTime_ += 1;
+			if (cvTime_ == 1) {
+				characterComment_[4]->PlayWave(characterCommentHandle_[4], false);
+			}
+
+			break;
+	}
+
+
+
+	XINPUT_STATE joyState{};
+
+	if (Input::GetInstance()->GetJoystickState(joyState)) {
+		//Aボタン
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			triggerButtonATime_ += 1;
+		
+		}
+
+	}
+
+
+
+	if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
+
+		decideSE_->PlayWave(decideSEHandle_, false);
+		decideSE_->ChangeVolume(decideSEHandle_, 0.5f);
+		isFadeOut_ = true;
+		bgm_->StopWave(bgmHandle_);
+
+	}
+	if (isFadeOut_ == true) {
+		decideSETime_ = 0;
+
+		transparency_ -= 0.01f;
+		if (transparency_ < 0.0f) {
+			transparency_ = 0.0f;
+
+			//ローディング
+			loadingTime_ += 1;
+			if (loadingTime_ > 120) {
+				gameManager->ChangeScene(new TitleScene());
+
+			}
+
+		}
 
 	}
 	
-
-
-#pragma region デバッグ
-	if (input_->GetInstance()->IsTriggerKey(DIK_0) == true) {
-		rankName_ = 0;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_1) == true) {
-		rankName_ = 1;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_2) == true) {
-		rankName_ = 2;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_3) == true) {
-		rankName_ = 3;
-	}
-	if (input_->GetInstance()->IsTriggerKey(DIK_4) == true) {
-		rankName_ = 4;
-	}
-
-#pragma endregion
-	characterCommentHandle_[0] = characterComment_[0]->LoadWave("Resources/Result/Music/CV/Noob.wav");
-	characterCommentHandle_[1] = characterComment_[1]->LoadWave("Resources/Result/Music/CV/Beginner.wav");
-	characterCommentHandle_[2] = characterComment_[2]->LoadWave("Resources/Result/Music/CV/Normal.wav");
-	characterCommentHandle_[3] = characterComment_[3]->LoadWave("Resources/Result/Music/CV/Expert.wav");
-	characterCommentHandle_[4] = characterComment_[4]->LoadWave("Resources/Result/Music/CV/Master.wav");
-
+	/*
 	if (isCalculation_ == false) {
-		XINPUT_STATE joyState{};
 
-		if (Input::GetInstance()->GetJoystickState(joyState)) {
-			//Aボタン
-			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-				triggerButtonATime_ += 1;
-			
-			}
+		
 
-		}
-
-
-
-		if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
-
-			decideSE_->PlayWave(decideSEHandle_, false);
-			decideSE_->ChangeVolume(decideSEHandle_, 0.5f);
-			isFadeOut_ = true;
-			bgm_->StopWave(bgmHandle_);
-
-		}
-		if (isFadeOut_ == true) {
-			decideSETime_ = 0;
-
-			transparency_ -= 0.01f;
-			if (transparency_ < 0.0f) {
-				transparency_ = 0.0f;
-
-				//ローディング
-				loadingTime_ += 1;
-				if (loadingTime_ > 120) {
-					gameManager->ChangeScene(new TitleScene());
-
-				}
-
-			}
-
-		}
-
-	}
+	}*/
 	
 
 }
