@@ -497,12 +497,7 @@ void ResultScene::Update(GameManager* gameManager) {
 
 	}
 	
-	/*
-	if (isCalculation_ == false) {
-
-		
-
-	}*/
+	
 	
 
 }
