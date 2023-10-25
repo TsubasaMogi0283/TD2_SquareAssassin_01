@@ -102,6 +102,7 @@ void SelectScene::Initialize(GameManager* gameManager) {
 
 	//再生
 	selectBGM_->PlayWave(selectSoundData_ ,true);
+	selectBGM_->ChangeVolume(selectSoundData_, 0.5f);
 }
 
 void SelectScene::ImGuiDebug() {
@@ -196,7 +197,7 @@ void SelectScene::Update(GameManager* gameManager) {
 
 
 	//選択画面
-	if (isFadeIn_ == false) {
+	if (isFadeIn_ == false && isFadeOut_==false) {
 		//selectBGM_->SetVolume(0.5f);
 
 		XINPUT_STATE joyState{};
@@ -280,7 +281,8 @@ void SelectScene::Update(GameManager* gameManager) {
 		//決定
 		if ((input_->GetInstance()->IsTriggerKey(DIK_SPACE) == true) || triggerButtonATime_==1) {
 			decideSE_->PlayWave(decideSESoundData_, false);
-			
+			decideSE_->ChangeVolume(decideSESoundData_,0.6f);
+
 			selectBGM_->StopWave(selectSoundData_);
 			
 			
@@ -315,7 +317,8 @@ void SelectScene::Update(GameManager* gameManager) {
 
 
 	//フェードアウト
-	if (isFadeOut_ == true) {
+	if (isFadeOut_ == true && isFadeIn_==false) {
+		
 		//selectBGM_->StopWave(selectSoundData_);
 
 		selectTextureTransparency_ -= 0.07f;

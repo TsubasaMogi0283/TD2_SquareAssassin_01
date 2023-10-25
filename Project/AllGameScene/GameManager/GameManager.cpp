@@ -40,7 +40,7 @@ void GameManager::Initialize() {
 	audio_->Initialize();
 
 	//シーンごとに動作確認したいときはここを変えてね
-	currentGameScene_ = new GameScene();
+	currentGameScene_ = new TitleScene();
 	currentGameScene_->Initialize(this);
 
 }
