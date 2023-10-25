@@ -6,6 +6,14 @@
 #include "AllGameScene/GameManager/GameManager.h"
 #include "AllGameScene/GameManager/IGameScene.h"
 
+struct ValuePlace {
+	int hundred;
+	int ten;
+	int one;
+
+
+};
+
 class ResultScene : public IGameScene{
 public:
 
@@ -48,19 +56,6 @@ private:
 	SpritePosition backAllPosition_ = {};
 	float backTransparency_ = 0.0f;
 
-
-	//数
-	static const int NUMBER_AMOUNT_ = 10;
-	Sprite* numberSprite_[NUMBER_AMOUNT_] = { nullptr };
-	Transform numberTransform_ = {};
-	SpritePosition numberAllPosition_[NUMBER_AMOUNT_] = {};
-
-
-	//倒した数
-	static const int SMALL_SCORE_ = 2;
-	Sprite* smallScoreSprite_[NUMBER_AMOUNT_] = { nullptr };
-	Transform smallScoreTransform_[NUMBER_AMOUNT_] = {};
-	SpritePosition smallScoreAllPosition_[NUMBER_AMOUNT_] = {};
 
 
 
@@ -128,37 +123,56 @@ private:
 	static const int NUMBER_AMOUNT_ = 10;
 
 	int smallScore_ = 0;
+
+	ValuePlace smallScorePlace_ = {};
+
+	Sprite* smallScoreHundredsPlane_[NUMBER_AMOUNT_] = {nullptr};
 	Sprite* smallScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
-	Sprite* smallScoreTimeOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+	Sprite* smallScoreOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
 
-	Transform smallScoreOnesPlaneTransform_  = {};
+	Transform smallScoreHundredsPlaneTransform_  = {};
 	Transform smallScoreTensPlaneTransform_  = {};
+	Transform smallScoreOnesPlaneTransform_  = {};
+	
 
-	SpritePosition smallScoreOnesPlaneAllPosition_ = {};
+	SpritePosition smallScoreHundredsPlaneAllPosition_ = {};
 	SpritePosition smallScoreTensPlaneAllPosition_ = {};
+	SpritePosition smallScoreOnesPlaneAllPosition_ = {};
+	
 
 
 	
 	int normalScore_ = 0;
+	ValuePlace normalScorePlace_ = {};
+
+	Sprite* normalScoreHundredsPlane_[NUMBER_AMOUNT_] = {nullptr};
 	Sprite* normalScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
-	Sprite* normalScoreTimeOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+	Sprite* normalScoreOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
 
-	Transform normalScoreOnesPlaneTransform_  = {};
+	Transform normalScoreHundredsPlaneTransform_  = {};
 	Transform normalScoreTensPlaneTransform_  = {};
-
-	SpritePosition normalScoreOnesPlaneAllPosition_ = {};
+	Transform normalScoreOnesPlaneTransform_  = {};
+	
+	SpritePosition normalScoreHundredsPlaneAllPosition_ = {};
 	SpritePosition normalScoreTensPlaneAllPosition_ = {};
+	SpritePosition normalScoreOnesPlaneAllPosition_ = {};
+	
 
 
 	int bigScore_ = 0;
+	ValuePlace bigScorePlace_ = {};
+
+	Sprite* bigScoreHundredsPlane_[NUMBER_AMOUNT_] = {nullptr};
 	Sprite* bigScoreTensPlane_[NUMBER_AMOUNT_] = {nullptr};
-	Sprite* bigScoreTimeOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
+	Sprite* bigScoreOnesPlane_[NUMBER_AMOUNT_] = { nullptr };
 
-	Transform bigScoreOnesPlaneTransform_  = {};
+	Transform bigScoreHundredsPlaneTransform_  = {};
 	Transform bigScoreTensPlaneTransform_  = {};
+	Transform bigScoreOnesPlaneTransform_  = {};
 
-	SpritePosition bigScoreOnesPlaneAllPosition_ = {};
+	SpritePosition bigScoreHundredsPlaneAllPosition_ = {};
 	SpritePosition bigScoreTensPlaneAllPosition_ = {};
+	SpritePosition bigScoreOnesPlaneAllPosition_ = {};
 
 
 	int allScore_ = 0;
