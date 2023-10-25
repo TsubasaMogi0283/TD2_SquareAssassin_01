@@ -103,14 +103,17 @@ void GameScene::Initialize(GameManager* gameManager) {
 	enemyTransform_[18] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
 	enemyTransform_[19] = { {0.1f,0.1f,0.1f},{0.0f,3.0f,0.0f},{-3.0f,1.0f,0.0f} };
 	enemyHP[0] = 1;
+	enemyHP[1] = 1;
 	enemyHP[2] = 1;
 	enemyHP[3] = 1;
+	enemyHP[4] = 1;
 	enemyHP[5] = 1;
 	enemyHP[6] = 1;
 	enemyHP[7] = 1;
 	enemyHP[8] = 1;
 	enemyHP[9] = 1;
 	enemyHP[10] = 1;
+	enemyHP[11] = 1;
 	enemyHP[12] = 1;
 	enemyHP[13] = 1;
 	enemyHP[14] = 1;
@@ -172,6 +175,21 @@ void GameScene::Initialize(GameManager* gameManager) {
 	enemyHP3[0] = 3;
 	enemyHP3[1] = 3;
 	enemyHP3[2] = 3;
+
+
+	for (int i = 0; i < enemyCount; i++) {
+		HPCoolTimer_[i] = 10;
+	}
+	for (int i = 0; i < enemyCount2; i++) {
+		HPCoolTimer2_[i] = 10;
+
+	}
+	for (int i = 0; i < enemyCount3; i++) {
+		HPCoolTimer3_[i] = 10;
+	}
+
+
+
 
 	for (int i = 0; i < enemyCount; i++) {
 	
@@ -526,41 +544,43 @@ void GameScene::Collision()
 
 	ImGui::Begin("killCount");
 	ImGui::SliderInt("allKillCount_ ", &allKillCount_ , -15, 15);
-	ImGui::SliderInt("enemykill1", &killCount1_, -15, 15);
+	ImGui::SliderInt("enemykill1", &killCount_, -15, 15);
 	ImGui::SliderInt("enemykill2", &killCount2_, -15, 15);
 	ImGui::SliderInt("enemykill3", &killCount3_, -15, 15);
-	ImGui::SliderInt("enemyHP1", &enemyHP3[0], -15, 15);
-	ImGui::SliderInt("enemyHP2", &enemyHP3[1], -15, 15);
-	ImGui::SliderInt("enemyHP3", &enemyHP3[2], -15, 15);
+	ImGui::SliderInt("enemyHP1", &enemyHP[0], -15, 15);
+	ImGui::SliderInt("enemyHP2", &enemyHP2[0], -15, 15);
+	ImGui::SliderInt("enemyHP3", &enemyHP3[0], -15, 15);
 	ImGui::End();
 	Vector3 posA, posB;
 
-
+	//小敵
 	for (int i = 0; i < enemyCount; i++) {
 		posA = enemy_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
 		float distanceAB = Length(Subtract(posA, posB));
-	
+		//当たり判定
+		//小敵
 		if (distanceAB <= enemy_[i]->GetRadius() + player_->GetRadius()) {
-	
-	
-			//配列にしましょう
-			//ん、はやくやるべき
 			if (!HPCoolFlag_[i])
 			{
 				enemyHP[i] -= 1;
 				HPCoolFlag_[i] = true;
 			}
-			
-	
+
+
 		}
-		if (enemyHP[i] ==0) {
-			killCount1_ += 1;
-			Record::GetInstance()->SetAttackedSmallEnemy(killCount1_);
+		if (enemyHP[i] == 0) {
+			recoveryTime[i]--;
+		}
+
+		if (recoveryTime[i] == 0) {
+			killCount_ += 1;
 			allKillCount_ += 1;
-			enemyHP[i] = 5;
+			enemyHP[i] = 1;
+			recoveryTime[i] = 20;
 		}
-	
+
+
 		if (HPCoolFlag_[i])
 		{
 			HPCoolTimer_[i]++;
@@ -570,10 +590,9 @@ void GameScene::Collision()
 				HPCoolFlag_[i] = false;
 			}
 		}
-	
+
 	}
-	
-	
+	//中敵
 	for (int i = 0; i < enemyCount2; i++) {
 		posA = enemy2_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
@@ -593,12 +612,16 @@ void GameScene::Collision()
 	
 		}
 		if (enemyHP2[i] == 0) {
-			killCount2_ += 1;
-			Record::GetInstance()->SetAttackedNormalEnemy(killCount2_);
-			allKillCount_ += 1;
-			enemyHP2[i] = 5;
+			recoveryTime2[i]--;
 		}
-	
+
+		if (recoveryTime2[i] == 0) {
+			killCount2_ += 1;
+			allKillCount_ += 1;
+			enemyHP2[i] = 3;
+			recoveryTime2[i] = 20;
+		}
+
 		if (HPCoolFlag2_[i])
 		{
 			HPCoolTimer2_[i]++;
@@ -611,7 +634,7 @@ void GameScene::Collision()
 	
 	}
 	
-	
+	//大敵
 	for (int i = 0; i < enemyCount3; i++) {
 		posA = enemy3_[i]->GetWorldPosition();
 		posB = player_->GetWorldPosition();
@@ -631,11 +654,16 @@ void GameScene::Collision()
 	
 		}
 		if (enemyHP3[i] == 0) {
+			recoveryTime3[i]--;
+		}
+
+		if (recoveryTime3[i] == 0) {
 			killCount3_ += 1;
-			Record::GetInstance()->SetAttackedBigEnemy(killCount3_);
 			allKillCount_ += 1;
 			enemyHP3[i] = 5;
+			recoveryTime3[i] = 20;
 		}
+
 	
 		if (HPCoolFlag3_[i])
 		{
