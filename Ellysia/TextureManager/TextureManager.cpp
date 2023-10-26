@@ -103,6 +103,10 @@ D3D12_GPU_DESCRIPTOR_HANDLE TextureManager::GetGPUDescriptorHandle(ID3D12Descrip
 //統合させた関数
 uint32_t TextureManager::LoadTexture(const std::string& filePath) {
 
+	if (textureIndex > 120) {
+		textureIndex = 0;
+	}
+
 	//読み込むたびにインデックスが増やし重複を防ごう
 	//同じ画像しか貼れなかったのはこれが原因
 	++textureIndex;
